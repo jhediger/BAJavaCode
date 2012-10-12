@@ -2,6 +2,7 @@ package com.ba.marketUI.client;
 
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
 import java.util.Vector;
@@ -97,7 +98,7 @@ public class Game {
 		// generatePerformanceProfiles();
 		//setLambdaParameters();
 
-		category.add("Height"); //0 is high importance
+		category.add("High"); //0 is high importance
 		category.add("Medium");
 		category.add("Low");
 		

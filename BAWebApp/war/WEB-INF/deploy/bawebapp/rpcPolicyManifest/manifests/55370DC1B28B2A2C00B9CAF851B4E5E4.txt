@@ -1,0 +1,2 @@
+serviceClass: com.ba.marketUI.client.GreetingService
+path: 5E8F4A92F96DADE6E3DFCDD5A2396A6C.gwt.rpc

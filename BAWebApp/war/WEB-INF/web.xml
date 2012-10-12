@@ -8,12 +8,12 @@
   <!-- Servlets -->
   <servlet>
     <servlet-name>greetServlet</servlet-name>
-    <servlet-class>com.ba.marketUI.server.GreetingServiceImpl</servlet-class>
+    <servlet-class>com.ba.marketUI.server.ComServerInterface</servlet-class>
   </servlet>
   
   <servlet-mapping>
     <servlet-name>greetServlet</servlet-name>
-    <url-pattern>/bawebapp/greet</url-pattern>
+    <url-pattern>/bawebapp/comInterface</url-pattern>
   </servlet-mapping>
   
   <!-- Default page to serve -->

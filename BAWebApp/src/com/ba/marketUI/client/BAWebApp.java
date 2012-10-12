@@ -1,8 +1,10 @@
 package com.ba.marketUI.client;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import com.google.gwt.core.client.EntryPoint;
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.DragOverEvent;
@@ -11,6 +13,11 @@ import com.google.gwt.event.dom.client.FocusEvent;
 import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.dom.client.MouseMoveEvent;
 import com.google.gwt.event.dom.client.MouseMoveHandler;
+import com.google.gwt.user.client.Timer;
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.rpc.RemoteService;
+
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.dev.util.log.*;
 import com.google.gwt.user.client.ui.DialogBox;
@@ -24,6 +31,14 @@ import com.google.gwt.user.client.ui.VerticalPanel;
  * Entry point classes define <code>onModuleLoad()</code>.
  */
 public class BAWebApp implements EntryPoint {
+
+	private static final int REFRESH_INTERVAL = 1000; // ms
+
+	/**
+	 * Create a remote service proxy to talk to the server-side Store service.
+	 */
+	private ComClientInterfaceAsync dataStoreService = (ComClientInterfaceAsync) GWT
+			.create(ComClientInterface.class);
 
 	// private int time_per_round = 7;
 	private Integer max_rounds = 6;
@@ -52,6 +67,9 @@ public class BAWebApp implements EntryPoint {
 	private Button game_button_3 = new Button();
 	private Button game_button_4 = new Button();
 	private Button start_new_game = new Button();
+
+	private Integer countTime = 0;
+	int maxTimePerRound;
 
 	private Game game;
 
@@ -83,7 +101,6 @@ public class BAWebApp implements EntryPoint {
 		main_panel.add(category);
 		main_panel.add(buttons_panel);
 		main_panel.add(start_new_game);
-		
 
 		main_panel.addStyleName("main_panel");
 		buttons_panel.addStyleName("buttons_panel");
@@ -100,7 +117,7 @@ public class BAWebApp implements EntryPoint {
 		rounds_left.addStyleName("black_label");
 		token.addStyleName("black_label");
 		score.addStyleName("black_label");
-		
+
 		start_new_game.setEnabled(false);
 		start_new_game.setText("Start new Game");
 		start_new_game.setStyleName("newGameButton");
@@ -111,11 +128,38 @@ public class BAWebApp implements EntryPoint {
 		// Associate the Main panel with the HTML host page.
 		RootPanel.get("mUI").add(main_panel);
 
+		// Setup timer to refresh list automatically.
+		Timer refreshTimer = new Timer() {
+
+			
+
+			@Override
+			public void run() {
+				refreshWatchList();
+			}
+
+			private void refreshWatchList() {
+				if (game.notFinish()) {
+					countTime++;
+					if (countTime > maxTimePerRound) {
+						game.changeState(3);
+						changeGameState();
+						storeData("4");
+					}
+					time.setText(countTime.toString() +"s/"+ String.valueOf(maxTimePerRound)+ "s");
+				}
+			}
+		};
+
+		refreshTimer.scheduleRepeating(REFRESH_INTERVAL);
+
 		// Listen for mouse events on the Add button.
 		game_button_1.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				game.changeState(0);
 				changeGameState();
+				storeData("1");
+
 			}
 		});
 
@@ -123,6 +167,7 @@ public class BAWebApp implements EntryPoint {
 			public void onClick(ClickEvent event) {
 				game.changeState(1);
 				changeGameState();
+				storeData("2");
 			}
 		});
 
@@ -130,6 +175,7 @@ public class BAWebApp implements EntryPoint {
 			public void onClick(ClickEvent event) {
 				game.changeState(2);
 				changeGameState();
+				storeData("3");
 			}
 		});
 
@@ -137,10 +183,11 @@ public class BAWebApp implements EntryPoint {
 			public void onClick(ClickEvent event) {
 				game.changeState(3);
 				changeGameState();
+				storeData("4");
 			}
 		});
-		
-		start_new_game.addClickHandler(new ClickHandler(){
+
+		start_new_game.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				game.setNew();
 				changeGameState();
@@ -150,8 +197,7 @@ public class BAWebApp implements EntryPoint {
 				game_button_3.setEnabled(true);
 				start_new_game.setEnabled(false);
 			}
-		});	
-		
+		});
 
 	}
 
@@ -161,7 +207,7 @@ public class BAWebApp implements EntryPoint {
 		token_t.setText("Tokens");
 		score_t.setText("Score");
 
-		time.setText("5s/7s");
+		time.setText("0s/7s");
 
 		rounds_left.setText("0/" + max_rounds.toString());
 		token.setText("0/" + max_tokens.toString());
@@ -177,13 +223,14 @@ public class BAWebApp implements EntryPoint {
 		int maxSpeed = 1000;
 		double maxValue = 3.1;
 		int numOptions = 4;
-		int valueVariation= 1;
-		//make anything with the speeds..
-		boolean changingChoices= true;
+		int valueVariation = 1;
+		maxTimePerRound = 7;
+		// make anything with the speeds..
+		boolean changingChoices = true;
 
-		
-		game = new Game(timeSteps,numCategories, numOptions, numPriceLevels, maxBudget, valueVariation, negativeValues, changingChoices, reOptimized);
-		
+		game = new Game(timeSteps, numCategories, numOptions, numPriceLevels,
+				maxBudget, valueVariation, negativeValues, changingChoices,
+				reOptimized);
 
 		category.setText("Task Category: " + game.getCurrentCategoryAsString()
 				+ " Importance");
@@ -192,30 +239,67 @@ public class BAWebApp implements EntryPoint {
 		ArrayList<Double> values = game.getCurrentValues();
 		ArrayList<Integer> prices = game.getCurrentPrices();
 
-		game_button_1.setHTML("Speed: " + String.valueOf(speeds[0]) + "<br>Value: "
-				+ values.get(0).toString() + "<br>Price: " + prices.get(0).toString());
-		game_button_2.setHTML("Speed: " + String.valueOf(speeds[1]) + "<br>Value: "
-				+ values.get(1).toString() + "<br>Price: " + prices.get(1).toString());
-		game_button_3.setHTML("Speed: " + String.valueOf(speeds[2]) + "<br>Value: "
-				+ values.get(2).toString() + "<br>Price: " + prices.get(2).toString());
-		game_button_4.setHTML("Speed: " + String.valueOf(speeds[3]) + "<br>Value: "
-				+ values.get(3).toString() + "<br>Price: " + prices.get(3).toString());
-		
+		game_button_1.setHTML("Speed: " + String.valueOf(speeds[0])
+				+ "<br>Value: " + values.get(0).toString() + "<br>Price: "
+				+ prices.get(0).toString());
+		game_button_2.setHTML("Speed: " + String.valueOf(speeds[1])
+				+ "<br>Value: " + values.get(1).toString() + "<br>Price: "
+				+ prices.get(1).toString());
+		game_button_3.setHTML("Speed: " + String.valueOf(speeds[2])
+				+ "<br>Value: " + values.get(2).toString() + "<br>Price: "
+				+ prices.get(2).toString());
+		game_button_4.setHTML("Speed: " + String.valueOf(speeds[3])
+				+ "<br>Value: " + values.get(3).toString() + "<br>Price: "
+				+ prices.get(3).toString());
+	}
 
+	/**
+	 * Make a GWT-RPC call to the server. The myEmailService class member was
+	 * initalized when the module started up.
+	 */
+	void storeData(String message) {
+		try {
+			dataStoreService.myMethod(message, new AsyncCallback<Void>() {
+
+				@Override
+				public void onFailure(Throwable caught) {
+					// TODO Fail
+					Window.alert("Fehler 1: RPC to sendEmail() failed.");
+
+				}
+
+				@Override
+				public void onSuccess(Void result) {
+					// Window.alert("RPC to sendEmail() succed.");
+
+				}
+
+			});
+		} catch (IOException e) {
+			// TODO fail
+			// TODO Auto-generated catch block
+			Window.alert("Fehler 2: RPC to sendEmail() failed.");
+			e.printStackTrace();
+		}
 	}
 
 	private void changeGameState() {
 
 		if (game.notFinish()) {
 
-			//game.fileWriter(4);
-			
+			countTime = 0;
+
 			rounds_left.setText(game.getRoundsLeft().toString() + "/"
 					+ max_rounds.toString());
 			token.setText(game.getTokensLeft().toString() + "/"
 					+ max_tokens.toString());
-			
-			score.setText("$" + game.getCurrentScore().toString().substring(0,5));
+
+			if (game.getCurrentScore().toString().length() > 5) {
+				score.setText("$"
+						+ game.getCurrentScore().toString().substring(0, 4));
+			} else {
+				score.setText("$" + game.getCurrentScore().toString());
+			}
 
 			category.setText("Task Category: "
 					+ game.getCurrentCategoryAsString() + " Importance");
@@ -224,15 +308,18 @@ public class BAWebApp implements EntryPoint {
 			ArrayList<Double> values = game.getCurrentValues();
 			ArrayList<Integer> prices = game.getCurrentPrices();
 
-			game_button_1.setHTML("Speed: " + String.valueOf(speeds[0]) + "<br>Value: "
-					+ values.get(0).toString() + "<br>Price: " + prices.get(0).toString());
-			game_button_2.setHTML("Speed: " + String.valueOf(speeds[1]) + "<br>Value: "
-					+ values.get(1).toString() + "<br>Price: " + prices.get(1).toString());
-			game_button_3.setHTML("Speed: " + String.valueOf(speeds[2]) + "<br>Value: "
-					+ values.get(2).toString() + "<br>Price: " + prices.get(2).toString());
-			game_button_4.setHTML("Speed: " + String.valueOf(speeds[3]) + "<br>Value: "
-					+ values.get(3).toString() + "<br>Price: " + prices.get(3).toString());
-
+			game_button_1.setHTML("Speed: " + String.valueOf(speeds[0])
+					+ "<br>Value: " + values.get(0).toString() + "<br>Price: "
+					+ prices.get(0).toString());
+			game_button_2.setHTML("Speed: " + String.valueOf(speeds[1])
+					+ "<br>Value: " + values.get(1).toString() + "<br>Price: "
+					+ prices.get(1).toString());
+			game_button_3.setHTML("Speed: " + String.valueOf(speeds[2])
+					+ "<br>Value: " + values.get(2).toString() + "<br>Price: "
+					+ prices.get(2).toString());
+			game_button_4.setHTML("Speed: " + String.valueOf(speeds[3])
+					+ "<br>Value: " + values.get(3).toString() + "<br>Price: "
+					+ prices.get(3).toString());
 
 			boolean[] dis_buttons = game.disableButton();
 			if (dis_buttons[0] == true) {
@@ -251,15 +338,21 @@ public class BAWebApp implements EntryPoint {
 		} else {
 			token.setText(game.getTokensLeft().toString() + "/"
 					+ max_tokens.toString());
-			score.setText("$" + game.getCurrentScore().toString().substring(0,5));
+			if (game.getCurrentScore().toString().length() > 5) {
+				score.setText("$"
+						+ game.getCurrentScore().toString().substring(0, 4));
+			} else {
+				score.setText("$" + game.getCurrentScore().toString());
+			}
 			rounds_left.setText(game.getRoundsLeft().toString() + "/"
 					+ max_rounds.toString());
 			game_button_1.setEnabled(false);
 			game_button_2.setEnabled(false);
 			game_button_3.setEnabled(false);
-			
+
 			game_button_4.setEnabled(false);
 			start_new_game.setEnabled(true);
+
 		}
 
 	}

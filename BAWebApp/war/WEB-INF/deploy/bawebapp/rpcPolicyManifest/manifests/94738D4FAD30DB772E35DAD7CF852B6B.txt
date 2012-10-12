@@ -1,0 +1,2 @@
+serviceClass: com.ba.marketUI.client.ComClientInterface
+path: 5C517C7B33AC9D34722FF41A583B957B.gwt.rpc
