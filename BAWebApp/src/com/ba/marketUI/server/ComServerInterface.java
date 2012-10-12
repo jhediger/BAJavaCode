@@ -31,7 +31,7 @@ public class ComServerInterface extends RemoteServiceServlet implements
 
 	public void w(String i, String userAgent) throws IOException {
 		try {
-			BufferedWriter out = new BufferedWriter(new FileWriter("samplefile"
+			BufferedWriter out = new BufferedWriter(new FileWriter("samplefile2"
 					 + ".txt", true));
 			out.newLine();
 			out.write(" userAgent: " + userAgent + " GameInfo: " + i);

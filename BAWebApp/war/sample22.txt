@@ -1,2 +1,0 @@
-
- userAgent:  HostUser-AgentAcceptAccept-LanguageAccept-EncodingConnectionRefererX-GWT-PermutationX-GWT-Module-BaseContent-TypeContent-LengthPragmaCache-Controlnull GameInfo: 2

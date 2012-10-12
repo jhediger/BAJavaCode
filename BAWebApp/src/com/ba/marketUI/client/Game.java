@@ -1,24 +1,16 @@
 package com.ba.marketUI.client;
 
-
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Random;
 import java.util.Vector;
 
-import com.google.gwt.http.client.RequestBuilder;
-import com.google.gwt.http.client.RequestBuilder.Method;
-import com.google.gwt.http.client.RequestCallback;
-
 public class Game {
 
 	// fix values for game initialization
-	private int timeSteps;
 	private int numPriceLevels;
 	private int maxBudget;
 	private boolean negativeValues;
-	private int stepSize;
 	private boolean reOptimized;
 	private int numCategories;
 	private int maxSpeed;
@@ -40,16 +32,16 @@ public class Game {
 	private int valueVariation;
 	private int optionValueVariation;
 
-	//for UI
+	// for UI
 	private Vector<String> category = new Vector<String>();
 
 	// speeds for all three categories speeds[0][0] = the speed for high
 	// importance for the first button
 	private double[][] speeds;
 
-	//the prices depends on the speeds
-	private ArrayList<Integer> prices;
-	
+	// the prices depends on the speeds
+	private List<ArrayList<ArrayList<Integer>>> prices;
+
 	// TODO what is changingChoices
 	private boolean changingChoices = true;
 
@@ -61,14 +53,12 @@ public class Game {
 	// (choose one of them with p=1/3)
 	private List<List<ArrayList<Double>>> values;
 	private int numValueVariations;
-	
-
 
 	public Game(int timesteps, int numCategories, int numOptions,
 			int numPriceLevels, int maxBudget, int valueVariation,
 			boolean negativeValues, boolean changingChoices, boolean reOptimized) {
 		rand = new Random();
-		this.timeSteps = timesteps;
+		// this.timeSteps = timesteps;
 		this.numCategories = numCategories;
 		this.numOptions = numOptions;
 		this.numPriceLevels = numPriceLevels;
@@ -79,32 +69,28 @@ public class Game {
 			this.numValueVariations = 1;
 		else
 			numValueVariations = 3;
-		//this.totalScore = 0;
+		// this.totalScore = 0;
 		this.negativeValues = negativeValues;
 		this.changingChoices = changingChoices;
 		this.reOptimized = reOptimized;
 
 		initialGame();
-		
+
 		speeds = generateSpeeds();
 		this.maxSpeed = 1000;
-		
-		
-		
+
 		values = generateValues();
 		makeValuesNegative();
-		//catProbabilities = generateProbabilities();
-		//this.priceProbabilities = generatePriceProbabilities();
+		// catProbabilities = generateProbabilities();
+		// this.priceProbabilities = generatePriceProbabilities();
 		// generatePerformanceProfiles();
-		//setLambdaParameters();
+		// setLambdaParameters();
 
-		category.add("High"); //0 is high importance
+		category.add("High"); // 0 is high importance
 		category.add("Medium");
 		category.add("Low");
-		
-			
-		//TODO Prices
-				generatePrices();
+
+		prices = generatePrices();
 
 		// catProbabilities = generateProbabilities();
 		// this.priceProbabilities = generatePriceProbabilities();
@@ -113,19 +99,13 @@ public class Game {
 	}
 
 	private void initialGame() {
-		// TODO Auto-generated method stub
 		currentCategory = rand.nextInt(numCategories);
 		currentPriceLevel = rand.nextInt(numPriceLevels);
 		currentValueVariation = rand.nextInt(numValueVariations);
-		
-		// if (this.valueVariation == 0) this.currentValueVariation = 0;
-		// else this.currentValueVariation = rand.Next(this.numValueVariations);
 
 		currentRound = 0;
 		currentBudget = 0;
 		currentScore = 0.0;
-		
-		
 
 	}
 
@@ -140,36 +120,39 @@ public class Game {
 
 	/**
 	 * 
-	 * @return for all choices it return a value, depending on a random valueLevel
+	 * @return for all choices it return a value, depending on a random
+	 *         valueLevel
 	 */
-	//TODO all the same up/middle/down other each alone?
+	// TODO all the same up/middle/down other each alone?
 	public ArrayList<Double> getCurrentValues() {
 
 		ArrayList<Double> val = new ArrayList<Double>();
-		for(int i=0; i<numOptions;i++){
-			val.add(values.get(currentCategory).get(i).get(currentValueVariation));
+		for (int i = 0; i < numOptions; i++) {
+			val.add(values.get(currentCategory).get(i)
+					.get(currentValueVariation));
 		}
 		return val;
 	}
 
 	public ArrayList<Integer> getCurrentPrices() {
 
-		return prices;
+		return prices.get(currentPriceLevel).get(currentCategory);
 	}
 
 	public void changeState(int pushedbutton) {
 
-		
-		currentScore += values.get(currentCategory).get(pushedbutton).get(currentValueVariation);
-		currentBudget += prices.get(pushedbutton);
+		currentScore += values.get(currentCategory).get(pushedbutton)
+				.get(currentValueVariation);
+		currentBudget += prices.get(currentPriceLevel).get(currentCategory)
+				.get(pushedbutton);
 		currentRound = currentRound + 1;
-		
+
 		currentCategory = rand.nextInt(numCategories);
 		currentPriceLevel = rand.nextInt(numPriceLevels);
 		currentValueVariation = rand.nextInt(numValueVariations);
 	}
 
-	public Integer getRoundsLeft() {
+	public Integer getCurrentRound() {
 
 		return currentRound;
 	}
@@ -191,20 +174,27 @@ public class Game {
 		return false;
 	}
 
+	public Integer getNumOfOptions() {
+		return numOptions;
+	}
+
 	public boolean[] disableButton() {
 		boolean[] disable_buttons = { false, false, false, false };
 
 		int tokens_to_spend = maxBudget - currentBudget;
 
-		if (tokens_to_spend < prices.get(0)) {
+		if (tokens_to_spend < prices.get(currentPriceLevel)
+				.get(currentCategory).get(0)) {
 			disable_buttons[0] = true;
 		}
 
-		if (tokens_to_spend < prices.get(1)) {
+		if (tokens_to_spend < prices.get(currentPriceLevel)
+				.get(currentCategory).get(1)) {
 			disable_buttons[1] = true;
 		}
 
-		if (tokens_to_spend < prices.get(2)) {
+		if (tokens_to_spend < prices.get(currentPriceLevel)
+				.get(currentCategory).get(2)) {
 			disable_buttons[2] = true;
 		}
 
@@ -218,20 +208,6 @@ public class Game {
 
 	}
 
-	/**
-	 * The method compute the prices depending on the current speeds
-	 * 2token/100kBits 
-	 */
-	private void generatePrices(){
-		
-		prices= new ArrayList<Integer>();
-		for(int i=0; i<speeds[currentCategory].length; i++){
-			prices.add((int) (speeds[currentCategory][i]/100*2));
-		}
-						
-	}
-	// multidimensional array: int[,] myArray = {{1,2}, {3,4}, {5,6}, {7,8}};
-	// double[][,]
 	/**
 	 * 
 	 * @return a List with the three categories and per category numOfChoices
@@ -258,14 +234,14 @@ public class Game {
 	private List<ArrayList<Double>> generateConcaveValues(int currentCat) {
 		double exponent = 0.5;
 		List<ArrayList<Double>> concaveValues = new ArrayList<ArrayList<Double>>();
-		
+
 		double topValue = (numCategories - currentCat + 0.5)
 				* (maxValue / (numCategories + 0.5));
 		double multiplier = topValue / Math.pow(this.maxSpeed, exponent);
 
 		// normal
 		for (int i = 0; i < numOptions; i++) {
-			
+
 			ArrayList<Double> a = new ArrayList<Double>();
 			a.add(round(multiplier * Math.pow(speeds[currentCat][i], exponent),
 					1));
@@ -278,7 +254,7 @@ public class Game {
 			int valInt = (int) (10 * multiplier * Math.pow(100 * i, exponent));
 			double valD = valInt / 10;
 			allSpeedValues[i] = valD;
-		}		
+		}
 
 		if (this.valueVariation == 1) {
 			// down and up
@@ -501,6 +477,34 @@ public class Game {
 			}
 		}
 		return newSpeeds;
+	}
+
+	/**
+	 * 
+	 * @return priceList ->
+	 *         prices.get(currentPriceLevel).get(CurrentCategory).get(Button)
+	 *         [[[10, 4, 2, 0], [6, 2, 1, 0], [4, 2, 1, 0]], [[20, 8, 4, 0],
+	 *         [12, 4, 2, 0]..]]]
+	 */
+	private List<ArrayList<ArrayList<Integer>>> generatePrices() {
+		List<ArrayList<ArrayList<Integer>>> priceVector = new ArrayList<ArrayList<ArrayList<Integer>>>();
+
+		for (int i = 0; i < numPriceLevels; i++) {
+			ArrayList<ArrayList<Integer>> list1 = new ArrayList<ArrayList<Integer>>();
+			for (int c = 0; c < this.numCategories; c++) {
+
+				ArrayList<Integer> list2 = new ArrayList<Integer>();
+				for (int j = 0; j < this.speeds[c].length; j++) {
+
+					list2.add((int) (10 * (i + 1) * (speeds[c][j] / 1000.0)));
+					if (numPriceLevels == 1)
+						list2.add((int) (10 * (i + 2) * (speeds[c][j] / 1000.0)));
+				}
+				list1.add(list2);
+			}
+			priceVector.add(list1);
+		}
+		return priceVector;
 	}
 
 	/**

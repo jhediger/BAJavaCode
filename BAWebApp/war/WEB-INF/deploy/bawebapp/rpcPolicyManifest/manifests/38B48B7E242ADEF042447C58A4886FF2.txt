@@ -1,2 +1,0 @@
-serviceClass: com.ba.marketUI.client.ComClientInterface
-path: BCDC742AA042478690C4BB163AA762B2.gwt.rpc

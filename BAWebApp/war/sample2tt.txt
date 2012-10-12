@@ -1,5 +1,0 @@
-
-ttsdfnew content ServerInfo: jetty-6.1.x userAgent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:16.0) Gecko/20100101 Firefox/16.0
-ttsdfnew content ServerInfo: jetty-6.1.x userAgent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:16.0) Gecko/20100101 Firefox/16.0
-ttsdfnew content ServerInfo: jetty-6.1.x userAgent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:16.0) Gecko/20100101 Firefox/16.0
-ttsdfnew content ServerInfo: jetty-6.1.x userAgent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:16.0) Gecko/20100101 Firefox/16.0 userAgent:  HostUser-AgentAcceptAccept-LanguageAccept-EncodingConnectionRefererX-GWT-PermutationX-GWT-Module-BaseContent-TypeContent-LengthPragmaCache-Control GameInfo: tt userAgent:  HostUser-AgentAcceptAccept-LanguageAccept-EncodingConnectionRefererX-GWT-PermutationX-GWT-Module-BaseContent-TypeContent-LengthPragmaCache-Control GameInfo: tt

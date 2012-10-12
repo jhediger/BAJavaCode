@@ -1,2 +1,0 @@
-
- userAgent:  HostUser-AgentAcceptAccept-LanguageAccept-EncodingConnectionRefererX-GWT-PermutationX-GWT-Module-BaseContent-TypeContent-LengthPragmaCache-Controlde-de,de;q=0.8,en-us;q=0.5,en;q=0.3 GameInfo: 3

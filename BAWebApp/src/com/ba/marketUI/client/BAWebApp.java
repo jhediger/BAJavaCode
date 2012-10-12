@@ -7,24 +7,14 @@ import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.dom.client.DragOverEvent;
-import com.google.gwt.event.dom.client.DragOverHandler;
-import com.google.gwt.event.dom.client.FocusEvent;
-import com.google.gwt.event.dom.client.FocusHandler;
-import com.google.gwt.event.dom.client.MouseMoveEvent;
-import com.google.gwt.event.dom.client.MouseMoveHandler;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.rpc.RemoteService;
 
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.dev.util.log.*;
-import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
-import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 /**
@@ -40,7 +30,6 @@ public class BAWebApp implements EntryPoint {
 	private ComClientInterfaceAsync dataStoreService = (ComClientInterfaceAsync) GWT
 			.create(ComClientInterface.class);
 
-	// private int time_per_round = 7;
 	private Integer max_rounds = 6;
 	private Integer max_tokens = 30;
 	private Integer game_score = 0;
@@ -131,8 +120,6 @@ public class BAWebApp implements EntryPoint {
 		// Setup timer to refresh list automatically.
 		Timer refreshTimer = new Timer() {
 
-			
-
 			@Override
 			public void run() {
 				refreshWatchList();
@@ -146,7 +133,8 @@ public class BAWebApp implements EntryPoint {
 						changeGameState();
 						storeData("4");
 					}
-					time.setText(countTime.toString() +"s/"+ String.valueOf(maxTimePerRound)+ "s");
+					time.setText(countTime.toString() + "/"
+							+ String.valueOf(maxTimePerRound) + "s");
 				}
 			}
 		};
@@ -156,34 +144,38 @@ public class BAWebApp implements EntryPoint {
 		// Listen for mouse events on the Add button.
 		game_button_1.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
+				storeData("0");
 				game.changeState(0);
 				changeGameState();
-				storeData("1");
+				setTimeToZero();
 
 			}
 		});
 
 		game_button_2.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
+				storeData("1");
 				game.changeState(1);
 				changeGameState();
-				storeData("2");
+				setTimeToZero();
 			}
 		});
 
 		game_button_3.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
+				storeData("2");
 				game.changeState(2);
 				changeGameState();
-				storeData("3");
+				setTimeToZero();
 			}
 		});
 
 		game_button_4.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
+				storeData("3");
 				game.changeState(3);
 				changeGameState();
-				storeData("4");
+				setTimeToZero();
 			}
 		});
 
@@ -196,6 +188,7 @@ public class BAWebApp implements EntryPoint {
 				game_button_2.setEnabled(true);
 				game_button_3.setEnabled(true);
 				start_new_game.setEnabled(false);
+				setTimeToZero();
 			}
 		});
 
@@ -254,10 +247,27 @@ public class BAWebApp implements EntryPoint {
 	}
 
 	/**
-	 * Make a GWT-RPC call to the server. The myEmailService class member was
-	 * initalized when the module started up.
+	 * @param button
+	 *            : 0 for top button 1 Make a GWT-RPC call to the server. The
+	 *            myEmailService class member was initalized when the module
+	 *            started up.
 	 */
-	void storeData(String message) {
+	void storeData(String button) {
+
+		String message = game.getNumOfOptions() + " " + game.getCurrentRound()
+				+ " " + countTime + " " + game.getTokensLeft() + " "
+				+ game.getCurrentScore() + " ";
+		for (double d : game.getCurrentSpeeds()) {
+			message = message + String.valueOf(d) + " ";
+		}
+		for (double a : game.getCurrentValues()) {
+			message = message + a + " ";
+		}
+		for (int b : game.getCurrentPrices()) {
+			message = message + b + " ";
+		}
+		message = message + " " + button;
+
 		try {
 			dataStoreService.myMethod(message, new AsyncCallback<Void>() {
 
@@ -283,13 +293,51 @@ public class BAWebApp implements EntryPoint {
 		}
 	}
 
+	/**
+	 * @param button
+	 *            : 0 for top button 1 Make a GWT-RPC call to the server. The
+	 *            myEmailService class member was initalized when the module
+	 *            started up.
+	 */
+	void storeDataFinalRound() {
+
+		String message = "finalResult: " + game.getTokensLeft() + " "
+				+ game.getCurrentScore() + " ";
+
+		try {
+			dataStoreService.myMethod(message, new AsyncCallback<Void>() {
+
+				@Override
+				public void onFailure(Throwable caught) {
+					// TODO Fail
+					Window.alert("Fehler 1: RPC to sendEmail() failed.");
+
+				}
+
+				@Override
+				public void onSuccess(Void result) {
+					// Window.alert("RPC to sendEmail() succed.");
+
+				}
+
+			});
+		} catch (IOException e) {
+			// TODO fail
+			// TODO Auto-generated catch block
+			Window.alert("Fehler 2: RPC to sendEmail() failed.");
+			e.printStackTrace();
+		}
+	}
+
+	private void setTimeToZero() {
+		countTime = 0;
+	}
+
 	private void changeGameState() {
 
 		if (game.notFinish()) {
 
-			countTime = 0;
-
-			rounds_left.setText(game.getRoundsLeft().toString() + "/"
+			rounds_left.setText(game.getCurrentRound().toString() + "/"
 					+ max_rounds.toString());
 			token.setText(game.getTokensLeft().toString() + "/"
 					+ max_tokens.toString());
@@ -344,7 +392,7 @@ public class BAWebApp implements EntryPoint {
 			} else {
 				score.setText("$" + game.getCurrentScore().toString());
 			}
-			rounds_left.setText(game.getRoundsLeft().toString() + "/"
+			rounds_left.setText(game.getCurrentRound().toString() + "/"
 					+ max_rounds.toString());
 			game_button_1.setEnabled(false);
 			game_button_2.setEnabled(false);
@@ -352,6 +400,7 @@ public class BAWebApp implements EntryPoint {
 
 			game_button_4.setEnabled(false);
 			start_new_game.setEnabled(true);
+			storeDataFinalRound();
 
 		}
 
