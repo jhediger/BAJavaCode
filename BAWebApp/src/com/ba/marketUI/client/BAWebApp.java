@@ -131,7 +131,8 @@ public class BAWebApp implements EntryPoint {
 					if (countTime > maxTimePerRound) {
 						game.changeState(3);
 						changeGameState();
-						storeData("4");
+						setTimeToZero();
+						storeData("3");
 					}
 					time.setText(countTime.toString() + "/"
 							+ String.valueOf(maxTimePerRound) + "s");
@@ -247,10 +248,11 @@ public class BAWebApp implements EntryPoint {
 	}
 
 	/**
-	 * @param button
-	 *            : 0 for top button 1 Make a GWT-RPC call to the server. The
-	 *            myEmailService class member was initalized when the module
-	 *            started up.
+	 *   Make a GWT-RPC call to the server. The
+	 *   myEmailService class member was initalized when the module
+	 *   started up.
+	 * @param button 0 for top button  
+	 *          
 	 */
 	void storeData(String button) {
 
@@ -266,7 +268,7 @@ public class BAWebApp implements EntryPoint {
 		for (int b : game.getCurrentPrices()) {
 			message = message + b + " ";
 		}
-		message = message + " " + button;
+		message = message + " " + "option: " +button;
 
 		try {
 			dataStoreService.myMethod(message, new AsyncCallback<Void>() {

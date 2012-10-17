@@ -305,6 +305,7 @@ public class Game {
 
 	/**
 	 * make some of the values from values neg.
+	 * 
 	 */
 	private void makeValuesNegative() {
 		double minValue = 0;
