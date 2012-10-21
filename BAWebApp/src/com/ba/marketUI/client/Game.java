@@ -54,7 +54,7 @@ public class Game {
 	private List<List<ArrayList<Double>>> values;
 	private int numValueVariations;
 
-	public Game(int timesteps, int numCategories, int numOptions,
+	public Game(int numCategories, int numOptions,
 			int numPriceLevels, int maxBudget, int valueVariation,
 			boolean negativeValues, boolean changingChoices, boolean reOptimized) {
 		rand = new Random();
@@ -178,24 +178,20 @@ public class Game {
 		return numOptions;
 	}
 
-	public boolean[] disableButton() {
-		boolean[] disable_buttons = { false, false, false, false };
-
+	public List<Boolean> disableButton() {
+		
+		List<Boolean> disable_buttons= new ArrayList<Boolean>();
+		
 		int tokens_to_spend = maxBudget - currentBudget;
 
-		if (tokens_to_spend < prices.get(currentPriceLevel)
-				.get(currentCategory).get(0)) {
-			disable_buttons[0] = true;
-		}
-
-		if (tokens_to_spend < prices.get(currentPriceLevel)
-				.get(currentCategory).get(1)) {
-			disable_buttons[1] = true;
-		}
-
-		if (tokens_to_spend < prices.get(currentPriceLevel)
-				.get(currentCategory).get(2)) {
-			disable_buttons[2] = true;
+		for(int i=0;i<numOptions;i++){
+			if (tokens_to_spend < prices.get(currentPriceLevel)
+					.get(currentCategory).get(i)) {
+				disable_buttons.add(true);
+			}
+			else{
+				disable_buttons.add(false);
+			}
 		}
 
 		return disable_buttons;
@@ -528,5 +524,25 @@ public class Game {
 
 		return valDouble;
 
+	}
+	
+	/**
+	 * @return a List with the three categories and per category numOfChoices
+	 *         sublists [[[3.1, 2.6, 3.7], [2.0, 1.4, 2.0], [1.3, 0.8, 1.2],
+	 *         [0.0, 0.0, 0.0]], [[1.8, 1.3, 1.3], .....]]
+	 */
+	public List<List<ArrayList<Double>>> getallValue() {
+		return values;
+	}
+
+	/**
+	 * // the prices depends on the speeds private
+	 * List<ArrayList<ArrayList<Integer>>> prices;
+	 * 
+	 * @return priceList ->
+	 *         prices.get(currentPriceLevel).get(CurrentCategory).get(Button)
+	 */
+	public List<ArrayList<ArrayList<Integer>>> getallPrices() {
+		return prices;
 	}
 }
