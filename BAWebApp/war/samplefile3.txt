@@ -1,0 +1,5 @@
+
+ userAgent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:16.0) Gecko/20100101 Firefox/16.0language: de-de,de;q=0.8,en-us;q=0.5,en;q=0.3 GameInfo: initialData: 2 1 2 7 2
+ userAgent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:16.0) Gecko/20100101 Firefox/16.0language: de-de,de;q=0.8,en-us;q=0.5,en;q=0.3 GameInfo: rounds: 0 8 0 0.0 values:0.1 -1.0 prices:10 0 speeds:500.0 0.0  option:1
+ userAgent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:16.0) Gecko/20100101 Firefox/16.0language: de-de,de;q=0.8,en-us;q=0.5,en;q=0.3 GameInfo: rounds: 1 8 0 -1.0 values:1.0 -1.2 prices:14 0 speeds:700.0 0.0  option:1
+ userAgent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:16.0) Gecko/20100101 Firefox/16.0language: de-de,de;q=0.8,en-us;q=0.5,en;q=0.3 GameInfo: finalResult: 0 -2.2 

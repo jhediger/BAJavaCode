@@ -16,7 +16,7 @@ public class Game {
 	private int maxSpeed;
 	private double maxValue = 3.1;
 	private int numOptions;
-	private int maxRounds = 6;
+	private int maxRounds;
 
 	private Random rand;
 
@@ -56,9 +56,9 @@ public class Game {
 
 	public Game(int numCategories, int numOptions,
 			int numPriceLevels, int maxBudget, int valueVariation,
-			boolean negativeValues, boolean changingChoices, boolean reOptimized) {
+			boolean negativeValues, boolean changingChoices, boolean reOptimized, int timeSteps) {
 		rand = new Random();
-		// this.timeSteps = timesteps;
+		this.maxRounds = timeSteps;
 		this.numCategories = numCategories;
 		this.numOptions = numOptions;
 		this.numPriceLevels = numPriceLevels;
@@ -544,5 +544,10 @@ public class Game {
 	 */
 	public List<ArrayList<ArrayList<Integer>>> getallPrices() {
 		return prices;
+	}
+
+	public void setCurrentScore(double d) {
+		currentScore= currentScore+d;
+		
 	}
 }

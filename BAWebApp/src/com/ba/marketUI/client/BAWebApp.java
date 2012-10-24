@@ -25,7 +25,7 @@ public class BAWebApp implements EntryPoint {
 
 	// Parameters to initial games
 	// fix
-	private int timeSteps = 6;
+	private Integer timeSteps = 2;//TODO change back
 	private int maxBudget = 30;
 	private int numCategories = 3; // high, medium, low
 	private boolean negativeValues = true;
@@ -36,9 +36,9 @@ public class BAWebApp implements EntryPoint {
 	private boolean reOptimized = false;
 
 	// variable
-	private int numPriceLevels = 3;// num of different prices
+	private int numPriceLevels = 2;// num of different prices
 	private int valueVariation = 1;// if 1 then 3 different values
-	private int numOptions = 4; // to decide how many buttons the game has
+	private int numOptions = 2; // to decide how many buttons the game has
 	private int maxTimePerRound = 7;
 	// int stepSize = 100;
 	// int maxSpeed = 1000;
@@ -54,7 +54,6 @@ public class BAWebApp implements EntryPoint {
 	private ComClientInterfaceAsync dataStoreService = (ComClientInterfaceAsync) GWT
 			.create(ComClientInterface.class);
 
-	private Integer max_rounds = 6;
 	private Integer max_tokens = 30;
 
 	private VerticalPanel main_panel = new VerticalPanel();
@@ -197,13 +196,13 @@ public class BAWebApp implements EntryPoint {
 
 		time.setText("0s/7s");
 
-		rounds_left.setText("0/" + max_rounds.toString());
+		rounds_left.setText("0/" + timeSteps.toString());
 		token.setText("0/" + max_tokens.toString());
 		score.setText("$0");
 
 		game = new Game(numCategories, numOptions, numPriceLevels,
 				maxBudget, valueVariation, negativeValues, changingChoices,
-				reOptimized);
+				reOptimized, timeSteps);
 
 		storeInitialData();
 		category.setText("Task Category: " + game.getCurrentCategoryAsString()
@@ -232,19 +231,23 @@ public class BAWebApp implements EntryPoint {
 	 */
 	void storeData(String button) {
 
-		String message = game.getNumOfOptions() + " " + game.getCurrentRound()
-				+ " " + countTime + " " + game.getTokensLeft() + " "
+		String message = "rounds: "+ game.getCurrentRound()
+				+ " " + countTime + " " + "budget"+ (max_tokens-game.getTokensLeft()) + " "
 				+ game.getCurrentScore() + " ";
-		for (double d : game.getCurrentSpeeds()) {
-			message = message + String.valueOf(d) + " ";
-		}
+		
+		message= message+ "values:";
 		for (double a : game.getCurrentValues()) {
 			message = message + a + " ";
 		}
+		message= message+ "prices:";
 		for (int b : game.getCurrentPrices()) {
 			message = message + b + " ";
 		}
-		message = message + " " + "option: " + button;
+		message= message+ "speeds:";
+		for (double d : game.getCurrentSpeeds()) {
+			message = message + String.valueOf(d) + " ";
+		}
+		message = message + " " + "option:" + button;
 
 		try {
 			dataStoreService.myMethod(message, new AsyncCallback<Void>() {
@@ -277,7 +280,7 @@ public class BAWebApp implements EntryPoint {
 	void storeInitialData() {
 
 		String message = "initialData: " + numPriceLevels + " "
-				+ valueVariation + " " + numOptions + " " + maxTimePerRound;
+				+ valueVariation + " " + numOptions + " " + maxTimePerRound +" "+timeSteps;
 
 		try {
 			dataStoreService.myMethod(message, new AsyncCallback<Void>() {
@@ -343,13 +346,14 @@ public class BAWebApp implements EntryPoint {
 		if (game.notFinish()) {
 
 			rounds_left.setText(game.getCurrentRound().toString() + "/"
-					+ max_rounds.toString());
+					+ timeSteps.toString());
 			token.setText(game.getTokensLeft().toString() + "/"
 					+ max_tokens.toString());
 
 			if (game.getCurrentScore().toString().length() > 5) {
 				score.setText("$"
 						+ game.getCurrentScore().toString().substring(0, 4));
+				game.setCurrentScore(game.getCurrentScore()+0.001);
 			} else {
 				score.setText("$" + game.getCurrentScore().toString());
 			}
@@ -380,11 +384,12 @@ public class BAWebApp implements EntryPoint {
 			if (game.getCurrentScore().toString().length() > 5) {
 				score.setText("$"
 						+ game.getCurrentScore().toString().substring(0, 4));
+				game.setCurrentScore(game.getCurrentScore()+0.001);
 			} else {
 				score.setText("$" + game.getCurrentScore().toString());
 			}
 			rounds_left.setText(game.getCurrentRound().toString() + "/"
-					+ max_rounds.toString());
+					+ timeSteps.toString());
 
 			for (Button b : game_buttons) {
 				b.setEnabled(false);
