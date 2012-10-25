@@ -12,13 +12,6 @@ body {
 	padding: 10px;
 }
 
-.game_button_1 {
-	color: #DF0101;
-	position: auto;
-	background-color: #E6E6E6;
-	width: 40px;
-}
-
 .main_panel {
 	margin-left: auto;
 	margin-right: auto;
@@ -69,3 +62,23 @@ button {
 	margin: auto;
 	padding: 8px;
 }
+
+.welcomePanel{
+	margin-left: auto;
+	margin-right: auto;
+	background-color: #E6E6E6;
+	padding: 40px;
+	color: #000000;
+}
+
+.text{
+	max-width: 400px;
+	color: #000000;
+}
+
+.titel{
+	color: #000000;
+	font-weight: bold;
+}
+
+

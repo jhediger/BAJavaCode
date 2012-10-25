@@ -8,28 +8,40 @@ import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
+import com.google.gwt.event.logical.shared.ValueChangeHandler;
+import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.ClickListener;
+import com.google.gwt.user.client.ui.DialogBox;
+import com.google.gwt.user.client.ui.Grid;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Hyperlink;
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.PasswordTextBox;
 import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.Widget;
 
 /**
  * Entry point classes define <code>onModuleLoad()</code>.
  */
-public class BAWebApp implements EntryPoint {
+public class BAWebApp implements EntryPoint, ValueChangeHandler {
 
 	// Parameters to initial games
 	// fix
-	private Integer timeSteps = 2;//TODO change back
+	private Integer timeSteps = 2;// TODO change back
 	private int maxBudget = 30;
 	private int numCategories = 3; // high, medium, low
 	private boolean negativeValues = true;
-	
+
 	// TODO: find out how to use:
 	// make anything with the speeds..
 	private boolean changingChoices = true;
@@ -44,7 +56,9 @@ public class BAWebApp implements EntryPoint {
 	// int maxSpeed = 1000;
 	// double maxValue = 3.1;
 
-
+	// TODO for start view
+	private VerticalPanel NavPanel = new VerticalPanel();
+	private Label introduction = new Label();
 
 	private static final int REFRESH_INTERVAL = 1000; // ms
 
@@ -85,6 +99,62 @@ public class BAWebApp implements EntryPoint {
 	 * Entry point method.
 	 */
 	public void onModuleLoad() {
+
+		loadWelcomePage();
+
+	}
+
+	@SuppressWarnings("deprecation")
+	private void loadWelcomePage() {
+	
+		final VerticalPanel welcomePanel = new VerticalPanel();
+		final HorizontalPanel description = new HorizontalPanel();
+
+		String titel = "Bandwidth Game";
+		String text = "Today many people are using a lot of bandwidth with their phones in their everyday live. Some of them perform just simple things like reading the newspaper or browsing through some websites." +
+				"Others want to do important tasks like writing an urgent email. The Bandwidth Game is based on the assumption that we won\u0027t have enough bandwidth within the near future and thus it needs an effective" +
+				"allocation in case of a shortage in Bandwidth.The game is built to analyze how a potential user acts in this new market environment. It consists of four buttons, counters for the rounds, the token, the score and the time, " +
+				"a label that shows the actual task category as well as an underlying market mechanism. Each button shows the speed in KB/s, a value in $ and a price in tokens. The player has to choose one of the buttons of which he thinks is the best choice in each round. " +
+				"The goal of the game is to spend all tokens during the six rounds and to try to score the maximum.  The time counter is an additional difficulty that ensures that a user is forced to choose a button, otherwise the game automatically chooses the fourth button with the speed of 0 KB/s." +
+				"The actual task category is chosen randomly by the underlying mechanism, in order to give a real touch to the game. It also computes all possible speeds, values and prices for the actual task category.";
+
+		final Button button = new Button("Start Game");
+		button.setStyleName("startGameButton");
+
+		button.addClickListener(new ClickListener() {
+			public void onClick(Widget sender) {
+				initialGameLayout();
+			}
+		});
+		
+		Label ti = new Label(titel);
+		Label te = new Label(text);
+		
+		ti.addStyleName("titel");
+		te.addStyleName("text");
+
+		Image i= new Image();
+		i.setUrl("images/screenshot2.png");
+		
+		
+		//welcomePanel.add(namePrompt);
+		//
+		description.add(te);
+		description.add(i);
+		
+		
+		welcomePanel.addStyleName("main_panel");
+		welcomePanel.add(ti);
+		welcomePanel.add(description);
+		welcomePanel.add(button);
+
+		RootPanel.get("mUI").clear();
+		RootPanel.get("mUI").add(welcomePanel);
+	
+
+	}
+
+	private void initialGameLayout() {
 
 		gamestates_panel.add(time_panel);
 		gamestates_panel.add(rounds_panel);
@@ -133,6 +203,7 @@ public class BAWebApp implements EntryPoint {
 		initialTestGame();
 
 		// Associate the Main panel with the HTML host page.
+		RootPanel.get("mUI").clear();
 		RootPanel.get("mUI").add(main_panel);
 
 		// Setup timer to refresh list automatically.
@@ -148,10 +219,10 @@ public class BAWebApp implements EntryPoint {
 					countTime++;
 					if (countTime > maxTimePerRound) {
 						storeData(String.valueOf(numOptions - 1));
-						game.changeState(numOptions-1);
+						game.changeState(numOptions - 1);
 						changeGameState();
 						setTimeToZero();
-						
+
 					}
 					time.setText(countTime.toString() + "/"
 							+ String.valueOf(maxTimePerRound) + "s");
@@ -188,7 +259,7 @@ public class BAWebApp implements EntryPoint {
 	}
 
 	private void initialTestGame() {
-		
+
 		time_t.setText("Time");
 		rounds_left_t.setText("Rounds Left");
 		token_t.setText("Tokens");
@@ -200,9 +271,9 @@ public class BAWebApp implements EntryPoint {
 		token.setText("0/" + max_tokens.toString());
 		score.setText("$0");
 
-		game = new Game(numCategories, numOptions, numPriceLevels,
-				maxBudget, valueVariation, negativeValues, changingChoices,
-				reOptimized, timeSteps);
+		game = new Game(numCategories, numOptions, numPriceLevels, maxBudget,
+				valueVariation, negativeValues, changingChoices, reOptimized,
+				timeSteps);
 
 		storeInitialData();
 		category.setText("Task Category: " + game.getCurrentCategoryAsString()
@@ -231,19 +302,19 @@ public class BAWebApp implements EntryPoint {
 	 */
 	void storeData(String button) {
 
-		String message = "rounds: "+ game.getCurrentRound()
-				+ " " + countTime + " " + "budget"+ (max_tokens-game.getTokensLeft()) + " "
+		String message = "rounds: " + game.getCurrentRound() + " " + countTime
+				+ " " + "budget" + (max_tokens - game.getTokensLeft()) + " "
 				+ game.getCurrentScore() + " ";
-		
-		message= message+ "values:";
+
+		message = message + "values:";
 		for (double a : game.getCurrentValues()) {
 			message = message + a + " ";
 		}
-		message= message+ "prices:";
+		message = message + "prices:";
 		for (int b : game.getCurrentPrices()) {
 			message = message + b + " ";
 		}
-		message= message+ "speeds:";
+		message = message + "speeds:";
 		for (double d : game.getCurrentSpeeds()) {
 			message = message + String.valueOf(d) + " ";
 		}
@@ -280,7 +351,8 @@ public class BAWebApp implements EntryPoint {
 	void storeInitialData() {
 
 		String message = "initialData: " + numPriceLevels + " "
-				+ valueVariation + " " + numOptions + " " + maxTimePerRound +" "+timeSteps;
+				+ valueVariation + " " + numOptions + " " + maxTimePerRound
+				+ " " + timeSteps;
 
 		try {
 			dataStoreService.myMethod(message, new AsyncCallback<Void>() {
@@ -353,7 +425,7 @@ public class BAWebApp implements EntryPoint {
 			if (game.getCurrentScore().toString().length() > 5) {
 				score.setText("$"
 						+ game.getCurrentScore().toString().substring(0, 4));
-				game.setCurrentScore(game.getCurrentScore()+0.001);
+				game.setCurrentScore(game.getCurrentScore() + 0.001);
 			} else {
 				score.setText("$" + game.getCurrentScore().toString());
 			}
@@ -384,7 +456,7 @@ public class BAWebApp implements EntryPoint {
 			if (game.getCurrentScore().toString().length() > 5) {
 				score.setText("$"
 						+ game.getCurrentScore().toString().substring(0, 4));
-				game.setCurrentScore(game.getCurrentScore()+0.001);
+				game.setCurrentScore(game.getCurrentScore() + 0.001);
 			} else {
 				score.setText("$" + game.getCurrentScore().toString());
 			}
@@ -399,6 +471,12 @@ public class BAWebApp implements EntryPoint {
 			storeDataFinalRound();
 
 		}
+
+	}
+
+	@Override
+	public void onValueChange(ValueChangeEvent event) {
+		// TODO Auto-generated method stub
 
 	}
 
