@@ -37,7 +37,7 @@ public class BAWebApp implements EntryPoint, ValueChangeHandler {
 
 	// Parameters to initial games
 	// fix
-	private Integer timeSteps = 3;// TODO change back
+	private Integer timeSteps = 5;// TODO change back
 	private Integer max_tokens = 30;
 	private int numCategories = 3; // high, medium, low
 	private boolean negativeValues = true;
@@ -48,7 +48,7 @@ public class BAWebApp implements EntryPoint, ValueChangeHandler {
 	private boolean reOptimized = false;
 
 	// variable
-	private int numPriceLevels = 2;// num of different prices
+	private int numPriceLevels = 1;// num of different prices
 	private int valueVariation = 0;// if 1 then 3 different values
 	private int numOptions = 2; // to decide how many buttons the game has
 	private int maxTimePerRound = 7;
@@ -420,12 +420,11 @@ public class BAWebApp implements EntryPoint, ValueChangeHandler {
 					+ max_tokens.toString());
 
 			if (game.getCurrentScore().toString().length() > 5) {
-				score.setText("$"
-						+ game.getCurrentScore().toString().substring(0, 4));
-				game.setCurrentScore(game.getCurrentScore() + 0.001);
-			} else {
-				score.setText("$" + game.getCurrentScore().toString());
-			}
+				game.setCurrentScoreUP();
+		
+			} 
+			score.setText("$" + game.getCurrentScore().toString());
+			
 
 			category.setText("Task Category: "
 					+ game.getCurrentCategoryAsString() + " Importance");
@@ -451,12 +450,10 @@ public class BAWebApp implements EntryPoint, ValueChangeHandler {
 			token.setText(game.getTokensLeft().toString() + "/"
 					+ max_tokens.toString());
 			if (game.getCurrentScore().toString().length() > 5) {
-				score.setText("$"
-						+ game.getCurrentScore().toString().substring(0, 4));
-				game.setCurrentScore(game.getCurrentScore() + 0.001);
-			} else {
+				game.setCurrentScoreUP();
+			} 
 				score.setText("$" + game.getCurrentScore().toString());
-			}
+			
 			rounds_left.setText(game.getCurrentRound().toString() + "/"
 					+ timeSteps.toString());
 

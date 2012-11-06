@@ -140,7 +140,7 @@ public class Game {
 
 	public void changeState(int pushedbutton) {
 
-		currentScore += values.get(currentCategory).get(pushedbutton)
+		currentScore = currentScore +values.get(currentCategory).get(pushedbutton)
 				.get(currentValueVariation);
 		currentBudget += prices.get(currentPriceLevel).get(currentCategory)
 				.get(pushedbutton);
@@ -167,7 +167,7 @@ public class Game {
 	}
 
 	public boolean notFinish() {
-		if (currentRound < maxRounds) {
+		if(maxRounds>currentRound){
 			return true;
 		}
 		return false;
@@ -484,7 +484,7 @@ public class Game {
 	 */
 	private List<ArrayList<ArrayList<Integer>>> generatePrices() {
 		List<ArrayList<ArrayList<Integer>>> priceVector = new ArrayList<ArrayList<ArrayList<Integer>>>();
-
+		numPriceLevels=1;
 		for (int i = 0; i < numPriceLevels; i++) {
 			ArrayList<ArrayList<Integer>> list1 = new ArrayList<ArrayList<Integer>>();
 			for (int c = 0; c < this.numCategories; c++) {
@@ -493,8 +493,8 @@ public class Game {
 				for (int j = 0; j < this.speeds[c].length; j++) {
 
 					list2.add((int) (10 * (i + 1) * (speeds[c][j] / 1000.0)));
-					if (numPriceLevels == 1)
-						list2.add((int) (10 * (i + 2) * (speeds[c][j] / 1000.0)));
+					//if (numPriceLevels == 1)
+					//	list2.add((int) (10 * (i + 1) * (speeds[c][j] / 1000.0)));
 				}
 				list1.add(list2);
 			}
@@ -545,8 +545,9 @@ public class Game {
 		return prices;
 	}
 
-	public void setCurrentScore(double d) {
-		currentScore= currentScore+d;
+	public void setCurrentScoreUP() {
+		currentScore= currentScore+0.0001;
+		currentScore= round(currentScore,1);
 		
 	}
 
