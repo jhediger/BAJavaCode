@@ -519,7 +519,7 @@ public class Game {
 		if (valInt % 10 >= 5) {
 			valInt++;
 		}
-		double valDouble = ((double) valInt) / 10;
+		double valDouble = ((double) valInt) / Math.pow(10, digit);
 
 		return valDouble;
 
