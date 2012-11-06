@@ -37,8 +37,8 @@ public class BAWebApp implements EntryPoint, ValueChangeHandler {
 
 	// Parameters to initial games
 	// fix
-	private Integer timeSteps = 2;// TODO change back
-	private int maxBudget = 30;
+	private Integer timeSteps = 3;// TODO change back
+	private Integer max_tokens = 30;
 	private int numCategories = 3; // high, medium, low
 	private boolean negativeValues = true;
 
@@ -49,7 +49,7 @@ public class BAWebApp implements EntryPoint, ValueChangeHandler {
 
 	// variable
 	private int numPriceLevels = 2;// num of different prices
-	private int valueVariation = 1;// if 1 then 3 different values
+	private int valueVariation = 0;// if 1 then 3 different values
 	private int numOptions = 2; // to decide how many buttons the game has
 	private int maxTimePerRound = 7;
 	// int stepSize = 100;
@@ -67,8 +67,6 @@ public class BAWebApp implements EntryPoint, ValueChangeHandler {
 	 */
 	private ComClientInterfaceAsync dataStoreService = (ComClientInterfaceAsync) GWT
 			.create(ComClientInterface.class);
-
-	private Integer max_tokens = 30;
 
 	private VerticalPanel main_panel = new VerticalPanel();
 	private VerticalPanel buttons_panel = new VerticalPanel();
@@ -110,13 +108,7 @@ public class BAWebApp implements EntryPoint, ValueChangeHandler {
 		final VerticalPanel welcomePanel = new VerticalPanel();
 		final HorizontalPanel description = new HorizontalPanel();
 
-		String titel = "Bandwidth Game";
-		String text = "Today many people are using a lot of bandwidth with their phones in their everyday live. Some of them perform just simple things like reading the newspaper or browsing through some websites." +
-				"Others want to do important tasks like writing an urgent email. The Bandwidth Game is based on the assumption that we won\u0027t have enough bandwidth within the near future and thus it needs an effective" +
-				"allocation in case of a shortage in Bandwidth.The game is built to analyze how a potential user acts in this new market environment. It consists of four buttons, counters for the rounds, the token, the score and the time, " +
-				"a label that shows the actual task category as well as an underlying market mechanism. Each button shows the speed in KB/s, a value in $ and a price in tokens. The player has to choose one of the buttons of which he thinks is the best choice in each round. " +
-				"The goal of the game is to spend all tokens during the six rounds and to try to score the maximum.  The time counter is an additional difficulty that ensures that a user is forced to choose a button, otherwise the game automatically chooses the fourth button with the speed of 0 KB/s." +
-				"The actual task category is chosen randomly by the underlying mechanism, in order to give a real touch to the game. It also computes all possible speeds, values and prices for the actual task category.";
+		String text = "Today many people are using a lot of bandwidth with their phones in their everyday live. Some of them perform just simple things like reading the newspaper or browsing through some websites. Others want to do important tasks like writing an urgent email. The Bandwidth Game is based on the assumption that we won\u0027t have enough bandwidth within the near future and thus it needs an effective allocation in case of a shortage in Bandwidth. The game is built to analyze how a potential user acts in this new market environment. It consists of buttons, counters for the rounds, the token, the score and the time, a label that shows the actual task category as well as an underlying market mechanism. It depends on the input parameters if the game has two, three, four, five or six buttons. Each button shows the speed in KB/s, a value in $ and a price in tokens. The player has to choose one of the buttons of which he thinks it is the best choice in each round. If the player hasn\u0027t got enough tokens to pay for the speed of a specific button then the button is not enable. The goal of the game is to spend all tokens during six rounds and to try to score the maximum.  The time counter is an additional difficulty that ensures that a user is forced to choose a button. In case no button is chosen within the maximal time, a mechanism automatically chooses the fourth button with the speed of 0 KB/s. The actual task category is chosen randomly by the underlying mechanism, in order to give a real touch to the game. It also computes speeds, values and prices depending on the actual task category.";
 
 		final Button button = new Button("Start Game");
 		button.setStyleName("startGameButton");
@@ -127,14 +119,14 @@ public class BAWebApp implements EntryPoint, ValueChangeHandler {
 			}
 		});
 		
-		Label ti = new Label(titel);
+		//Label ti = new Label(titel);
 		Label te = new Label(text);
 		
-		ti.addStyleName("titel");
+		//ti.addStyleName("titel");
 		te.addStyleName("text");
 
 		Image i= new Image();
-		i.setUrl("images/screenshot2.png");
+		i.setUrl("images/screenshot4.png");
 		
 		
 		//welcomePanel.add(namePrompt);
@@ -144,7 +136,7 @@ public class BAWebApp implements EntryPoint, ValueChangeHandler {
 		
 		
 		welcomePanel.addStyleName("main_panel");
-		welcomePanel.add(ti);
+		//welcomePanel.add(ti);
 		welcomePanel.add(description);
 		welcomePanel.add(button);
 
@@ -261,7 +253,7 @@ public class BAWebApp implements EntryPoint, ValueChangeHandler {
 	private void initialTestGame() {
 
 		time_t.setText("Time");
-		rounds_left_t.setText("Rounds Left");
+		rounds_left_t.setText("Rounds");
 		token_t.setText("Tokens");
 		score_t.setText("Score");
 
@@ -271,7 +263,7 @@ public class BAWebApp implements EntryPoint, ValueChangeHandler {
 		token.setText("0/" + max_tokens.toString());
 		score.setText("$0");
 
-		game = new Game(numCategories, numOptions, numPriceLevels, maxBudget,
+		game = new Game(numCategories, numOptions, numPriceLevels, max_tokens,
 				valueVariation, negativeValues, changingChoices, reOptimized,
 				timeSteps);
 
@@ -283,11 +275,14 @@ public class BAWebApp implements EntryPoint, ValueChangeHandler {
 		ArrayList<Double> values = game.getCurrentValues();
 		ArrayList<Integer> prices = game.getCurrentPrices();
 
+	
+		
+		
 		for (int i = 0; i < game_buttons.size(); i++) {
 			game_buttons.get(i).setHTML(
-					"Speed: " + String.valueOf(speeds[i]) + "<br>Value: "
-							+ values.get(i).toString() + "<br>Price: "
-							+ prices.get(i).toString());
+					"Speed: " + String.valueOf(speeds[i]) + " KB/s"
+							+ "<br>Value: $" + values.get(i).toString()
+							+ "<br>Price: " + prices.get(i).toString());
 		}
 
 	}
@@ -302,7 +297,8 @@ public class BAWebApp implements EntryPoint, ValueChangeHandler {
 	 */
 	void storeData(String button) {
 
-		String message = "rounds: " + game.getCurrentRound() + " " + countTime
+		String message = "data"+ game.getCurrentStat().toString();
+		message = message + "rounds: " + game.getCurrentRound() + " " + countTime
 				+ " " + "budget" + (max_tokens - game.getTokensLeft()) + " "
 				+ game.getCurrentScore() + " ";
 
@@ -353,6 +349,7 @@ public class BAWebApp implements EntryPoint, ValueChangeHandler {
 		String message = "initialData: " + numPriceLevels + " "
 				+ valueVariation + " " + numOptions + " " + maxTimePerRound
 				+ " " + timeSteps;
+		message= message + "val"+ game.getallValue() + " price " +game.getallPrices();
 
 		try {
 			dataStoreService.myMethod(message, new AsyncCallback<Void>() {
@@ -439,9 +436,9 @@ public class BAWebApp implements EntryPoint, ValueChangeHandler {
 
 			for (int i = 0; i < game_buttons.size(); i++) {
 				game_buttons.get(i).setHTML(
-						"Speed: " + String.valueOf(speeds[i]) + "<br>Value: "
-								+ values.get(i).toString() + "<br>Price: "
-								+ prices.get(i).toString());
+						"Speed: " + String.valueOf(speeds[i]) + " KB/s"
+								+ "<br>Value: $" + values.get(i).toString()
+								+ "<br>Price: " + prices.get(i).toString());
 			}
 
 			for (int i = 0; i < game.disableButton().size(); i++) {
@@ -477,7 +474,7 @@ public class BAWebApp implements EntryPoint, ValueChangeHandler {
 	@Override
 	public void onValueChange(ValueChangeEvent event) {
 		// TODO Auto-generated method stub
-
+		
 	}
 
 }

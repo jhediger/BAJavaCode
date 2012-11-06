@@ -123,7 +123,6 @@ public class Game {
 	 * @return for all choices it return a value, depending on a random
 	 *         valueLevel
 	 */
-	// TODO all the same up/middle/down other each alone?
 	public ArrayList<Double> getCurrentValues() {
 
 		ArrayList<Double> val = new ArrayList<Double>();
@@ -551,4 +550,17 @@ public class Game {
 		
 	}
 
+	public double[][] getallSpeeds(){
+		return speeds;
+	}
+	
+	public ArrayList<Integer> getCurrentStat(){
+		ArrayList<Integer> list = new ArrayList<Integer>();
+		list.add(currentRound);
+		list.add(maxBudget-currentBudget);
+		list.add(currentCategory);
+		list.add(currentValueVariation);
+		list.add(currentPriceLevel);
+		return list;
+	}
 }

@@ -1,27 +1,10 @@
 
- userAgent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:16.0) Gecko/20100101 Firefox/16.0language: de-de,de;q=0.8,en-us;q=0.5,en;q=0.3 GameInfo: initialData: 2 1 2 7 2
- userAgent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:16.0) Gecko/20100101 Firefox/16.0language: de-de,de;q=0.8,en-us;q=0.5,en;q=0.3 GameInfo: rounds: 0 8 budget30 0.0 values:0.1 -1.0 prices:10 0 speeds:500.0 0.0  option:1
- userAgent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:16.0) Gecko/20100101 Firefox/16.0language: de-de,de;q=0.8,en-us;q=0.5,en;q=0.3 GameInfo: rounds: 1 8 budget30 -1.0 values:-0.5 -0.8 prices:6 0 speeds:300.0 0.0  option:1
- userAgent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:16.0) Gecko/20100101 Firefox/16.0language: de-de,de;q=0.8,en-us;q=0.5,en;q=0.3 GameInfo: finalResult: 0 -1.8 
- userAgent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:16.0) Gecko/20100101 Firefox/16.0language: de-de,de;q=0.8,en-us;q=0.5,en;q=0.3 GameInfo: rounds: 0 8 budget30 0.0 values:-0.5 -0.8 prices:3 0 speeds:300.0 0.0  option:1
- userAgent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:16.0) Gecko/20100101 Firefox/16.0language: de-de,de;q=0.8,en-us;q=0.5,en;q=0.3 GameInfo: rounds: 1 8 budget30 -0.8 values:1.0 -1.2 prices:14 0 speeds:700.0 0.0  option:1
- userAgent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:16.0) Gecko/20100101 Firefox/16.0language: de-de,de;q=0.8,en-us;q=0.5,en;q=0.3 GameInfo: finalResult: 0 -2.0 
- userAgent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:16.0) Gecko/20100101 Firefox/16.0language: de-de,de;q=0.8,en-us;q=0.5,en;q=0.3 GameInfo: initialData: 2 1 2 7 2
- userAgent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:16.0) Gecko/20100101 Firefox/16.0language: de-de,de;q=0.8,en-us;q=0.5,en;q=0.3 GameInfo: initialData: 2 1 2 7 2
- userAgent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:16.0) Gecko/20100101 Firefox/16.0language: de-de,de;q=0.8,en-us;q=0.5,en;q=0.3 GameInfo: rounds: 0 8 budget30 0.0 values:0.1 -1.0 prices:5 0 speeds:500.0 0.0  option:1
- userAgent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:16.0) Gecko/20100101 Firefox/16.0language: de-de,de;q=0.8,en-us;q=0.5,en;q=0.3 GameInfo: rounds: 1 8 budget30 -1.0 values:-0.5 -0.8 prices:6 0 speeds:300.0 0.0  option:1
- userAgent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:16.0) Gecko/20100101 Firefox/16.0language: de-de,de;q=0.8,en-us;q=0.5,en;q=0.3 GameInfo: finalResult: 0 -1.8 
- userAgent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:16.0) Gecko/20100101 Firefox/16.0language: de-de,de;q=0.8,en-us;q=0.5,en;q=0.3 GameInfo: initialData: 2 1 2 7 2
- userAgent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:16.0) Gecko/20100101 Firefox/16.0language: de-de,de;q=0.8,en-us;q=0.5,en;q=0.3 GameInfo: rounds: 0 8 budget30 0.0 values:-0.5 -0.8 prices:3 0 speeds:300.0 0.0  option:1
- userAgent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:16.0) Gecko/20100101 Firefox/16.0language: de-de,de;q=0.8,en-us;q=0.5,en;q=0.3 GameInfo: rounds: 1 7 budget30 -0.8 values:-0.5 -0.8 prices:6 0 speeds:300.0 0.0  option:0
- userAgent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:16.0) Gecko/20100101 Firefox/16.0language: de-de,de;q=0.8,en-us;q=0.5,en;q=0.3 GameInfo: finalResult: 6 -1.3 
- userAgent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:16.0) Gecko/20100101 Firefox/16.0language: de-de,de;q=0.8,en-us;q=0.5,en;q=0.3 GameInfo: initialData: 2 1 2 7 2
- userAgent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:16.0) Gecko/20100101 Firefox/16.0language: de-de,de;q=0.8,en-us;q=0.5,en;q=0.3 GameInfo: initialData: 2 1 2 7 2
- userAgent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:16.0) Gecko/20100101 Firefox/16.0language: de-de,de;q=0.8,en-us;q=0.5,en;q=0.3 GameInfo: initialData: 2 1 2 7 2
- userAgent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:16.0) Gecko/20100101 Firefox/16.0language: de-de,de;q=0.8,en-us;q=0.5,en;q=0.3 GameInfo: initialData: 2 1 2 7 2
- userAgent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:16.0) Gecko/20100101 Firefox/16.0language: de-de,de;q=0.8,en-us;q=0.5,en;q=0.3 GameInfo: rounds: 0 8 budget30 0.0 values:1.0 -1.2 prices:7 0 speeds:700.0 0.0  option:1
- userAgent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:16.0) Gecko/20100101 Firefox/16.0language: de-de,de;q=0.8,en-us;q=0.5,en;q=0.3 GameInfo: rounds: 1 8 budget30 -1.2 values:-0.5 -0.8 prices:6 0 speeds:300.0 0.0  option:1
- userAgent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:16.0) Gecko/20100101 Firefox/16.0language: de-de,de;q=0.8,en-us;q=0.5,en;q=0.3 GameInfo: finalResult: 0 -2.0 
- userAgent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:16.0) Gecko/20100101 Firefox/16.0language: de-de,de;q=0.8,en-us;q=0.5,en;q=0.3 GameInfo: initialData: 2 1 2 7 2
- userAgent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:16.0) Gecko/20100101 Firefox/16.0language: de-de,de;q=0.8,en-us;q=0.5,en;q=0.3 GameInfo: initialData: 2 1 2 7 2
- userAgent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:16.0) Gecko/20100101 Firefox/16.0language: de-de,de;q=0.8,en-us;q=0.5,en;q=0.3 GameInfo: rounds: 0 8 budget30 0.0 values:0.0 -0.8 prices:3 0 speeds:300.0 0.0  option:1
+ userAgent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:16.0) Gecko/20100101 Firefox/16.0language: de-de,de;q=0.8,en-us;q=0.5,en;q=0.3 GameInfo: initialData: 2 1 4 7 2val[[[2.0, 1.4, 2.6], [0.9, 0.1, 0.9], [0.1, -0.3, 0.0], [-1.2, -1.2, -1.2]], [[0.9, 0.3, 0.3], [0.0, -0.6, 0.0], [-0.1, -0.7, -0.7], [-1.0, -1.0, -1.0]], [[0.0, -0.5, -0.5], [-0.2, -0.6, -0.6], [-0.4, -0.6, -0.6], [-0.8, -0.8, -0.8]]] price [[[10, 4, 2, 0], [6, 2, 1, 0], [4, 2, 1, 0]], [[20, 8, 4, 0], [12, 4, 2, 0], [8, 4, 2, 0]]]
+ userAgent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:16.0) Gecko/20100101 Firefox/16.0language: de-de,de;q=0.8,en-us;q=0.5,en;q=0.3 GameInfo: data[0, 30, 2, 2, 0]rounds: 0 1 budget30 0.0 values:-0.5 -0.6 -0.6 -0.8 prices:4 2 1 0 speeds:400.0 200.0 100.0 0.0  option:0
+ userAgent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:16.0) Gecko/20100101 Firefox/16.0language: de-de,de;q=0.8,en-us;q=0.5,en;q=0.3 GameInfo: data[1, 26, 1, 1, 0]rounds: 1 1 budget26 -0.5 values:0.3 -0.6 -0.7 -1.0 prices:6 2 1 0 speeds:600.0 200.0 100.0 0.0  option:1
+ userAgent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:16.0) Gecko/20100101 Firefox/16.0language: de-de,de;q=0.8,en-us;q=0.5,en;q=0.3 GameInfo: finalResult: 6 -1.1 
+ userAgent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:16.0) Gecko/20100101 Firefox/16.0language: de-de,de;q=0.8,en-us;q=0.5,en;q=0.3 GameInfo: initialData: 2 0 2 7 3val[[[1.4], [-1.2]], [[0.7], [-1.0]], [[0.0], [-0.8]]] price [[[7, 0], [5, 0], [3, 0]], [[14, 0], [10, 0], [6, 0]]]
+ userAgent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:16.0) Gecko/20100101 Firefox/16.0language: de-de,de;q=0.8,en-us;q=0.5,en;q=0.3 GameInfo: data[0, 20, 1, 0, 1]rounds: 0 1 budget30 0.0 values:0.7 -1.0 prices:10 0 speeds:500.0 0.0  option:0
+ userAgent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:16.0) Gecko/20100101 Firefox/16.0language: de-de,de;q=0.8,en-us;q=0.5,en;q=0.3 GameInfo: data[1, 10, 1, 0, 0]rounds: 1 1 budget20 0.7 values:0.7 -1.0 prices:5 0 speeds:500.0 0.0  option:0
+ userAgent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:16.0) Gecko/20100101 Firefox/16.0language: de-de,de;q=0.8,en-us;q=0.5,en;q=0.3 GameInfo: data[2, 5, 1, 0, 1]rounds: 2 2 budget15 1.4 values:0.7 -1.0 prices:10 0 speeds:500.0 0.0  option:1
+ userAgent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:16.0) Gecko/20100101 Firefox/16.0language: de-de,de;q=0.8,en-us;q=0.5,en;q=0.3 GameInfo: finalResult: 15 0.8009999999999998 
