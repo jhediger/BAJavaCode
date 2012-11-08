@@ -484,7 +484,6 @@ public class Game {
 	 */
 	private List<ArrayList<ArrayList<Integer>>> generatePrices() {
 		List<ArrayList<ArrayList<Integer>>> priceVector = new ArrayList<ArrayList<ArrayList<Integer>>>();
-		numPriceLevels=1;
 		for (int i = 0; i < numPriceLevels; i++) {
 			ArrayList<ArrayList<Integer>> list1 = new ArrayList<ArrayList<Integer>>();
 			for (int c = 0; c < this.numCategories; c++) {
