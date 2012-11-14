@@ -355,9 +355,9 @@ public class BAWebApp implements EntryPoint, ValueChangeHandler {
 		}else{
 			nV=0;
 		}
-		String message ="pL|VV|NumOption|maxTimePerRound|timeSteps|changingChoices|reOptimized|negValue initialData: " + numPriceLevels + " "
-				+ valueVariation + " " + numOptions + " " + maxTimePerRound
-				+ " " + timeSteps + cC + rO + nV;
+		String message ="pL|VV|NumOption|maxTimePerRound|timeSteps|cat|changingChoices|reOptimized|negValue initialData: " + numPriceLevels + " "
+				+ valueVariation + " " + numOptions + " " + maxTimePerRound + category +" "
+				+ " " + timeSteps + " "+cC + " "+rO + " "+ nV;
 		message= message + "val"+ game.getallValue() + " price " +game.getallPrices();
 
 		try {
