@@ -10,34 +10,30 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
-import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.ClickListener;
-import com.google.gwt.user.client.ui.DialogBox;
-import com.google.gwt.user.client.ui.Grid;
-import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.Hyperlink;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.PasswordTextBox;
 import com.google.gwt.user.client.ui.RootPanel;
-import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
  * Entry point classes define <code>onModuleLoad()</code>.
  */
+@SuppressWarnings({ "rawtypes", "deprecation" })
 public class BAWebApp implements EntryPoint, ValueChangeHandler {
 
-	// Parameters to initial games
+	/********************************************
+	 * Parameters to initial games
+	 * 
+	 */
 	// fix
-	private Integer timeSteps = 5;// TODO change back
+	private Integer timeSteps = 7;
 	private Integer max_tokens = 30;
 	private int numCategories = 3; // high, medium, low
 	private boolean negativeValues = true;
@@ -49,16 +45,12 @@ public class BAWebApp implements EntryPoint, ValueChangeHandler {
 
 	// variable
 	private int numPriceLevels = 1;// num of different prices
-	private int valueVariation = 0;// if 1 then 3 different values
+	private int valueVariation = 3;
 	private int numOptions = 2; // to decide how many buttons the game has
 	private int maxTimePerRound = 7;
-	// int stepSize = 100;
-	// int maxSpeed = 1000;
-	// double maxValue = 3.1;
 
-	// TODO for start view
-	private VerticalPanel NavPanel = new VerticalPanel();
-	private Label introduction = new Label();
+	//private VerticalPanel NavPanel = new VerticalPanel();
+	//private Label introduction = new Label();
 
 	private static final int REFRESH_INTERVAL = 1000; // ms
 
@@ -102,7 +94,6 @@ public class BAWebApp implements EntryPoint, ValueChangeHandler {
 
 	}
 
-	@SuppressWarnings("deprecation")
 	private void loadWelcomePage() {
 	
 		final VerticalPanel welcomePanel = new VerticalPanel();
@@ -346,9 +337,27 @@ public class BAWebApp implements EntryPoint, ValueChangeHandler {
 	 */
 	void storeInitialData() {
 
-		String message = "initialData: " + numPriceLevels + " "
+		int cC;
+		int rO;
+		int nV;
+		if(changingChoices==true){
+			cC=1;
+		}else{
+			cC=0;
+		}
+		if(reOptimized==true){
+			rO=1;
+		}else{
+			rO=0;
+		}
+		if(negativeValues==true){
+			nV=1;
+		}else{
+			nV=0;
+		}
+		String message ="pL|VV|NumOption|maxTimePerRound|timeSteps|changingChoices|reOptimized|negValue initialData: " + numPriceLevels + " "
 				+ valueVariation + " " + numOptions + " " + maxTimePerRound
-				+ " " + timeSteps;
+				+ " " + timeSteps + cC + rO + nV;
 		message= message + "val"+ game.getallValue() + " price " +game.getallPrices();
 
 		try {
