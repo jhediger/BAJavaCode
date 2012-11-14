@@ -7,7 +7,11 @@ import java.util.Enumeration;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import com.ba.marketUI.client.ComClientInterface;
-
+/**
+ * 
+ * @author Jessica Hediger
+ *
+ */
 @SuppressWarnings("serial")
 public class ComServerInterface extends RemoteServiceServlet implements
 		ComClientInterface {

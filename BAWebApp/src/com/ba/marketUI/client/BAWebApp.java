@@ -23,8 +23,13 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
+ * 
+ * @author Jessica Hediger
+ * 
  * Entry point classes define <code>onModuleLoad()</code>.
+ *
  */
+ 
 @SuppressWarnings({ "rawtypes", "deprecation" })
 public class BAWebApp implements EntryPoint, ValueChangeHandler {
 
@@ -44,9 +49,9 @@ public class BAWebApp implements EntryPoint, ValueChangeHandler {
 	private boolean reOptimized = false;
 
 	// variable
-	private int numPriceLevels = 1;// num of different prices
+	private int numPriceLevels = 3;// num of different prices
 	private int valueVariation = 3;
-	private int numOptions = 2; // to decide how many buttons the game has
+	private int numOptions = 4; // to decide how many buttons the game has
 	private int maxTimePerRound = 7;
 
 	//private VerticalPanel NavPanel = new VerticalPanel();
@@ -287,8 +292,8 @@ public class BAWebApp implements EntryPoint, ValueChangeHandler {
 	 * 
 	 */
 	void storeData(String button) {
-
-		String message = "data"+ game.getCurrentStat().toString();
+		
+		String message = "currentRound|budgetLeft|currentCategory|currentValueVariation|currentPriceLevel  data"+ game.getCurrentStat().toString();
 		message = message + "rounds: " + game.getCurrentRound() + " " + countTime
 				+ " " + "budget" + (max_tokens - game.getTokensLeft()) + " "
 				+ game.getCurrentScore() + " ";
@@ -356,7 +361,7 @@ public class BAWebApp implements EntryPoint, ValueChangeHandler {
 			nV=0;
 		}
 		String message ="pL|VV|NumOption|maxTimePerRound|timeSteps|cat|changingChoices|reOptimized|negValue initialData: " + numPriceLevels + " "
-				+ valueVariation + " " + numOptions + " " + maxTimePerRound + category +" "
+				+ valueVariation + " " + numOptions + " " + maxTimePerRound + numCategories +" "
 				+ " " + timeSteps + " "+cC + " "+rO + " "+ nV;
 		message= message + "val"+ game.getallValue() + " price " +game.getallPrices();
 

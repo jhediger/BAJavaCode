@@ -4,7 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.Vector;
-
+/**
+ * 
+ * @author Jessica Hediger
+ *
+ */
 public class Game {
 	// fix values for game initialization
 	private int numPriceLevels;
@@ -16,7 +20,7 @@ public class Game {
 	private double maxValue = 3.1;
 	private int numOptions;
 	private int maxRounds;
-	private int numValueVariations;
+	private int numValueVariations;// each value is perturbed up/down with p:1/3
 
 	private Random rand;
 
@@ -28,8 +32,7 @@ public class Game {
 	private int currentValueVariation;
 	private int currentPriceLevel;
 
-	// each value is perturbed up/down with p:1/3
-	private int optionValueVariation;
+	
 
 	// for UI
 	private Vector<String> category = new Vector<String>();
@@ -334,7 +337,7 @@ public class Game {
 		double minValue = 0;
 		for (int c = 0; c < this.numCategories; c++) {
 			for (int o = 0; o < this.numOptions; o++) {
-				for (int i = 0; i < this.optionValueVariation; i++) {
+				for (int i = 0; i < this.numValueVariations; i++) {
 					if (negativeValues) {
 						values.get(c)
 								.get(o)
