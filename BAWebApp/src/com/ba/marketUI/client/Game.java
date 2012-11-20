@@ -540,18 +540,32 @@ public class Game {
 	 */
 	private double round(double toRound, int digit) {
 
+		boolean isneg=false;
+		if(toRound<0){
+			toRound=toRound*(-1);
+			isneg=true;
+		}
+		digit++;
 		int digits = (int) Math.pow(10, digit);
 		int valInt = (int) (digits * toRound);
 
-		// to get 0.5 ->1 and 0.4 ->0
-		if (valInt % 10 >= 5) {
-			valInt++;
-		}
-		double valDouble = ((double) valInt) / 10;
+			// to get 0.5 ->1 and 0.4 ->0
+			if (valInt % 10 >= 5) {
+				valInt = valInt + 10;
+			}
+		
 
+		valInt = valInt / 10;
+		digit--;
+		double valDouble = ((double) valInt) / Math.pow(10, digit);
+
+		if(isneg){
+			valDouble=valDouble*(-1);
+		}
 		return valDouble;
 
 	}
+
 
 	/**
 	 * @return a List with the three categories and per category numOfChoices
