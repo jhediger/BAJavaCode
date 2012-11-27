@@ -89,6 +89,10 @@ public class BAWebApp implements EntryPoint, ValueChangeHandler {
 	private Integer countTime = 0;
 
 	private Game game;
+	private String assignmentId = "";
+	private String turkSubmitTo ="";
+	private String workerId="";
+	private String hitId="";
 
 	/**
 	 * Entry point method.
@@ -98,7 +102,7 @@ public class BAWebApp implements EntryPoint, ValueChangeHandler {
 		loadWelcomePage();
 
 	}
-
+	
 	private void loadWelcomePage() {
 	
 		final VerticalPanel welcomePanel = new VerticalPanel();
@@ -110,7 +114,23 @@ public class BAWebApp implements EntryPoint, ValueChangeHandler {
 		button.setStyleName("startGameButton");
 
 		button.addClickListener(new ClickListener() {
+			
+
+			
+
 			public void onClick(Widget sender) {
+				if(Window.Location.getParameter("assignmentId")!=null){
+					if(Window.Location.getParameter("assignmentId")=="ASSIGNMENT_ID_NOT_AVAILABLE"){
+						Window.alert("Please accept the hit first, through pushing the \"Accept hit\" button!");
+						return;
+					}
+					assignmentId= Window.Location.getParameter("assignmentId");
+					turkSubmitTo= Window.Location.getParameter("turkSubmitTo");
+					workerId= Window.Location.getParameter("workerId");
+					hitId= Window.Location.getParameter("hitId");
+					
+					
+				}
 				initialGameLayout();
 			}
 		});
@@ -477,7 +497,11 @@ public class BAWebApp implements EntryPoint, ValueChangeHandler {
 
 			start_new_game.setEnabled(true);
 			storeDataFinalRound();
-
+			Window.alert("Game is Finish...neu Url");
+			String oldURL= turkSubmitTo;
+			Window.alert(turkSubmitTo);
+			String url= "https://www.mturk.com/mturk/externalSubmit?assignmentId="+assignmentId+"&hitId="+hitId+"&workerId="+workerId+"&favoriteColor=blue&favoriteNumber=7";
+			Window.Location.assign(url);
 		}
 
 	}
