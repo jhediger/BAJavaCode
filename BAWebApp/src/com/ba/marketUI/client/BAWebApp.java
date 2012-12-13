@@ -128,6 +128,7 @@ public class BAWebApp implements EntryPoint, ValueChangeHandler {
 					turkSubmitTo= Window.Location.getParameter("turkSubmitTo");
 					workerId= Window.Location.getParameter("workerId");
 					hitId= Window.Location.getParameter("hitId");
+					Window.alert(assignmentId+" " +hitId);
 					
 					
 				}
@@ -500,8 +501,14 @@ public class BAWebApp implements EntryPoint, ValueChangeHandler {
 			Window.alert("Game is Finish...neu Url");
 			String oldURL= turkSubmitTo;
 			Window.alert(turkSubmitTo);
-			String url= "https://www.mturk.com/mturk/externalSubmit?assignmentId="+assignmentId+"&hitId="+hitId+"&workerId="+workerId+"&favoriteColor=blue&favoriteNumber=7";
-			Window.Location.assign(url);
+			assignmentId= Window.Location.getParameter("assignmentId");
+			String urlneu = "https://workersandbox.mturk.com/mturk/externalSubmit?assignmentId="+assignmentId+"&amp;hitId="+hitId;
+			Window.alert(urlneu);
+			//String url= "https://www.mturk.com/mturk/externalSubmit?assignmentId="+assignmentId+"&hitId="+hitId+"&workerId="+workerId+"&favoriteColor=blue&favoriteNumber=7";
+			//Window.Location.assign(urlneu);
+			Window.Location.replace(urlneu);
+			
+			
 		}
 
 	}
