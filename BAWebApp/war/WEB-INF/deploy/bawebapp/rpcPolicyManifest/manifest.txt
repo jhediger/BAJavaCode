@@ -1,3 +1,2 @@
 # Module bawebapp
 # RPC service class, partial path of RPC policy file
-com.ba.marketUI.client.ComClientInterface, 5C517C7B33AC9D34722FF41A583B957B.gwt.rpc

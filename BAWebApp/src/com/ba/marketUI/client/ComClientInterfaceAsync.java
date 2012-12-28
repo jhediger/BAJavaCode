@@ -11,6 +11,6 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
  */
 
 public interface ComClientInterfaceAsync {
-	public void myMethod(String s, AsyncCallback<Void> callback)
+	public void myMethod(String message,String fileName, AsyncCallback<Void> callback)
 			throws IOException;
 }

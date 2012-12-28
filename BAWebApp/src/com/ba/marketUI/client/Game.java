@@ -45,7 +45,7 @@ public class Game {
 	private List<ArrayList<ArrayList<Integer>>> prices;
 
 	// TODO what is changingChoices
-	private boolean changingChoices = true;
+	private boolean changingChoices = false;
 
 	// list with all three categories and per category numOfChoices sublists
 	// (choose one of them with p=1/3)

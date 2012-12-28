@@ -16,7 +16,7 @@ import com.ba.marketUI.client.ComClientInterface;
 public class ComServerInterface extends RemoteServiceServlet implements
 		ComClientInterface {
 
-	public void myMethod(String s) throws IOException {
+	public void myMethod(String message, String fileName) throws IOException {
 		// Do something interesting with 's' here on the server.
 
 		String userAgent = getThreadLocalRequest().getHeader("User-Agent");
@@ -25,17 +25,17 @@ public class ComServerInterface extends RemoteServiceServlet implements
 
 		// Escape data from the client to avoid cross-site script
 		// vulnerabilities.
-		s = escapeHtml(s);
+		message = escapeHtml(message);
 		userAgent = escapeHtml(userAgent);
 
-		w(s, userAgent);
+		w(message, userAgent, fileName);
 
 		return;
 	}
 
-	public void w(String i, String userAgent) throws IOException {
+	public void w(String i, String userAgent, String fileName) throws IOException {
 		try {
-			BufferedWriter out = new BufferedWriter(new FileWriter("samplefile4S"
+			BufferedWriter out = new BufferedWriter(new FileWriter(fileName
 					 + ".txt", true));
 			out.newLine();
 			out.write(" userAgent: " + userAgent + " GameInfo: " + i);
