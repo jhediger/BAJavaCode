@@ -23,7 +23,7 @@ public class InterfaceGame {
 	 * 
 	 */
 	// fix
-	private Integer timeSteps = 7;
+	private Integer timeSteps = 6;
 	private Integer max_tokens = 30;
 	private int numCategories = 3; // high, medium, low
 	private boolean negativeValues = true;
@@ -413,8 +413,7 @@ public class InterfaceGame {
 				message+=assignmentId+" "+turkSubmitTo+" "+workerId+" "+hitId+" "+scoreOverRound;
 				sendMessage(message,"workers");
 				
-				Window.alert("Game is Finish...neu Url");
-				String oldURL = turkSubmitTo;
+				Window.alert("Game is Finish");
 				Window.alert(turkSubmitTo);
 				assignmentId = Window.Location.getParameter("assignmentId");
 				String urlneu = "https://workersandbox.mturk.com/mturk/externalSubmit?assignmentId="

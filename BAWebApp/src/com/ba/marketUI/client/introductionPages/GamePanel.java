@@ -1,0 +1,434 @@
+package com.ba.marketUI.client.introductionPages;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import com.ba.marketUI.client.Game;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.Timer;
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.Widget;
+
+public class GamePanel {
+
+	private double scoreOverRound = 0.0;
+
+	private static final int REFRESH_INTERVAL = 1000; // ms
+
+	/**
+	 * Create a remote service proxy to talk to the server-side Store service.
+	 */
+	
+	private VerticalPanel main_panel = new VerticalPanel();
+	private VerticalPanel buttons_panel = new VerticalPanel();
+	private HorizontalPanel gamestates_panel = new HorizontalPanel();
+	private VerticalPanel time_panel = new VerticalPanel();
+	private VerticalPanel rounds_panel = new VerticalPanel();
+	private VerticalPanel token_panel = new VerticalPanel();
+	private VerticalPanel score_panel = new VerticalPanel();
+
+	private Label category = new Label();
+	private Label time_t = new Label();
+	private Label rounds_left_t = new Label();
+	private Label token_t = new Label();
+	private Label score_t = new Label();
+	private Label time = new Label();
+	private Label rounds_left = new Label();
+	private Label token = new Label();
+	private Label score = new Label();
+	private List<Button> game_buttons = new ArrayList<Button>();
+
+	private Integer countTime = 0;
+
+	private Game game;
+
+	private int counterOfGames = 0;
+	private boolean storeData;
+
+	private WriterTimeSaver w;
+
+	public GamePanel(boolean isNotestGame) {
+
+		storeData = isNotestGame;
+		gamestates_panel.add(time_panel);
+		gamestates_panel.add(rounds_panel);
+		gamestates_panel.add(token_panel);
+		gamestates_panel.add(score_panel);
+
+		time_panel.add(time_t);
+		time_panel.add(time);
+		rounds_panel.add(rounds_left_t);
+		rounds_panel.add(rounds_left);
+		token_panel.add(token_t);
+		token_panel.add(token);
+		score_panel.add(score_t);
+		score_panel.add(score);
+
+		for (int i = 0; i < GameParameter.NumOptions; i++) {
+			game_buttons.add(new Button());
+			buttons_panel.add(game_buttons.get(i));
+		}
+
+		main_panel.add(gamestates_panel);
+		main_panel.add(category);
+		main_panel.add(buttons_panel);
+
+		main_panel.addStyleName("main_panel");
+		buttons_panel.addStyleName("buttons_panel");
+
+		gamestates_panel.addStyleName("gamestates_panel");
+		rounds_panel.addStyleName("rounds_panel");
+
+		category.addStyleName("category");
+		time_t.addStyleName("black_label");
+		rounds_left_t.addStyleName("black_label");
+		token_t.addStyleName("black_label");
+		score_t.addStyleName("black_label");
+		time.addStyleName("black_label");
+		rounds_left.addStyleName("black_label");
+		token.addStyleName("black_label");
+		score.addStyleName("black_label");
+
+		initialGame();
+	
+		// Setup timer to refresh automatically.
+		Timer refreshTimer = new Timer() {
+
+			@Override
+			public void run() {
+				refreshWatchList();
+			}
+
+			private void refreshWatchList() {
+				if (GameParameter.RoundTime) {
+					if (game.notFinish()) {
+						countTime++;
+						if (countTime > GameParameter.MaxTimePerRound) {
+							storeData(String
+									.valueOf(GameParameter.NumOptions - 1));
+							game.changeState(GameParameter.NumOptions - 1);
+							changeGameState();
+							setTimeToZero();
+						}
+
+						time.setText(countTime.toString() + "/"
+								+ String.valueOf(GameParameter.MaxTimePerRound)
+								+ "s");
+					}
+				} else {
+					if(GameParameter.MaxTime<=countTime){
+						time.setText(countTime.toString() + "/"
+								+ String.valueOf(GameParameter.MaxTime)
+								+ "s");
+						for(Button b: game_buttons){
+							b.setEnabled(false);
+						}
+						//expIsFinish= true;
+						goToLastPage();
+					}else{
+						countTime++;
+						time.setText(countTime.toString() + "/"
+								+ String.valueOf(GameParameter.MaxTime)
+								+ "s");
+					}
+					
+					
+
+				}
+			}
+		};
+
+		refreshTimer.scheduleRepeating(REFRESH_INTERVAL);
+
+		// Listen for mouse events on the Add button.
+		for (final Button b : game_buttons) {
+			b.addClickHandler(new ClickHandler() {
+				public void onClick(ClickEvent event) {
+					storeData(String.valueOf(game_buttons.indexOf(b)));
+					game.changeState(game_buttons.indexOf(b));
+					changeGameState();
+					setTimeToZero();
+				}
+			});
+		}
+
+	}
+
+
+	private void initialGame() {
+
+		time_t.setText("Time");
+		rounds_left_t.setText("Rounds");
+		token_t.setText("Tokens");
+		score_t.setText("Score");
+
+		time.setText("0s/7s");
+
+		rounds_left.setText("0/" + GameParameter.TimeSteps.toString());
+		token.setText("0/" + GameParameter.Tokens.toString());
+		score.setText("$0");
+
+		game = new Game(GameParameter.Categories, GameParameter.NumOptions,
+				GameParameter.NumPriceLevels, GameParameter.Tokens,
+				GameParameter.ValueVariation, GameParameter.NegativeValues,
+				GameParameter.ChangingChoices, GameParameter.ReOptimized,
+				GameParameter.TimeSteps);
+
+		storeInitialData();
+		category.setText("Task Category: " + game.getCurrentCategoryAsString()
+				+ " Importance");
+
+		double[] speeds = game.getCurrentSpeeds();
+		ArrayList<Double> values = game.getCurrentValues();
+		ArrayList<Integer> prices = game.getCurrentPrices();
+
+		for (int i = 0; i < game_buttons.size(); i++) {
+			game_buttons.get(i).setHTML(
+					"Speed: " + String.valueOf(speeds[i]) + " KB/s"
+							+ "<br>Value: $" + values.get(i).toString()
+							+ "<br>Price: " + prices.get(i).toString());
+		}
+
+	}
+
+	/**
+	 * Make a GWT-RPC call to the server. The myEmailService class member was
+	 * initalized when the module started up.
+	 * 
+	 * @param button
+	 *            0 for top button
+	 * 
+	 */
+	void storeData(String button) {
+
+		if (storeData == true) {
+			String message = "currentRound|budgetLeft|currentCategory|currentValueVariation|currentPriceLevel  data"
+					+ game.getCurrentStat().toString();
+			message = message + "rounds: " + game.getCurrentRound() + " "
+					+ countTime + " " + "budget"
+					+ (GameParameter.Tokens - game.getTokensLeft()) + " "
+					+ game.getCurrentScore() + " ";
+
+			message = message + "values:";
+			for (double a : game.getCurrentValues()) {
+				message = message + a + " ";
+			}
+			message = message + "prices:";
+			for (int b : game.getCurrentPrices()) {
+				message = message + b + " ";
+			}
+			message = message + "speeds:";
+			for (double d : game.getCurrentSpeeds()) {
+				message = message + String.valueOf(d) + " ";
+			}
+			message = message + " " + "option:" + button;
+
+			sendMessage(message, GameParameter.GameData);
+		}
+	}
+
+	/**
+	 *
+	 */
+	void storeInitialData() {
+		if (storeData == true) {
+			int cC;
+			int rO;
+			int nV;
+			if (GameParameter.ChangingChoices == true) {
+				cC = 1;
+			} else {
+				cC = 0;
+			}
+			if (GameParameter.ReOptimized == true) {
+				rO = 1;
+			} else {
+				rO = 0;
+			}
+			if (GameParameter.NegativeValues == true) {
+				nV = 1;
+			} else {
+				nV = 0;
+			}
+			String message = "pL|VV|NumOption|maxTimePerRound|timeSteps|cat|changingChoices|reOptimized|negValue initialData: "
+					+ GameParameter.NumPriceLevels
+					+ " "
+					+ GameParameter.ValueVariation
+					+ " "
+					+ GameParameter.NumOptions
+					+ " "
+					+ GameParameter.MaxTimePerRound
+					+ " "
+					+ GameParameter.MaxTime
+					+ " "
+					+ GameParameter.Categories
+					+ " "
+					+ " "
+					+ GameParameter.TimeSteps + " " + cC + " " + rO + " " + nV;
+			message = message + "val" + game.getallValue() + " price "
+					+ game.getallPrices();
+
+			sendMessage(message, GameParameter.GameData);
+		}
+
+	}
+
+	void storeDataFinalRound() {
+		if (storeData == true) {
+			String message = "finalResult: " + game.getTokensLeft() + " "
+					+ game.getCurrentScore() + " ";
+			sendMessage(message, GameParameter.GameData);
+
+		}
+
+	}
+	
+	private void sendMessage(String message, String fileName){
+		
+		w.addMessage(fileName, message);
+	}
+
+	private void setTimeToZero() {
+		countTime = 0;
+	}
+
+	private void changeGameState() {
+
+		if (game.notFinish()) {
+
+			rounds_left.setText(game.getCurrentRound().toString() + "/"
+					+ GameParameter.TimeSteps.toString());
+			token.setText(game.getTokensLeft().toString() + "/"
+					+ GameParameter.Tokens.toString());
+
+			if (game.getCurrentScore().toString().length() > 5) {
+				game.setCurrentScoreUP();
+
+			}
+			score.setText("$" + game.getCurrentScore().toString());
+
+			category.setText("Task Category: "
+					+ game.getCurrentCategoryAsString() + " Importance");
+
+			double[] speeds = game.getCurrentSpeeds();
+			ArrayList<Double> values = game.getCurrentValues();
+			ArrayList<Integer> prices = game.getCurrentPrices();
+
+			for (int i = 0; i < game_buttons.size(); i++) {
+				game_buttons.get(i).setHTML(
+						"Speed: " + String.valueOf(speeds[i]) + " KB/s"
+								+ "<br>Value: $" + values.get(i).toString()
+								+ "<br>Price: " + prices.get(i).toString());
+			}
+
+			for (int i = 0; i < game.disableButton().size(); i++) {
+				if (game.disableButton().get(i) == true) {
+					game_buttons.get(i).setEnabled(false);
+				}
+			}
+
+		} else {
+			token.setText(game.getTokensLeft().toString() + "/"
+					+ GameParameter.Tokens.toString());
+			if (game.getCurrentScore().toString().length() > 5) {
+				game.setCurrentScoreUP();
+			}
+			score.setText("$" + game.getCurrentScore().toString());
+
+			rounds_left.setText(game.getCurrentRound().toString() + "/"
+					+ GameParameter.TimeSteps.toString());
+
+			for (Button b : game_buttons) {
+				b.setEnabled(false);
+			}
+
+			
+			if (storeData == true) {
+				counterOfGames++;
+				scoreOverRound += game.getCurrentScore();
+				storeDataFinalRound();
+			if (GameParameter.RoundTime) {
+				if (GameParameter.RoundsToPlay - counterOfGames != 0) {
+					Window.alert(GameParameter.RoundsToPlay - counterOfGames
+							+ "'rounds to play left");
+					startNewGame();
+				} else {
+					scoreOverRound = round(scoreOverRound,4);
+					Window.alert("Game is finish. Your overall score is:"
+							+ scoreOverRound);
+					goToLastPage();//expIsFinish=true;
+				}
+			}else{
+				startNewGame();
+			}
+			}
+
+		}
+
+	}
+
+	public Widget getPanel() {
+		return main_panel;
+	}
+
+	public void startNewGame() {
+		game.setNew();
+		changeGameState();
+		for (Button b : game_buttons) {
+			b.setEnabled(true);
+		}
+		setTimeToZero();
+		
+	}
+	
+	private void goToLastPage() {
+		SeventhPageFinalQuestionary fq = new SeventhPageFinalQuestionary();
+		fq.loadPage(1,w);
+	}
+
+	public void setW(WriterTimeSaver w2) {
+		w= w2;
+		
+	}
+	
+	/**
+	 * 
+	 * @param toRound
+	 * @param digit
+	 * @return return a double rounded to x digits, for 0 digits: 0.5 ->1 and
+	 *         0.4 ->0
+	 */
+	private double round(double toRound, int digit) {
+
+		boolean isneg=false;
+		if(toRound<0){
+			toRound=toRound*(-1);
+			isneg=true;
+		}
+		digit++;
+		int digits = (int) Math.pow(10, digit);
+		int valInt = (int) (digits * toRound);
+
+			// to get 0.5 ->1 and 0.4 ->0
+			if (valInt % 10 >= 5) {
+				valInt = valInt + 10;
+			}
+		
+
+		valInt = valInt / 10;
+		digit--;
+		double valDouble = ((double) valInt) / Math.pow(10, digit);
+
+		if(isneg){
+			valDouble=valDouble*(-1);
+		}
+		return valDouble;
+
+	}
+
+}
