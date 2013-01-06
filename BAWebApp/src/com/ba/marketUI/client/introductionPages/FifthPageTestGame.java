@@ -19,7 +19,7 @@ public class FifthPageTestGame {
 	public void loadPage() {
 	
 		VerticalPanel vp = new VerticalPanel();
-		final GamePanel g = new GamePanel(false);
+		final GamePanel g = new GamePanel(false,w);
 		
 		Button startNewGame = new Button("Start new game");
 		final Button startExperiment = new Button("Start the experiment");
@@ -41,7 +41,7 @@ public class FifthPageTestGame {
 			}
 
 			private void goToExperiment() {
-				SixthPageExperiment s = new SixthPageExperiment(w);
+				PageSetUp1Experiment s = new PageSetUp1Experiment(w);
 				s.loadPage();
 				
 			}

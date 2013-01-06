@@ -23,7 +23,7 @@ public class GamePanel {
 	/**
 	 * Create a remote service proxy to talk to the server-side Store service.
 	 */
-	
+
 	private VerticalPanel main_panel = new VerticalPanel();
 	private VerticalPanel buttons_panel = new VerticalPanel();
 	private HorizontalPanel gamestates_panel = new HorizontalPanel();
@@ -52,8 +52,9 @@ public class GamePanel {
 
 	private WriterTimeSaver w;
 
-	public GamePanel(boolean isNotestGame) {
+	public GamePanel(boolean isNotestGame, WriterTimeSaver w) {
 
+		this.w = w;
 		storeData = isNotestGame;
 		gamestates_panel.add(time_panel);
 		gamestates_panel.add(rounds_panel);
@@ -95,7 +96,7 @@ public class GamePanel {
 		score.addStyleName("black_label");
 
 		initialGame();
-	
+
 		// Setup timer to refresh automatically.
 		Timer refreshTimer = new Timer() {
 
@@ -121,23 +122,19 @@ public class GamePanel {
 								+ "s");
 					}
 				} else {
-					if(GameParameter.MaxTime<=countTime){
+					if (GameParameter.MaxTime <= countTime) {
 						time.setText(countTime.toString() + "/"
-								+ String.valueOf(GameParameter.MaxTime)
-								+ "s");
-						for(Button b: game_buttons){
+								+ String.valueOf(GameParameter.MaxTime) + "s");
+						for (Button b : game_buttons) {
 							b.setEnabled(false);
 						}
-						//expIsFinish= true;
+						// expIsFinish= true;
 						goToLastPage();
-					}else{
+					} else {
 						countTime++;
 						time.setText(countTime.toString() + "/"
-								+ String.valueOf(GameParameter.MaxTime)
-								+ "s");
+								+ String.valueOf(GameParameter.MaxTime) + "s");
 					}
-					
-					
 
 				}
 			}
@@ -158,7 +155,6 @@ public class GamePanel {
 		}
 
 	}
-
 
 	private void initialGame() {
 
@@ -269,7 +265,12 @@ public class GamePanel {
 					+ GameParameter.Categories
 					+ " "
 					+ " "
-					+ GameParameter.TimeSteps + " " + cC + " " + rO + " " + nV;
+					+ GameParameter.TimeSteps
+					+ " "
+					+ cC
+					+ " "
+					+ rO
+					+ " " + nV;
 			message = message + "val" + game.getallValue() + " price "
 					+ game.getallPrices();
 
@@ -287,9 +288,9 @@ public class GamePanel {
 		}
 
 	}
-	
-	private void sendMessage(String message, String fileName){
-		
+
+	private void sendMessage(String message, String fileName) {
+
 		w.addMessage(fileName, message);
 	}
 
@@ -347,25 +348,25 @@ public class GamePanel {
 				b.setEnabled(false);
 			}
 
-			
 			if (storeData == true) {
 				counterOfGames++;
 				scoreOverRound += game.getCurrentScore();
 				storeDataFinalRound();
-			if (GameParameter.RoundTime) {
-				if (GameParameter.RoundsToPlay - counterOfGames != 0) {
-					Window.alert(GameParameter.RoundsToPlay - counterOfGames
-							+ "'rounds to play left");
-					startNewGame();
+				if (GameParameter.RoundTime) {
+					if (GameParameter.RoundsToPlay - counterOfGames != 0) {
+						Window.alert(GameParameter.RoundsToPlay
+								- counterOfGames + "'rounds to play left");
+						startNewGame();
+					} else {
+						scoreOverRound = round(scoreOverRound, 4);
+						sendMessage("Experiment part are over",GameParameter.GameData);
+						Window.alert("Game is finish. Your overall score is:"
+								+ scoreOverRound);
+						goToLastPage();
+					}
 				} else {
-					scoreOverRound = round(scoreOverRound,4);
-					Window.alert("Game is finish. Your overall score is:"
-							+ scoreOverRound);
-					goToLastPage();//expIsFinish=true;
+					startNewGame();
 				}
-			}else{
-				startNewGame();
-			}
 			}
 
 		}
@@ -383,19 +384,21 @@ public class GamePanel {
 			b.setEnabled(true);
 		}
 		setTimeToZero();
-		
-	}
-	
-	private void goToLastPage() {
-		SeventhPageFinalQuestionary fq = new SeventhPageFinalQuestionary();
-		fq.loadPage(1,w);
+
 	}
 
-	public void setW(WriterTimeSaver w2) {
-		w= w2;
-		
+	private void goToLastPage() {
+		GameParameter.NumOfExperiment++;
+		GameParameter.FinalScore += scoreOverRound;
+		if (GameParameter.NumOfExperiment == GameParameter.MaxNumOfExperiment) {
+			PageFinalQuestionary fq = new PageFinalQuestionary();
+			fq.loadPage(w);
+		}else if(GameParameter.NumOfExperiment==1){
+			PageSetUp2ndExperiment se = new PageSetUp2ndExperiment(w);
+			se.loadPage();
+		}
 	}
-	
+
 	/**
 	 * 
 	 * @param toRound
@@ -405,27 +408,26 @@ public class GamePanel {
 	 */
 	private double round(double toRound, int digit) {
 
-		boolean isneg=false;
-		if(toRound<0){
-			toRound=toRound*(-1);
-			isneg=true;
+		boolean isneg = false;
+		if (toRound < 0) {
+			toRound = toRound * (-1);
+			isneg = true;
 		}
 		digit++;
 		int digits = (int) Math.pow(10, digit);
 		int valInt = (int) (digits * toRound);
 
-			// to get 0.5 ->1 and 0.4 ->0
-			if (valInt % 10 >= 5) {
-				valInt = valInt + 10;
-			}
-		
+		// to get 0.5 ->1 and 0.4 ->0
+		if (valInt % 10 >= 5) {
+			valInt = valInt + 10;
+		}
 
 		valInt = valInt / 10;
 		digit--;
 		double valDouble = ((double) valInt) / Math.pow(10, digit);
 
-		if(isneg){
-			valDouble=valDouble*(-1);
+		if (isneg) {
+			valDouble = valDouble * (-1);
 		}
 		return valDouble;
 

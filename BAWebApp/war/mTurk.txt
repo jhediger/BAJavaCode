@@ -1,0 +1,4 @@
+
+ userAgent: Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; WOW64; Trident/5.0; NP06)language: de-chnull null null -29.4 Times: 52972 32515 16373 comment:nnnnnnnnnnnnn
+ userAgent: Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; WOW64; Trident/5.0; NP06)language: de-chnull null null -41.1 Times: 73539 49848 34196 comment:neuer Kommentar
+ userAgent: Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; WOW64; Trident/5.0; NP06)language: de-chnull null null -15.8 Times: 342775 101324 42315 comment:

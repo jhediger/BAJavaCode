@@ -45,6 +45,8 @@ public class SecondPageSpammerGenerallyQuestions {
 		final TextBox t_sex = new TextBox();
 		
 		final WriterTimeSaver w= new WriterTimeSaver();
+		
+		w.setTimeOverall();
 	
 		final Button button = new Button("Go to the game instruction");
 		button.setStyleName("startGameButton");

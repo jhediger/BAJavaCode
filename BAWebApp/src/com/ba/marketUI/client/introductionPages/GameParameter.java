@@ -7,7 +7,7 @@ package com.ba.marketUI.client.introductionPages;
  */
 public class GameParameter {
 	
-	//Attention for the second part of the experiment they will be changed in the class ""
+	//Attention for the second part of the experiment they may be changed in the class PageSetUp2ndExperiment
 
 	// fix
 	static Integer TimeSteps = 6;
@@ -30,11 +30,15 @@ public class GameParameter {
 
 	//for the experiment
 	static int RoundsToPlay = 4; //how many games a player has to play
-	
+	public static int NumOfExperiment = 0;
+	public static int MaxNumOfExperiment=2;
+	public static double FinalScore = 0;
+	static boolean InSandbox= true;
 	
 	//fileName
-	static String Worker= "worker";
+	public static String Worker= "worker";
 	static String GameData= "game";
-	static String MTurk= "mTurk";
-
+	public static String MTurk= "mTurk";
+	
+	
 }

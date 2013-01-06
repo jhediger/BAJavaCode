@@ -66,7 +66,7 @@ public class ThirdPageGameInstruction {
 		// to ensure that the screen is not to huge ->because of the iFrame in
 		// Amazone Turk
 		i.setPixelSize(270, 440);
-		i.setUrl("images/numbers2.png");
+		i.setUrl("images/numbersgross.png");
 		
 		final Button button = new Button("Go to test");
 		button.setStyleName("startGameButton");
