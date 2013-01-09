@@ -13,6 +13,7 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 @RemoteServiceRelativePath("comInterface")
 public interface ComClientInterface extends RemoteService {
 	  public void myMethod(String message,String fileName) throws IOException;
+	  public StringBuffer FileReader(String fileName);
 	
 }
 

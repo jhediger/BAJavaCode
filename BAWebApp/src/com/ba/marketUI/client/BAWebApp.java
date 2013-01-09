@@ -1,7 +1,8 @@
 package com.ba.marketUI.client;
 
 
-import com.ba.marketUI.client.introductionPages.FirstPageAcceptTask;
+import com.ba.marketUI.client.pages.FirstPageAcceptTask;
+import com.ba.marketUI.client.pages.FourthPageComprehensionQuestions;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
@@ -23,9 +24,11 @@ public class BAWebApp implements EntryPoint, ValueChangeHandler {
 	 */
 	public void onModuleLoad() {
 
-		FirstPageAcceptTask f = new FirstPageAcceptTask();
-		f.loadPage();
-
+		//FirstPageAcceptTask f = new FirstPageAcceptTask();
+		//f.loadPage();
+		WriterTimeSaver w= new WriterTimeSaver();
+		FourthPageComprehensionQuestions s=new FourthPageComprehensionQuestions(w);
+		s.loadPage();
 	}
 	
 	@Override

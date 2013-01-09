@@ -112,10 +112,7 @@ public class Game {
 
 		values = generateValues();
 		makeValuesNegative();
-		// catProbabilities = generateProbabilities();
-		// this.priceProbabilities = generatePriceProbabilities();
-		// generatePerformanceProfiles();
-		// setLambdaParameters();
+		
 
 		category.add("High"); // 0 is high importance
 		category.add("Medium");
@@ -123,10 +120,6 @@ public class Game {
 
 		prices = generatePrices();
 
-		// catProbabilities = generateProbabilities();
-		// this.priceProbabilities = generatePriceProbabilities();
-		// generatePerformanceProfiles();
-		// setLambdaParameters();
 	}
 
 	private void initialGame() {
@@ -359,51 +352,51 @@ public class Game {
 		if (!changingChoices) {
 			for (int c = 0; c < this.numCategories; c++) {
 				if (this.numPriceLevels == 1) {
-					switch (numOptions) {
+					switch (numOptions) {// fix prices, fixed choices, rational opt (7.1.2012)
 					case 2:
-						newSpeeds[c] = new double[] { 500, 0 };
+						newSpeeds[c] = new double[] { 100, 0 };
 						break;
 
 					case 3:
-						newSpeeds[c] = new double[] { 300, 200, 0 };
+						newSpeeds[c] = new double[] { 1000, 100, 0 };
 						break;
 
 					case 4:
-						newSpeeds[c] = new double[] { 400, 200, 100, 0 };
+						newSpeeds[c] = new double[] { 1000, 900, 100, 0 };
 						break;
 
 					case 5:
-						newSpeeds[c] = new double[] { 400, 300, 200, 100, 0 };
+						newSpeeds[c] = new double[] { 1000, 900, 200, 100, 0 };
 						break;
 
 					case 6:
-						newSpeeds[c] = new double[] { 500, 400, 300, 200, 100,
+						newSpeeds[c] = new double[] { 1000, 900, 300, 200, 100,
 								0 };
 						break;
 					}
-				} else {// changing prices, fixed choices,
+				} else {// changing prices, fixed choices, rational opt (7.1.2012)
 					if (!this.reOptimized) {
 
 						switch (numOptions) {
 						case 2:
-							newSpeeds[c] = new double[] { 100, 0 };
+							newSpeeds[c] = new double[] { 1000, 0 };
 							break;
 
 						case 3:
-							newSpeeds[c] = new double[] { 300, 200, 0 };
+							newSpeeds[c] = new double[] { 1000, 300, 0 };
 							break;
 
 						case 4:
-							newSpeeds[c] = new double[] { 900, 300, 100, 0 }; // this
+							newSpeeds[c] = new double[] { 1000, 500, 300, 0 }; // this
 																				// one!
 							break;
 
 						case 5:
-							newSpeeds[c] = new double[] { 400, 300, 200, 100, 0 };
+							newSpeeds[c] = new double[] { 1000, 900, 500, 300, 0 };
 							break;
 
 						case 6:
-							newSpeeds[c] = new double[] { 500, 400, 300, 200,
+							newSpeeds[c] = new double[] { 1000, 900, 500, 300,
 									100, 0 };
 							break;
 						}
@@ -436,7 +429,9 @@ public class Game {
 					}
 				}// end changing prices
 			}
-		} else {// changing choices
+		} 
+		//no speeds computed for changing choices...not used....
+		/*else {// changing choices
 			if (!this.reOptimized) {
 				switch (numOptions) {
 				case 2:
@@ -502,7 +497,7 @@ public class Game {
 					break;
 				}
 			}
-		}
+		}*/
 		return newSpeeds;
 	}
 
@@ -606,4 +601,43 @@ public class Game {
 		list.add(currentPriceLevel);
 		return list;
 	}
+	
+	public Game(int numCategories, int numOptions, int numPriceLevels,
+			int maxBudget, int valueVariation, boolean negativeValues,
+			boolean reOptimized, double[][] speeds,
+			int timeSteps) {
+		rand = new Random();
+		this.maxRounds = timeSteps;
+		this.numCategories = numCategories;
+		this.numOptions = numOptions;
+		this.numPriceLevels = numPriceLevels;
+		this.maxBudget = maxBudget;
+		this.numValueVariations = valueVariation;
+		this.negativeValues = negativeValues;
+		this.reOptimized = reOptimized;
+
+		initialGame();
+
+		this.maxSpeed = 1000;
+		this.speeds = speeds;
+
+		values = generateValues();
+		makeValuesNegative();
+		// catProbabilities = generateProbabilities();
+		// this.priceProbabilities = generatePriceProbabilities();
+		// generatePerformanceProfiles();
+		// setLambdaParameters();
+
+		category.add("High"); // 0 is high importance
+		category.add("Medium");
+		category.add("Low");
+
+		prices = generatePrices();
+
+		// catProbabilities = generateProbabilities();
+		// this.priceProbabilities = generatePriceProbabilities();
+		// generatePerformanceProfiles();
+		// setLambdaParameters();
+	}
+
 }

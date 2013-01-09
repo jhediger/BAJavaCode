@@ -7,7 +7,7 @@ import java.util.Enumeration;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import com.ba.marketUI.client.ComClientInterface;
-import com.ba.marketUI.client.introductionPages.GameParameter;
+import com.ba.marketUI.client.pages.GameParameter;
 /**
  * 
  * @author Jessica Hediger
@@ -74,5 +74,25 @@ public class ComServerInterface extends RemoteServiceServlet implements
 		}
 		return html.replaceAll("&", "&amp;").replaceAll("<", "&lt;")
 				.replaceAll(">", "&gt;");
+	}
+	
+	
+	public StringBuffer FileReader(String fileName){
+		StringBuffer datei = new StringBuffer();
+		try {
+			String s = null;
+			java.io.BufferedReader in = new java.io.BufferedReader(new java.io.FileReader(fileName));
+			while ((s = in.readLine()) != null) {
+				datei.append(s).append(
+						in.readLine() + System.getProperty("line.separator"));
+			}
+			in.close();
+
+		} catch (java.io.FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return datei;
 	}
 }
