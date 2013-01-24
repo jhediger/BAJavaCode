@@ -16,7 +16,8 @@ public class ComputeLamdba implements Calcfc {
 	// To get the computed Q-values
 	private ComClientInterfaceAsync dataStoreService = (ComClientInterfaceAsync) GWT
 			.create(ComClientInterface.class);
-	static StringBuffer datei = new StringBuffer();
+	
+    private String datei;
 
 	// FIELDS
 	private static double rhobeg = 0.1; // stepp of variable
@@ -26,9 +27,9 @@ public class ComputeLamdba implements Calcfc {
 	private static double[] x = { 20.0 }; // startValue
 
 	public ComputeLamdba(WriterTimeSaver w) {
+		
 		String m = w.getMessage(GameParameter.GameData);
 
-		readFromFile();
 		double lambda = computeLabmda(generateData(m));
 
 		// depending on lambda choose one speed
@@ -57,23 +58,50 @@ public class ComputeLamdba implements Calcfc {
 
 	}
 
-	private void readFromFile() {
-		dataStoreService.FileReader(GameParameter.FileNameForInput,
-				new AsyncCallback<StringBuffer>() {
+	private void readFromFile() throws IOException {
+		dataStoreService.myMethod(true, "", GameParameter.FileNameForInput, 
+				new AsyncCallback<String>() {
 
 					@Override
 					public void onFailure(Throwable caught) {
-
+						datei = "onFailure";
 					}
 
 					@Override
-					public void onSuccess(StringBuffer result) {
+					public void onSuccess(String result) {
 						datei = result;
 					}
 
 				});
 
 	}
+	
+	public void writeToFile() throws IOException{
+				try {
+					dataStoreService.myMethod(false,"u","gzzg",
+							new AsyncCallback<String>() {
+
+								@Override
+								public void onFailure(Throwable caught) {
+									 Window.alert("RPC failed.");
+
+								}
+
+								@Override
+								public void onSuccess(String result) {
+									Window.alert("RPC to sendEmail() succed.");
+
+								}
+
+							});
+				} catch (IOException e) {
+					 Window.alert("IOE");
+					// e.printStackTrace();
+				}
+			
+		
+	}
+
 
 	private double computeLabmda(ArrayList<ArrayList<Integer>> generateData) {
 		computeMaxLabda(generateData);
@@ -82,7 +110,7 @@ public class ComputeLamdba implements Calcfc {
 
 	private ArrayList<ArrayList<Integer>> generateData(String m) {
 		ArrayList<ArrayList<Integer>> data = new ArrayList<ArrayList<Integer>>();
-
+		String t= datei;
 		int startposition = m.indexOf("data", 0) + "data[".length();
 		while (startposition > 10) {
 			int round = 0;
@@ -188,7 +216,7 @@ public class ComputeLamdba implements Calcfc {
 
 		ArrayList<ArrayList<Double>> list = new ArrayList<ArrayList<Double>>();
 
-		int startposition = datei.indexOf(code) + code.length() + 2;
+	/*	int startposition = datei.indexOf(code) + code.length() + 2;
 
 		for (int i = 0; i <GameParameter.NumOptions; i++) {
 			ArrayList<Double> pairs = new ArrayList<Double>();
@@ -202,8 +230,8 @@ public class ComputeLamdba implements Calcfc {
 			startposition = datei.indexOf("[", startposition + 2);
 			list.add(pairs);
 		}
-
-		return list;
+*/
+		return null;
 
 	}
 

@@ -198,7 +198,7 @@ public class Cobyla
         double[] dx = new double[1 + n];
         double[] w = new double[1 + n];
 
-        if (iprint >= 2) System.out.format("%nThe initial value of RHO is %13.6f and PARMU is set to zero.%n", rho);
+        if (iprint >= 2) {}//System.out.format("%nThe initial value of RHO is %13.6f and PARMU is set to zero.%n", rho);
 
         int nfvals = 0;
         double temp = 1.0 / rho;
@@ -501,7 +501,7 @@ public class Cobyla
                         if (parmu < 1.5 * barmu)
                         {
                             parmu = 2.0 * barmu;
-                            if (iprint >= 2) System.out.format("%nIncrease in PARMU to %13.6f%n", parmu);
+                            if (iprint >= 2){}// System.out.format("%nIncrease in PARMU to %13.6f%n", parmu);
                             double phi = datmat[mp][np] + parmu * datmat[mpp][np];
                             for (int j = 1; j <= n; ++j)
                             {
@@ -643,7 +643,7 @@ public class Cobyla
                     }
                 }
                 if (iprint >= 2)
-                    System.out.format("%nReduction in RHO to %1$13.6f  and PARMU = %2$13.6f%n", rho, parmu);
+                {}// System.out.format("%nReduction in RHO to %1$13.6f  and PARMU = %2$13.6f%n", rho, parmu);
                 if (iprint == 2) 
                     PrintIterationResult(nfvals, datmat[mp][np], datmat[mpp][np], COL(sim, np), n);
 
@@ -657,7 +657,7 @@ public class Cobyla
         switch (status)
         {
             case Normal:
-                if (iprint >= 1) System.out.format("%nNormal return from subroutine COBYLA%n");
+                if (iprint >= 1){}// System.out.format("%nNormal return from subroutine COBYLA%n");
                 if (ifull)
                 {
                     if (iprint >= 1) PrintIterationResult(nfvals, f, resmax, x, n);
@@ -666,11 +666,11 @@ public class Cobyla
                 break;
             case MaxIterationsReached:
                 if (iprint >= 1)
-                    System.out.format("%nReturn from subroutine COBYLA because the MAXFUN limit has been reached.%n");
+                {}//System.out.format("%nReturn from subroutine COBYLA because the MAXFUN limit has been reached.%n");
                 break;
             case DivergingRoundingErrors:
                 if (iprint >= 1)
-                    System.out.format("%nReturn from subroutine COBYLA because rounding errors are becoming damaging.%n");
+                {}// System.out.format("%nReturn from subroutine COBYLA because rounding errors are becoming damaging.%n");
                 break;
         }
         
@@ -1209,8 +1209,8 @@ public class Cobyla
         
     private static void PrintIterationResult(int nfvals, double f, double resmax, double[] x, int n)
     {
-        System.out.format("%nNFVALS = %1$5d   F = %2$13.6f    MAXCV = %3$13.6e%n", nfvals, f, resmax);
-        System.out.format("X = %s%n", FORMAT(PART(x, 1, n)));
+    	{}// System.out.format("%nNFVALS = %1$5d   F = %2$13.6f    MAXCV = %3$13.6e%n", nfvals, f, resmax);
+    	{}// System.out.format("X = %s%n", FORMAT(PART(x, 1, n)));
     }
 
     private static double[] ROW(double[][] src, int rowidx)
@@ -1239,8 +1239,8 @@ public class Cobyla
 
     private static String FORMAT(double[] x)
     {
-        String fmt = "";
-        for (int i = 0; i < x.length; ++i) fmt = fmt + String.format("%13.6f", x[i]);
+        String fmt = "";//TODO this function is not possible in GWT
+        for (int i = 0; i < x.length; ++i) fmt = fmt + x[i];//String.format("%13.6f", x[i]);
         return fmt;
     }
 

@@ -1,0 +1,25 @@
+
+GameInfo: pL|VV|NumOption|maxTimePerRound|timeSteps|cat|changingChoices|reOptimized|negValue initialData: 3 3 3 10 3  6 0 0 0val[[[3.1, 2.5, 3.7], [1.7, 1.3, 1.3], [0.0, 0.0, 0.0]], [[2.2, 2.1, 2.3], [1.2, 0.6, 1.1], [0.0, 0.0, 0.0]], [[1.3, 1.2, 1.5], [0.7, 0.4, 0.4], [0.0, 0.0, 0.0]]] price [[[10, 3, 0], [10, 3, 0], [10, 3, 0]], [[20, 6, 0], [20, 6, 0], [20, 6, 0]], [[30, 9, 0], [30, 9, 0], [30, 9, 0]]]
+GameInfo: nnnnmcurrentRound|budgetLeft|currentCategory|currentValueVariation|currentPriceLevel  data[0, 30, 1, 1, 0, 3]rounds: 0 0 budget30 0.0 values:2.1 0.6 0.0 prices:10 3 0 speeds:1000.0 300.0 0.0  option:0
+GameInfo: nnnnmcurrentRound|budgetLeft|currentCategory|currentValueVariation|currentPriceLevel  data[1, 20, 2, 2, 2, 3]rounds: 1 1 budget20 2.1 values:1.5 0.4 0.0 prices:30 9 0 speeds:1000.0 300.0 0.0  option:1
+GameInfo: nnnnmcurrentRound|budgetLeft|currentCategory|currentValueVariation|currentPriceLevel  data[2, 11, 2, 0, 2, 3]rounds: 2 1 budget11 2.5 values:1.3 0.7 0.0 prices:30 9 0 speeds:1000.0 300.0 0.0  option:2
+GameInfo: nnnnmcurrentRound|budgetLeft|currentCategory|currentValueVariation|currentPriceLevel  data[3, 11, 1, 1, 0, 3]rounds: 3 1 budget11 2.5 values:2.1 0.6 0.0 prices:10 3 0 speeds:1000.0 300.0 0.0  option:2
+GameInfo: nnnnmcurrentRound|budgetLeft|currentCategory|currentValueVariation|currentPriceLevel  data[4, 11, 2, 1, 1, 3]rounds: 4 1 budget11 2.5 values:1.2 0.4 0.0 prices:20 6 0 speeds:1000.0 300.0 0.0  option:2
+GameInfo: nnnnmcurrentRound|budgetLeft|currentCategory|currentValueVariation|currentPriceLevel  data[5, 11, 1, 0, 0, 3]rounds: 5 2 budget11 2.5 values:2.2 1.2 0.0 prices:10 3 0 speeds:1000.0 300.0 0.0  option:2
+GameInfo: nnnnmfinalResult: 19 2.5 
+GameInfo: nnnnmExperiment part are over, #buttons: 3
+GameInfo: nnnnmpL|VV|NumOption|maxTimePerRound|timeSteps|cat|changingChoices|reOptimized|negValue initialData: 3 3 4 10 3  6 0 0 0val[[[3.1, 2.5, 3.7], [2.2, 1.6, 2.1], [1.7, 1.3, 1.3], [0.0, 0.0, 0.0]], [[2.2, 2.1, 2.3], [1.6, 1.3, 1.3], [1.2, 0.6, 1.1], [0.0, 0.0, 0.0]], [[1.3, 1.2, 1.5], [0.9, 0.5, 1.0], [0.7, 0.4, 0.4], [0.0, 0.0, 0.0]]] price [[[10, 5, 3, 0], [10, 5, 3, 0], [10, 5, 3, 0]], [[20, 10, 6, 0], [20, 10, 6, 0], [20, 10, 6, 0]], [[30, 15, 9, 0], [30, 15, 9, 0], [30, 15, 9, 0]]]
+GameInfo: nnnnmcurrentRound|budgetLeft|currentCategory|currentValueVariation|currentPriceLevel  data[0, 30, 1, 0, 0, 4]rounds: 0 0 budget30 0.0 values:2.2 1.6 1.2 0.0 prices:10 5 3 0 speeds:1000.0 500.0 300.0 0.0  option:1
+GameInfo: nnnnmcurrentRound|budgetLeft|currentCategory|currentValueVariation|currentPriceLevel  data[1, 25, 0, 2, 0, 4]rounds: 1 0 budget25 1.6 values:3.7 2.1 1.3 0.0 prices:10 5 3 0 speeds:1000.0 500.0 300.0 0.0  option:1
+GameInfo: nnnnmcurrentRound|budgetLeft|currentCategory|currentValueVariation|currentPriceLevel  data[2, 20, 0, 2, 1, 4]rounds: 2 0 budget20 3.7 values:3.7 2.1 1.3 0.0 prices:20 10 6 0 speeds:1000.0 500.0 300.0 0.0  option:1
+GameInfo: nnnnmcurrentRound|budgetLeft|currentCategory|currentValueVariation|currentPriceLevel  data[3, 10, 2, 2, 1, 4]rounds: 3 1 budget10 5.8 values:1.5 1.0 0.4 0.0 prices:20 10 6 0 speeds:1000.0 500.0 300.0 0.0  option:1
+GameInfo: nnnnmcurrentRound|budgetLeft|currentCategory|currentValueVariation|currentPriceLevel  data[5, 0, 0, 2, 1, 4]rounds: 5 11 budget0 6.8 values:3.7 2.1 1.3 0.0 prices:20 10 6 0 speeds:1000.0 500.0 300.0 0.0  option:3
+GameInfo: nnnnmfinalResult: 30 6.8 
+GameInfo: nnnnmcurrentRound|budgetLeft|currentCategory|currentValueVariation|currentPriceLevel  data[0, 30, 0, 2, 2, 4]rounds: 0 12 budget30 0.0 values:3.7 2.1 1.3 0.0 prices:30 15 9 0 speeds:1000.0 500.0 300.0 0.0  option:3
+GameInfo: nnnnmcurrentRound|budgetLeft|currentCategory|currentValueVariation|currentPriceLevel  data[1, 30, 2, 1, 0, 4]rounds: 1 13 budget30 0.0 values:1.2 0.5 0.4 0.0 prices:10 5 3 0 speeds:1000.0 500.0 300.0 0.0  option:3
+GameInfo: nnnnmcurrentRound|budgetLeft|currentCategory|currentValueVariation|currentPriceLevel  data[2, 30, 1, 1, 2, 4]rounds: 2 14 budget30 0.0 values:2.1 1.3 0.6 0.0 prices:30 15 9 0 speeds:1000.0 500.0 300.0 0.0  option:3
+GameInfo: nnnnmcurrentRound|budgetLeft|currentCategory|currentValueVariation|currentPriceLevel  data[3, 30, 0, 1, 2, 4]rounds: 3 11 budget30 0.0 values:2.5 1.6 1.3 0.0 prices:30 15 9 0 speeds:1000.0 500.0 300.0 0.0  option:3
+GameInfo: nnnnmcurrentRound|budgetLeft|currentCategory|currentValueVariation|currentPriceLevel  data[4, 30, 1, 0, 1, 4]rounds: 4 15 budget30 0.0 values:2.2 1.6 1.2 0.0 prices:20 10 6 0 speeds:1000.0 500.0 300.0 0.0  option:3
+GameInfo: nnnnmcurrentRound|budgetLeft|currentCategory|currentValueVariation|currentPriceLevel  data[5, 30, 2, 0, 0, 4]rounds: 5 12 budget30 0.0 values:1.3 0.9 0.7 0.0 prices:10 5 3 0 speeds:1000.0 500.0 300.0 0.0  option:3
+GameInfo: nnnnmfinalResult: 0 0.0 
+GameInfo: nnnnmExperiment part are over, #buttons: 

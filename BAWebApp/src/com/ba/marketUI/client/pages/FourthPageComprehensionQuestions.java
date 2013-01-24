@@ -1,7 +1,13 @@
 package com.ba.marketUI.client.pages;
 
+import java.io.IOException;
+
+import com.ba.marketUI.client.ComClientInterface;
+import com.ba.marketUI.client.ComClientInterfaceAsync;
 import com.ba.marketUI.client.WriterTimeSaver;
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.ClickListener;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -17,6 +23,12 @@ import com.google.gwt.user.client.ui.Widget;
 public class FourthPageComprehensionQuestions {
 
 	private WriterTimeSaver w;
+	// To get the computed Q-values
+		private ComClientInterfaceAsync dataStoreService = (ComClientInterfaceAsync) GWT
+				.create(ComClientInterface.class);
+		
+	    private String datei;
+
 
 	public FourthPageComprehensionQuestions(WriterTimeSaver w) {
 		this.w = w;
@@ -105,6 +117,20 @@ public class FourthPageComprehensionQuestions {
 		i.setPixelSize(280, 450);
 		i.setUrl("images/lastround.png");
 
+		try {
+			writeToFile();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		try {
+			readFromFile();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		String test= datei;
+		
 		final Button button1 = new Button("Go back to the instructions");
 		button1.setStyleName("startGameButton");
 
@@ -155,4 +181,49 @@ public class FourthPageComprehensionQuestions {
 		g.loadPage();
 	}
 
+	private void readFromFile() throws IOException {
+		dataStoreService.myMethod(true, "", GameParameter.FileNameForInput, 
+				new AsyncCallback<String>() {
+
+					@Override
+					public void onFailure(Throwable caught) {
+						Window.alert("RPC failed.");
+						datei = "onFailure";
+					}
+
+					@Override
+					public void onSuccess(String result) {
+						Window.alert("RPC to sendEmail() succed."+result);
+						datei = result;
+					}
+
+				});
+
+	}
+	
+	public void writeToFile() throws IOException{
+				try {
+					dataStoreService.myMethod(false,"u","gzzg",
+							new AsyncCallback<String>() {
+
+								@Override
+								public void onFailure(Throwable caught) {
+									 Window.alert("RPC failed.");
+
+								}
+
+								@Override
+								public void onSuccess(String result) {
+									Window.alert("RPC to sendEmail() succed.");
+
+								}
+
+							});
+				} catch (IOException e) {
+					 Window.alert("IOE");
+					// e.printStackTrace();
+				}
+			
+		
+	}
 }

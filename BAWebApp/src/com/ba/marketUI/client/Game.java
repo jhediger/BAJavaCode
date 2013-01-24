@@ -599,6 +599,7 @@ public class Game {
 		list.add(currentCategory);
 		list.add(currentValueVariation);
 		list.add(currentPriceLevel);
+		list.add(numOptions);
 		return list;
 	}
 	

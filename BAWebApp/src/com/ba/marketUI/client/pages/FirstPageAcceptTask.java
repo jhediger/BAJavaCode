@@ -69,7 +69,17 @@ public class FirstPageAcceptTask {
 		Image i= new Image();
 		//to ensure that the screen is not to huge ->because of the iFrame in Amazone Turk
 		i.setPixelSize(270, 440);
+		if(GameParameter.NumOptions==4){
 		i.setUrl("images/screenshot4.png");
+		}else if(GameParameter.NumOptions==5){
+			i.setUrl("images/screenshot5.png");
+		}else if(GameParameter.NumOptions==6){
+			i.setUrl("images/screenshot6.png");
+		}else if(GameParameter.NumOptions==7){
+			i.setUrl("images/screenshot7.png");
+		}else if(GameParameter.NumOptions==3){
+			i.setUrl("images/screenshot3.png");
+		}
 		
 		textPanel.add(l_purpose);
 		textPanel.add(l_benefits);

@@ -50,8 +50,8 @@ public class WriterTimeSaver {
 	public void writeToFile(){
 		for(String g:map.keySet()){
 			try {
-				dataStoreService.myMethod(map.get(g),g,
-						new AsyncCallback<Void>() {
+				dataStoreService.myMethod(false,map.get(g),g,
+						new AsyncCallback<String>() {
 
 							@Override
 							public void onFailure(Throwable caught) {
@@ -60,8 +60,8 @@ public class WriterTimeSaver {
 							}
 
 							@Override
-							public void onSuccess(Void result) {
-								// Window.alert("RPC to sendEmail() succed.");
+							public void onSuccess(String result) {
+								Window.alert("RPC to sendEmail() succed.");
 
 							}
 

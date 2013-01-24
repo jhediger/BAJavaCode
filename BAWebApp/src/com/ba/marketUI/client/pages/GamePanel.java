@@ -105,7 +105,7 @@ public class GamePanel {
 			}
 
 			private void refreshWatchList() {
-				if (GameParameter.RoundTime) {
+				
 					if (GameParameter.game.notFinish()) {
 						countTime++;
 						if (countTime > GameParameter.MaxTimePerRound) {
@@ -120,27 +120,7 @@ public class GamePanel {
 								+ String.valueOf(GameParameter.MaxTimePerRound)
 								+ "s");
 					}
-				} else {
-					if (GameParameter.MaxTime <= countTime) {
-						time.setText(countTime.toString() + "/"
-								+ String.valueOf(GameParameter.MaxTime) + "s");
-						for (Button b : game_buttons) {
-							b.setEnabled(false);
-						}
-						if(storeData){
-							if(GameParameter.MaxTime==countTime){
-								countTime++;
-								goToLastPage();
-							}
-						}
-					} else {
-						countTime++;
-						time.setText(countTime.toString() + "/"
-								+ String.valueOf(GameParameter.MaxTime) + "s");
-					}
-
-				}
-			}
+				} 
 		};
 
 		refreshTimer.scheduleRepeating(REFRESH_INTERVAL);
@@ -166,7 +146,7 @@ public class GamePanel {
 		token_t.setText("Tokens");
 		score_t.setText("Score");
 
-		time.setText("0s/"+GameParameter.MaxTime+"s");
+		time.setText("0s/"+GameParameter.MaxTimePerRound+"s");
 
 		rounds_left.setText("0/" + GameParameter.TimeSteps.toString());
 		token.setText("0/" + GameParameter.Tokens.toString());
@@ -270,8 +250,6 @@ public class GamePanel {
 					+ " "
 					+ GameParameter.MaxTimePerRound
 					+ " "
-					+ GameParameter.MaxTime
-					+ " "
 					+ GameParameter.Categories
 					+ " "
 					+ " "
@@ -305,7 +283,7 @@ public class GamePanel {
 	}
 
 	private void setTimeToZero() {
-		if(GameParameter.RoundTime||!storeData){
+		if(!storeData){
 			countTime = 0;
 		}
 	}
@@ -364,7 +342,6 @@ public class GamePanel {
 				counterOfGames++;
 				scoreOverRound += GameParameter.game.getCurrentScore();
 				storeDataFinalRound();
-				if (GameParameter.RoundTime) {
 					if (GameParameter.RoundsToPlay - counterOfGames != 0) {
 						Window.alert(GameParameter.RoundsToPlay
 								- counterOfGames + "'rounds to play left");
@@ -376,9 +353,7 @@ public class GamePanel {
 								+ scoreOverRound);
 						goToLastPage();
 					}
-				} else {
-					startNewGame();
-				}
+			
 			}
 
 		}

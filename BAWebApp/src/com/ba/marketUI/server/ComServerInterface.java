@@ -8,47 +8,56 @@ import java.util.Enumeration;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import com.ba.marketUI.client.ComClientInterface;
 import com.ba.marketUI.client.pages.GameParameter;
+
 /**
  * 
  * @author Jessica Hediger
- *
+ * 
  */
 @SuppressWarnings("serial")
 public class ComServerInterface extends RemoteServiceServlet implements
-		ComClientInterface {
+		ComClientInterface{
 
-	public void myMethod(String message, String fileName) throws IOException {
+	public String myMethod(Boolean read, String message, String fileName) throws IOException {
+		if(read){
+			return FileReader(fileName);
+		}else{
+			Writer(message,fileName);
+			return "";
+		}
 		
-		message= escapeHtml(message);
+	}
+
+	private void Writer(String message, String fileName) throws IOException {
+		message = escapeHtml(message);
 		// Do something interesting with 's' here on the server.
-		if(fileName.equals(GameParameter.Worker)||fileName.equals(GameParameter.MTurk)){
+		if (fileName.equals(GameParameter.Worker)
+				|| fileName.equals(GameParameter.MTurk)) {
 			String userAgent = getThreadLocalRequest().getHeader("User-Agent");
 			userAgent = userAgent + "language: "
 					+ getThreadLocalRequest().getHeader("accept-language");
 			userAgent = escapeHtml(userAgent);
-			w(message, " userAgent: "+userAgent, fileName);
+			w(message, " userAgent: " + userAgent, fileName);
 		}
-		
-		int i=0;
-		while(message.indexOf("nnnnm", i)!=-1){
-			int end= 0;
-			if(message.indexOf("nnnnm",i+4)==-1){
-				end=message.length()-1;
-			}else{
-				end= message.indexOf("nnnnm",i+4);
+		int i = 0;
+		while (message.indexOf("nnnnm", i) != -1) {
+			int end = 0;
+			if (message.indexOf("nnnnm", i + 4) == -1) {
+				end = message.length() - 1;
+			} else {
+				end = message.indexOf("nnnnm", i + 4);
 			}
-			w("GameInfo: "+message.substring(i,end),"",fileName);
-			i= end;
+			w("GameInfo: " + message.substring(i, end), "", fileName);
+			i = end;
 		}
-	
-
 		return;
 	}
 
-	public void w(String i, String userAgent, String fileName) throws IOException {
+	public void w(String i, String userAgent, String fileName)
+			throws IOException {
 		try {
-			BufferedWriter out = new BufferedWriter(new FileWriter(fileName
-					 + ".txt", true));
+			BufferedWriter out = new BufferedWriter(new FileWriter(
+					"outputFiles/" + fileName + ".txt", true));
 			out.newLine();
 			out.write(userAgent + i);
 			out.close();
@@ -75,13 +84,13 @@ public class ComServerInterface extends RemoteServiceServlet implements
 		return html.replaceAll("&", "&amp;").replaceAll("<", "&lt;")
 				.replaceAll(">", "&gt;");
 	}
-	
-	
-	public StringBuffer FileReader(String fileName){
+
+	public String FileReader(String fileName) {
 		StringBuffer datei = new StringBuffer();
 		try {
 			String s = null;
-			java.io.BufferedReader in = new java.io.BufferedReader(new java.io.FileReader(fileName));
+			java.io.BufferedReader in = new java.io.BufferedReader(
+					new java.io.FileReader("inputFiles/" + fileName));
 			while ((s = in.readLine()) != null) {
 				datei.append(s).append(
 						in.readLine() + System.getProperty("line.separator"));
@@ -93,6 +102,10 @@ public class ComServerInterface extends RemoteServiceServlet implements
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		return datei;
+		String t = datei.substring(0, datei.length());
+		if (t == null) {
+			return "fehler";
+		}
+		return t;
 	}
 }

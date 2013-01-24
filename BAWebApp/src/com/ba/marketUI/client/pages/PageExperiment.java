@@ -1,6 +1,7 @@
 package com.ba.marketUI.client.pages;
 
 
+import com.ba.marketUI.client.ComputeLamdba;
 import com.ba.marketUI.client.WriterTimeSaver;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.RootPanel;
@@ -15,6 +16,9 @@ public class PageExperiment {
 	}
 
 	public void loadPage() {
+		
+			ComputeLamdba d= new ComputeLamdba(w);
+			
 	
 			final GamePanel g = new GamePanel(true,w);
 			HorizontalPanel p = new HorizontalPanel();
