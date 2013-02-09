@@ -1,5 +1,6 @@
 package com.ba.marketUI.client.pages;
 
+import com.ba.marketUI.client.WriterTimeSaver;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.ClickListener;
@@ -11,6 +12,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 public class FirstPageAcceptTask {
+	WriterTimeSaver w = new WriterTimeSaver();
 
 	@SuppressWarnings("deprecation")
 	public void loadPage() {
@@ -18,16 +20,19 @@ public class FirstPageAcceptTask {
 		final HorizontalPanel horizontalPanel = new HorizontalPanel();
 		final VerticalPanel textPanel = new VerticalPanel();
 		final VerticalPanel textPanelLeft = new VerticalPanel();
+		
+		w.setInputParameter();
 
 		String titel = "3G Bandwith Game";
-		String text1 = "Hi, we are from the University of Zurich and we would like to conduct a research about a market user interface design. During the main part of our research you have to play a few rounds of a short easy game.";
-		String purpose = "Purpose of research study: We want to analyse the behaviour of the participants in a new market environment. Thus, we want to gain a better understanding of how a user interface can affect the quality of decisions. ";
-	    String benefits = "Benefits: The overall goal is to gather information which leads to a better understanding of how people act in new market situations. Furthermore, we want to improve our market user interface for advance researches.";
-	    String participation = "Voluntary participation: You can stop the participation at any time by clicking the \"Return HIT\" button.";
-	    String endpart = "We may end or reject your participation if: You are not following the instructions or if your time needed significantly deviates from the mean.";
-	    String conf = "Confidentiality: All the given answers are treated anonym.";
-	    String quest = "Questions/concerns: If you have any concerns or questions please feel free to contact Jessica Hediger (jessica.hediger@uzh.ch)";
-		String text2= "If you are interested please click on the \"accept HIT\" button and after that the \"Go to study\" button to start the research.";
+		String text1 = "This is a study from the  University of Zurich about a market user interface design. In the main part of the study you will have to play a few rounds of a short easy game.";
+		String bonus = "Important: We pay a high bonus depending on your final game score.";
+		String purpose = "Purpose of the study: We want to analyse the behaviour of participants in a hypothetical market environment.";
+	    String benefits = "Benefits: The overall goal is to gather information which leads to a better understanding of how people act in new market situations. Furthermore, we want to improve our market user interface for further research studies.";
+	    String participation = "Voluntary participation: You may stop the participation at any time by clicking the \"Return HIT\" button. ";
+	    String endpart = "We may end or reject your participation if you are not following the instructions or if your decision time needed significantly deviates from the mean.";
+	    String conf = "Confidentiality: All the given answers are treated anonymously.";
+	    String quest = "Questions/concerns: If you have any concerns or questions please feel free to contact Jessica Hediger (jessica.hediger@uzh.ch).";
+		String text2= "If you are interested to participate in the study please click on the \"accept HIT\" button and after that the \"Go to study\" button to start the questionnaire.  ";
 		
 	    final Button button = new Button("Go to study");
 		button.setStyleName("startGameButton");
@@ -47,6 +52,7 @@ public class FirstPageAcceptTask {
 		
 		Label ti = new Label(titel);
 		Label l_text1= new Label(text1);
+		Label l_bonus= new Label(bonus);
 		Label l_purpose= new Label(purpose);
 		Label l_benefits= new Label(benefits);
 		Label l_participation= new Label(participation);
@@ -56,7 +62,8 @@ public class FirstPageAcceptTask {
 		Label l_text2= new Label(text2);
 		
 		ti.addStyleName("titel");
-
+		l_bonus.addStyleName("titel");
+		
 		l_text1.addStyleName("textintro");
 		l_purpose.addStyleName("textintro");
 		l_benefits.addStyleName("textintro");
@@ -68,6 +75,10 @@ public class FirstPageAcceptTask {
 		
 		Image i= new Image();
 		//to ensure that the screen is not to huge ->because of the iFrame in Amazone Turk
+		if(GameParameter.NumOptions==0){
+			GameParameter.NumOptions=4;
+		}
+		
 		i.setPixelSize(270, 440);
 		if(GameParameter.NumOptions==4){
 		i.setUrl("images/screenshot4.png");
@@ -89,6 +100,7 @@ public class FirstPageAcceptTask {
 		textPanel.add(l_quest);
 	
 		textPanelLeft.add(l_text1);
+		textPanelLeft.add(l_bonus);
 		textPanelLeft.add(l_text2);
 				
 		welcomePanel.add(ti);
@@ -110,6 +122,7 @@ public class FirstPageAcceptTask {
 	}
 	
 	private void initialGameLayout(){
+		
 		SecondPageSpammerGenerallyQuestions g = new SecondPageSpammerGenerallyQuestions();
 		g.loadPage();
 	}

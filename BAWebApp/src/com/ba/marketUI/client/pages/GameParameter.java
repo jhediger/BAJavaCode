@@ -1,6 +1,7 @@
 package com.ba.marketUI.client.pages;
 
 import com.ba.marketUI.client.Game;
+import com.google.gwt.user.client.Window;
 
 /**
  * Parameters to initial games
@@ -16,35 +17,49 @@ public class GameParameter {
 	static boolean NegativeValues = false;
 	static boolean ChangingChoices = false; // if we have different choice sets
 											// depending on the categories
-	
-
-	// variable
 	static int NumPriceLevels = 3;// num of different prices
 	static int ValueVariation = 3;
-	public static int NumOptions = 4; // to decide how many buttons the game has
-	
 	static int MaxTimePerRound = 10;
-
+	
+	// variable, please change the startParameter-file in the folder inputFiles
+	public static int NumOptions; // to decide how many buttons the game has
+	//behavioral optimization experiment
+	public static boolean ReOptimized; // if the user interface is optimized
+	// depending on a lambda
+	public static boolean ComputeLambda; 
+	public static double[][] Speeds= null;
+	
 	// for the experiment
-	static int NumOfTestRounds = 0;
-	//static int RoundsToPlay = 1; // how many games a player has to play
-	public static int NumOfExperiment = 0;
-	public static int MaxNumOfExperiment = 2;
-	public static double FinalScore = 0;
+	static int NumOfTestRounds = 4;
+	public static int NumOfExpGames = 0;
+	public static int MaxNumOfExpGames = 8;
+	//public static double FinalScore = 0;
+	public static double Score = 0;
 	static boolean InSandbox = true;
 	public static Game game;
 
-	//behavioral optimization experiment
-	static boolean ReOptimized = false; // if the user interface is optimized
-	// depending on a lambda
-	//public static boolean BehavioralOptimizationExperiment = false;
-	public static double[][] Speeds;
-	public static final String FileNameForInput = getFileName(NumOptions);
-	
+
 	// fileName
+	public static final String FileNameForInput = getFileName(NumOptions);
+	public static final String FileNameForInputParameter = "startParameter.txt";
+	
+		
 	public static String Worker = getFileNameWorker();
 	public static String GameData = getFileNameGameData();
 	public static String MTurk = getFileNameMTurk();
+	protected static final String MTurkPlayed = getFileNameMTurk()+"Played";
+	
+	//strings for inputParameters
+	public static String numOfChoices= "numOfChoices";
+	public static String reOptimized= "reOptimized";
+	public static String computeLambda= "computeLambda";
+
+	//MTurk Parameter for Window.Location.getParameter("Id")
+	public static String assignmentId= "assignmentId";
+	public static String workerId="workerId";
+	public static String hitId="hitId";
+	public static String False= "false";
+	public static String True= "true";
 	
 	private static String getFileName(int option) {
 		if(option==2){

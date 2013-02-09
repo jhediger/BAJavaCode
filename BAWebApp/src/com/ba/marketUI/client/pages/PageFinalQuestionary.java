@@ -16,45 +16,44 @@ public class PageFinalQuestionary {
 
 	@SuppressWarnings("deprecation")
 	public void loadPage(final WriterTimeSaver w) {
-		stopLastTime(w);
-		
+		//stopLastTime(w);
 
 		final VerticalPanel welcomePanel = new VerticalPanel();
-		double result = GameParameter.FinalScore;
+		double result = w.getFinalScore();
 
 		result = round(result, 4);
 
 		final double result2 = result;
-
-		String titel = "Thanks a lot for your participation!";
-		String text1 = "We analyse all the results of the research within the next days. In case your results not strongly deviate from them of the other participators your additional bonus will be transferred to your account.";
+		String titel = "Thank you for your participation in the study!";
+		String text1 = "We analyse all the results of the study within the next weeks . In case your results do not strongly deviate from other participators your additional bonus will be transferred to your account.";
 		String text2 = "If you want to give any feedback or if you have any additional questions please write them in the following text field or send an email to Jessica Hediger (jessica.hediger@uzh.ch)";
 
 		final TextBox box = new TextBox();
 		box.setPixelSize(280, 50);
 
-		final Button button = new Button("Terminate the research");
+		final Button button = new Button("Finish the study");
 		button.setStyleName("startGameButton");
 
 		button.addClickListener(new ClickListener() {
 
 			public void onClick(Widget sender) {
 
-				// if (Window.Location.getParameter("assignmentId") != null) {
+			if (Window.Location.getParameter(GameParameter.assignmentId) != null) {
 				String messageMTurk = Window.Location
-						.getParameter("assignmentId")
+						.getParameter(GameParameter.hitId)
 						+ " "
-						+ Window.Location.getParameter("workerId")
+						+ Window.Location.getParameter(GameParameter.assignmentId)
 						+ " "
-						+ Window.Location.getParameter("hitId")
+						+ Window.Location.getParameter(GameParameter.workerId)
 						+ " "
 						+ result2
-						+ " Times: "
-						+ w.getTimeOverall()
-						+ " "
-						+ w.getTimeExp1() + " " + w.getTimeExp2()+" " +w.getTimeExp3()+" "+w.getTimeExp4()+" comment:"+box.getValue();
-				w.addMessage(GameParameter.MTurk, messageMTurk);
-				// }
+						+ " Times: " + w.getTimeOverall() + "Comment from Turker: "+ box.getValue();
+				for (int i = 0; i < GameParameter.MaxNumOfExpGames; i++) {
+					messageMTurk += w.getTime(i) + " ";
+				}
+
+				w.addMessage(GameParameter.MTurkPlayed, messageMTurk);
+				}
 				w.writeToFile();
 				if (Window.Location.getParameter("assignmentId") != null) {
 					String assignmentId = Window.Location
@@ -98,25 +97,14 @@ public class PageFinalQuestionary {
 
 	}
 
-	private void stopLastTime(WriterTimeSaver w) {
-		switch(GameParameter.NumOfExperiment){
-		case 1:
-			w.stopTimeExp1();
-			return;
-		case 2:
-			w.stopTimeExp2();
-			return;
-		case 3:
-			w.stopTimeExp3();
-			return;
-		case 4:
-			w.stopTimeExp4();
-			return;
-		default:
-			w.stopTimeExp4();
-		}
-		
-	}
+	/*
+	 * private void stopLastTime(WriterTimeSaver w) {
+	 * switch(GameParameter.NumOfExperiment){ case 1: w.stopTimeExp1(); return;
+	 * case 2: w.stopTimeExp2(); return; case 3: w.stopTimeExp3(); return; case
+	 * 4: w.stopTimeExp4(); return; default: w.stopTimeExp4(); }
+	 * 
+	 * }
+	 */
 
 	/**
 	 * 

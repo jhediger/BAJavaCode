@@ -30,7 +30,7 @@ public class FifthPageTestGame {
 			public void onClick(Widget sender) {
 				g.startNewGame();
 				gameCounter++;
-				if(gameCounter==2){
+				if(gameCounter>=GameParameter.NumOfTestRounds){
 					startExperiment.setEnabled(true);
 				}
 			}

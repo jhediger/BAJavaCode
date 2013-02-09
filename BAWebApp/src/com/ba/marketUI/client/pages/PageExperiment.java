@@ -16,8 +16,8 @@ public class PageExperiment {
 	}
 
 	public void loadPage() {
-		
-			ComputeLamdba d= new ComputeLamdba(w);
+		//TODO
+			//ComputeLamdba d= new ComputeLamdba(w);
 			
 	
 			final GamePanel g = new GamePanel(true,w);

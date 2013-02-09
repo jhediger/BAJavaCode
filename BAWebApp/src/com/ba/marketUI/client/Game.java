@@ -25,11 +25,10 @@ public class Game {
 	private Random rand;
 
 	// current_state
-	private Integer currentRound;
 	private int currentBudget;
 	private Double currentScore;
 	private Integer currentCategory;
-	private int currentValueVariation;
+	private ArrayList<Integer> currentValueVariation = new ArrayList<Integer>();
 	private int currentPriceLevel;
 
 	
@@ -44,8 +43,7 @@ public class Game {
 	// the prices depends on the speeds
 	private List<ArrayList<ArrayList<Integer>>> prices;
 
-	// TODO what is changingChoices
-	private boolean changingChoices = false;
+	private boolean changingChoices;
 
 	// list with all three categories and per category numOfChoices sublists
 	// (choose one of them with p=1/3)
@@ -73,10 +71,7 @@ public class Game {
 
 		values = generateValues();
 		makeValuesNegative();
-		// catProbabilities = generateProbabilities();
-		// this.priceProbabilities = generatePriceProbabilities();
-		// generatePerformanceProfiles();
-		// setLambdaParameters();
+	
 
 		category.add("High"); // 0 is high importance
 		category.add("Medium");
@@ -112,7 +107,10 @@ public class Game {
 
 		values = generateValues();
 		makeValuesNegative();
-		
+		// catProbabilities = generateProbabilities();
+		// this.priceProbabilities = generatePriceProbabilities();
+		// generatePerformanceProfiles();
+		// setLambdaParameters();
 
 		category.add("High"); // 0 is high importance
 		category.add("Medium");
@@ -120,14 +118,22 @@ public class Game {
 
 		prices = generatePrices();
 
+		// catProbabilities = generateProbabilities();
+		// this.priceProbabilities = generatePriceProbabilities();
+		// generatePerformanceProfiles();
+		// setLambdaParameters();
 	}
 
 	private void initialGame() {
 		currentCategory = rand.nextInt(numCategories);
 		currentPriceLevel = rand.nextInt(numPriceLevels);
-		currentValueVariation = rand.nextInt(numValueVariations);
+		currentValueVariation.clear();
+		for(int i=0;i<numOptions;i++){
+			currentValueVariation.add(rand.nextInt(numValueVariations));
+		}
+		
 
-		currentRound = 0;
+		//currentRound = 0;
 		currentBudget = 0;
 		currentScore = 0.0;
 
@@ -152,7 +158,7 @@ public class Game {
 		ArrayList<Double> val = new ArrayList<Double>();
 		for (int i = 0; i < numOptions; i++) {
 			val.add(values.get(currentCategory).get(i)
-					.get(currentValueVariation));
+					.get(currentValueVariation.get(i)));
 		}
 		return val;
 	}
@@ -166,20 +172,23 @@ public class Game {
 
 		currentScore = currentScore
 				+ values.get(currentCategory).get(pushedbutton)
-						.get(currentValueVariation);
+						.get(currentValueVariation.get(pushedbutton));
 		currentBudget += prices.get(currentPriceLevel).get(currentCategory)
 				.get(pushedbutton);
-		currentRound = currentRound + 1;
+		
 
 		currentCategory = rand.nextInt(numCategories);
 		currentPriceLevel = rand.nextInt(numPriceLevels);
-		currentValueVariation = rand.nextInt(numValueVariations);
+		currentValueVariation.clear();
+		for(int i=0;i<numOptions;i++){
+			currentValueVariation.add(rand.nextInt(numValueVariations));
+		}
 	}
 
-	public Integer getCurrentRound() {
+	/*public Integer getCurrentRound() {
 
-		return currentRound;
-	}
+		return currentRound +1;
+	}*/
 
 	public Integer getTokensLeft() {
 
@@ -191,12 +200,12 @@ public class Game {
 		return currentScore;
 	}
 
-	public boolean notFinish() {
+	/*public boolean notFinish() {
 		if (maxRounds > currentRound) {
 			return true;
 		}
 		return false;
-	}
+	}*/
 
 	public Integer getNumOfOptions() {
 		return numOptions;
@@ -221,7 +230,7 @@ public class Game {
 	}
 
 	public void setNew() {
-		currentRound = 0;
+		//currentRound = 0;
 		currentBudget = 0;
 		currentScore = 0.0;
 
@@ -270,9 +279,9 @@ public class Game {
 		// now generate all speeds Values array
 		 double[] allSpeedValues = new double[11];
 		for (int i = 0; i < 11; i++) {
-			int valInt = (int) (10 * multiplier * Math.pow(100 * i, exponent));
-			double valD = valInt / 10;
-			allSpeedValues[i] = valD;
+			double val = round((multiplier * Math.pow(100 * i, exponent)),1);
+			//double valD = valInt / 10;
+			allSpeedValues[i] = val;
 		}
 
 		if (this.numValueVariations == 3) {
@@ -351,6 +360,7 @@ public class Game {
 
 		if (!changingChoices) {
 			for (int c = 0; c < this.numCategories; c++) {
+				//not used for the experiment!
 				if (this.numPriceLevels == 1) {
 					switch (numOptions) {// fix prices, fixed choices, rational opt (7.1.2012)
 					case 2:
@@ -374,7 +384,33 @@ public class Game {
 								0 };
 						break;
 					}
-				} else {// changing prices, fixed choices, rational opt (7.1.2012)
+				} else {// changing prices, fixed choices, rational opt (7.2.2012) ->used for the experiment
+					 if (!this.reOptimized)
+                     {
+
+                         switch (numOptions)
+                         {
+                             case 2:
+                                 newSpeeds[c] = new double[] { 300, 0 };
+                                 break;
+
+                             case 3:
+                                 newSpeeds[c] = new double[] { 600, 200, 0 };
+                                 break;
+
+                             case 4:
+                                 newSpeeds[c] = new double[] { 900, 300, 100, 0 }; //this one!
+                                 break;
+
+                             case 5:
+                                 newSpeeds[c] = new double[] { 900, 400, 200, 100, 0 };
+                                 break;
+
+                             case 6:
+                                 newSpeeds[c] = new double[] { 900, 400, 300, 200, 100, 0 };
+                                 break;
+                         }
+                         /*
 					if (!this.reOptimized) {
 
 						switch (numOptions) {
@@ -399,7 +435,7 @@ public class Game {
 							newSpeeds[c] = new double[] { 1000, 900, 500, 300,
 									100, 0 };
 							break;
-						}
+						}*/
 					} else // re-optimized values, changing prices, fixed
 							// choices
 					{
@@ -409,7 +445,7 @@ public class Game {
 							break;
 
 						case 3:
-							newSpeeds[c] = new double[] { 200, 100, 0 };
+							newSpeeds[c] = new double[] { 600, 200, 0 };
 							break;
 
 						case 4:
@@ -592,14 +628,15 @@ public class Game {
 		return speeds;
 	}
 
-	public ArrayList<Integer> getCurrentStat() {
+	public ArrayList<Integer> getCurrentStat(int round) {
 		ArrayList<Integer> list = new ArrayList<Integer>();
-		list.add(currentRound);
+		list.add(numOptions);
+		round= round-1;
+		list.add(round);
 		list.add(maxBudget - currentBudget);
 		list.add(currentCategory);
-		list.add(currentValueVariation);
+		list.addAll(currentValueVariation);
 		list.add(currentPriceLevel);
-		list.add(numOptions);
 		return list;
 	}
 	

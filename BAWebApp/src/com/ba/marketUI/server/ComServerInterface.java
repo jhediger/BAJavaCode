@@ -18,6 +18,8 @@ import com.ba.marketUI.client.pages.GameParameter;
 public class ComServerInterface extends RemoteServiceServlet implements
 		ComClientInterface{
 
+	private String pfad = "";//"/home/user/hediger/tomcat/";//"C:\\Users\\JH\\Desktop\\HS2012\\s\\";
+
 	public String myMethod(Boolean read, String message, String fileName) throws IOException {
 		if(read){
 			return FileReader(fileName);
@@ -57,7 +59,8 @@ public class ComServerInterface extends RemoteServiceServlet implements
 			throws IOException {
 		try {
 			BufferedWriter out = new BufferedWriter(new FileWriter(
-					"outputFiles/" + fileName + ".txt", true));
+					pfad+fileName + ".txt", true));
+					//TODO"outputFiles/" + fileName + ".txt", true));
 			out.newLine();
 			out.write(userAgent + i);
 			out.close();
@@ -90,7 +93,8 @@ public class ComServerInterface extends RemoteServiceServlet implements
 		try {
 			String s = null;
 			java.io.BufferedReader in = new java.io.BufferedReader(
-					new java.io.FileReader("inputFiles/" + fileName));
+					new java.io.FileReader( pfad+fileName));
+					//TODO new java.io.FileReader("inputFiles/" + fileName));
 			while ((s = in.readLine()) != null) {
 				datei.append(s).append(
 						in.readLine() + System.getProperty("line.separator"));

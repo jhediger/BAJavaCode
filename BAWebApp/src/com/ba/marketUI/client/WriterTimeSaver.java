@@ -1,61 +1,52 @@
 package com.ba.marketUI.client;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-
+import com.ba.marketUI.client.pages.GameParameter;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-
-
 
 public class WriterTimeSaver {
 
 	private ComClientInterfaceAsync dataStoreService = (ComClientInterfaceAsync) GWT
 			.create(ComClientInterface.class);
 
-	Map<String,String> map = new HashMap<String,String>();
-	
+	Map<String, String> map = new HashMap<String, String>();
+
 	long startOverallTime;
-	long startExp1Time;
-	long startExp2Time;
 
-	private long timeExp1;
+	private String datei;
 
-	private long timeExp2;
+	private ArrayList<Double> scores = new ArrayList<Double>();
 
-	private long startExp4Time;
+	private ArrayList<Long> times = new ArrayList<Long>();
 
-	private long startExp3Time;
+	private long startExpTime;
 
-	private long timeExp4;
-
-	private long timeExp3;
-	
-	
-	public void addMessage(String fileName, String message){
-		if(map.containsKey(fileName)){
-			String m= map.get(fileName) + "nnnnm" +message;
+	public void addMessage(String fileName, String message) {
+		if (map.containsKey(fileName)) {
+			String m = map.get(fileName) + "nnnnm" + message;
 			map.remove(fileName);
 			map.put(fileName, m);
-		}
-		else{
+		} else {
 			map.put(fileName, message);
 		}
-		
+
 	}
-	
-	public void writeToFile(){
-		for(String g:map.keySet()){
+
+	public void writeToFile() {
+		for (String g : map.keySet()) {
 			try {
-				dataStoreService.myMethod(false,map.get(g),g,
+				dataStoreService.myMethod(false, map.get(g), g,
 						new AsyncCallback<String>() {
 
 							@Override
 							public void onFailure(Throwable caught) {
-								 Window.alert("RPC failed.");
+								Window.alert("RPC failed.");
 
 							}
 
@@ -67,75 +58,121 @@ public class WriterTimeSaver {
 
 						});
 			} catch (IOException e) {
-				 Window.alert("IOE");
+				Window.alert("IOE");
 				// e.printStackTrace();
 			}
 		}
 	}
 
 	public void setTimeOverall() {
-		startOverallTime= System.currentTimeMillis();
-		
-		
+		startOverallTime = System.currentTimeMillis();
+
 	}
-	
-	public void setTimeExp1() {
-		startExp1Time= System.currentTimeMillis();;
-	}
-	
-	public void setTimeExp2() {
-		startExp2Time= System.currentTimeMillis();		
-	}
-	
-	public void setTimeExp3() {
-		startExp3Time= System.currentTimeMillis();		
-	}
-	
-	public void setTimeExp4() {
-		startExp4Time= System.currentTimeMillis();		
-	}
-	
-	public int getTimeOverall(){
-		long time= System.currentTimeMillis()-startOverallTime;
-		//time/10^9;
+
+	public int getTimeOverall() {
+		long time = System.currentTimeMillis() - startOverallTime;
+		// time/10^9;
 		return (int) time;
 	}
-	
-	public void stopTimeExp1(){
-		timeExp1 = System.currentTimeMillis()-startExp1Time;
+
+	public void startTime() {
+		startExpTime = System.currentTimeMillis();
 	}
-	
-	public void stopTimeExp2(){
-		timeExp2 = System.currentTimeMillis()-startExp2Time;
+
+	public void stopTime() {
+		times.add(System.currentTimeMillis() - startExpTime);
 	}
-	
-	public void stopTimeExp3(){
-		timeExp3 = System.currentTimeMillis()-startExp3Time;
+
+	public int getTime(int exp) {
+		return (int) ((long) times.get(exp));
 	}
-	
-	public void stopTimeExp4(){
-		timeExp4 = System.currentTimeMillis()-startExp4Time;
-	}
-		
-	public int getTimeExp1(){
-		return (int) timeExp1;
-	}
-	
-	public int getTimeExp2(){
-		return (int) timeExp2;
-	}
-	
-	public int getTimeExp3(){
-		return (int) timeExp3;
-	}
-	
-	public int getTimeExp4(){
-		return (int) timeExp4;
-	}
-	
-	public String getMessage(String key){
+
+	public String getMessage(String key) {
 		return map.get(key);
 	}
-	
+
+	public void setInputParameter() {
+		if (datei == null) {
+			try {
+				readFromFile(GameParameter.FileNameForInputParameter, 1);
+			} catch (IOException e) {
+				GameParameter.NumOptions = 4;
+				GameParameter.ReOptimized = false;
+				GameParameter.ComputeLambda = false;
+				e.printStackTrace();
+			}
+			return;
+		}
+		String input = datei;
+		// Window.alert(msg);
+		int start = input.indexOf(GameParameter.numOfChoices)
+				+ GameParameter.numOfChoices.length() + 1;
+		GameParameter.NumOptions = Integer.valueOf(input.substring(start,
+				input.indexOf(";", start)));
+		start = input.indexOf(GameParameter.reOptimized)
+				+ GameParameter.reOptimized.length() + 1;
+		GameParameter.ReOptimized = Boolean.valueOf(input.substring(start,
+				input.indexOf(";", start)));
+		start = input.indexOf(GameParameter.computeLambda)
+				+ GameParameter.computeLambda.length() + 1;
+		GameParameter.ComputeLambda = Boolean.valueOf(input.substring(start,
+				input.indexOf(";", start)));
+		
+		datei=null;
+
+	}
+
+	public void readFromFile(String fileName, final int numFunction)
+			throws IOException {
+		dataStoreService.myMethod(true, "", fileName,
+				new AsyncCallback<String>() {
+
+					@Override
+					public void onFailure(Throwable caught) {
+						Window.alert("RPC failed.");
+						datei = "onFailure";
+					}
+
+					@Override
+					public void onSuccess(String result) {
+						Window.alert("RPC to sendEmail() succed." + result);
+						datei = result;
+						if (numFunction == 1) {
+							setInputParameter();
+						}else if(numFunction==2){
+							computeLambda();
+						}
+					}
+
+				});
+
+		// Window.alert("d2"+datei);
+		// return datei;
+	}
+
+	public void setScoreExp(double score) {
+		scores.add(score);
+
+	}
+
+	public double getFinalScore() {
+		double sum = 0;
+		for (Double s : scores) {
+			sum += s;
+		}
+		return sum;
+	}
+
+	public void computeLambda() {
+		if(datei==null){
+		try {
+			readFromFile(GameParameter.FileNameForInput,2);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		}
+		//TODO computation
+		
+	}
 
 }

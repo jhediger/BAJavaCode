@@ -17,7 +17,7 @@ import com.google.gwt.user.client.ui.Widget;
 
 public class GamePanel {
 
-	private double scoreOverRound = 0.0;
+	// private double scoreOverRound = 0.0;
 
 	private static final int REFRESH_INTERVAL = 1000; // ms
 
@@ -33,6 +33,7 @@ public class GamePanel {
 	private VerticalPanel token_panel = new VerticalPanel();
 	private VerticalPanel score_panel = new VerticalPanel();
 
+	private Label numOfExpGames = new Label();
 	private Label category = new Label();
 	private Label time_t = new Label();
 	private Label rounds_left_t = new Label();
@@ -46,10 +47,18 @@ public class GamePanel {
 
 	private Integer countTime = 0;
 
-	private int counterOfGames = 0;
+	private Integer maxRounds = GameParameter.TimeSteps;
+	
 	private boolean storeData;
 
 	private WriterTimeSaver w;
+
+	private int numLastRound=1;
+	
+	private Integer timeForGames = 0; // overall time for all 6 rounds in
+										// seconds
+
+	private Integer round=1;
 
 	public GamePanel(boolean isNotestGame, WriterTimeSaver w) {
 
@@ -74,6 +83,7 @@ public class GamePanel {
 			buttons_panel.add(game_buttons.get(i));
 		}
 
+		main_panel.add(numOfExpGames);
 		main_panel.add(gamestates_panel);
 		main_panel.add(category);
 		main_panel.add(buttons_panel);
@@ -93,11 +103,14 @@ public class GamePanel {
 		rounds_left.addStyleName("black_label");
 		token.addStyleName("black_label");
 		score.addStyleName("black_label");
+		numOfExpGames.addStyleName("black_label");
 
 		initialGame();
 
 		// Setup timer to refresh automatically.
 		Timer refreshTimer = new Timer() {
+
+			private Integer intf;
 
 			@Override
 			public void run() {
@@ -105,22 +118,23 @@ public class GamePanel {
 			}
 
 			private void refreshWatchList() {
-				
-					if (GameParameter.game.notFinish()) {
-						countTime++;
-						if (countTime > GameParameter.MaxTimePerRound) {
-							storeData(String
-									.valueOf(GameParameter.NumOptions - 1));
-							GameParameter.game.changeState(GameParameter.NumOptions - 1);
-							changeGameState();
-							setTimeToZero();
-						}
-
-						time.setText(countTime.toString() + "/"
-								+ String.valueOf(GameParameter.MaxTimePerRound)
-								+ "s");
+				if (isNotFinish()) {
+					countTime++;
+					if (countTime > GameParameter.MaxTimePerRound) {
+						storeData(String.valueOf(GameParameter.NumOptions - 1),round);
+						GameParameter.game
+								.changeState(GameParameter.NumOptions - 1);
+						
+						changeGameState();
+						setTimeToZero();
 					}
-				} 
+
+					time.setText(countTime.toString() + "/"
+							+ String.valueOf(GameParameter.MaxTimePerRound)
+							+ "s");
+				}
+			}
+
 		};
 
 		refreshTimer.scheduleRepeating(REFRESH_INTERVAL);
@@ -129,7 +143,7 @@ public class GamePanel {
 		for (final Button b : game_buttons) {
 			b.addClickHandler(new ClickHandler() {
 				public void onClick(ClickEvent event) {
-					storeData(String.valueOf(game_buttons.indexOf(b)));
+					storeData(String.valueOf(game_buttons.indexOf(b)),round);
 					GameParameter.game.changeState(game_buttons.indexOf(b));
 					changeGameState();
 					setTimeToZero();
@@ -141,32 +155,41 @@ public class GamePanel {
 
 	private void initialGame() {
 
+		if (storeData == true) {
+			numOfExpGames.setText("You have already played "
+					+ GameParameter.NumOfExpGames + " of "
+					+ GameParameter.MaxNumOfExpGames + " games");
+		}
+
 		time_t.setText("Time");
 		rounds_left_t.setText("Rounds");
 		token_t.setText("Tokens");
 		score_t.setText("Score");
 
-		time.setText("0s/"+GameParameter.MaxTimePerRound+"s");
+		time.setText("0s/" + GameParameter.MaxTimePerRound + "s");
 
-		rounds_left.setText("0/" + GameParameter.TimeSteps.toString());
+		rounds_left.setText(round+"/" + GameParameter.TimeSteps.toString());
 		token.setText("0/" + GameParameter.Tokens.toString());
 		score.setText("$0");
 
-		if(GameParameter.BehavioralOptimizationExperiment&&GameParameter.NumOfExperiment==1){
-			GameParameter.game = new Game(GameParameter.Categories, GameParameter.NumOptions,
-					GameParameter.NumPriceLevels, GameParameter.Tokens,
-					GameParameter.ValueVariation, GameParameter.NegativeValues,
-					GameParameter.ChangingChoices, GameParameter.ReOptimized,GameParameter.Speeds,
+		if (GameParameter.ReOptimized && GameParameter.Speeds != null) {
+			GameParameter.game = new Game(GameParameter.Categories,
+					GameParameter.NumOptions, GameParameter.NumPriceLevels,
+					GameParameter.Tokens, GameParameter.ValueVariation,
+					GameParameter.NegativeValues,
+					GameParameter.ChangingChoices, GameParameter.ReOptimized,
+					GameParameter.Speeds, GameParameter.TimeSteps);
+		} else {
+			GameParameter.game = new Game(GameParameter.Categories,
+					GameParameter.NumOptions, GameParameter.NumPriceLevels,
+					GameParameter.Tokens, GameParameter.ValueVariation,
+					GameParameter.NegativeValues,
+					GameParameter.ChangingChoices, GameParameter.ReOptimized,
 					GameParameter.TimeSteps);
-		}else{
-		GameParameter.game = new Game(GameParameter.Categories, GameParameter.NumOptions,
-				GameParameter.NumPriceLevels, GameParameter.Tokens,
-				GameParameter.ValueVariation, GameParameter.NegativeValues,
-				GameParameter.ChangingChoices, GameParameter.ReOptimized,
-				GameParameter.TimeSteps);
 		}
 		storeInitialData();
-		category.setText("Task Category: " + GameParameter.game.getCurrentCategoryAsString()
+		category.setText("Task Category: "
+				+ GameParameter.game.getCurrentCategoryAsString()
 				+ " Importance");
 
 		double[] speeds = GameParameter.game.getCurrentSpeeds();
@@ -190,15 +213,12 @@ public class GamePanel {
 	 *            0 for top button
 	 * 
 	 */
-	void storeData(String button) {
+	void storeData(String button, int round) {
 
 		if (storeData == true) {
-			String message = "currentRound|budgetLeft|currentCategory|currentValueVariation|currentPriceLevel  data"
-					+ GameParameter.game.getCurrentStat().toString();
-			message = message + "rounds: " + GameParameter.game.getCurrentRound() + " "
-					+ countTime + " " + "budget"
-					+ (GameParameter.Tokens - GameParameter.game.getTokensLeft()) + " "
-					+ GameParameter.game.getCurrentScore() + " ";
+			String message = "currentNumOptions|currentRound|budgetLeft|currentCategory|currentValueVariation|currentPriceLevel  data"
+					+ GameParameter.game.getCurrentStat(round).toString();
+			message = message + "," + countTime + "," + "option:" + button;
 
 			message = message + "values:";
 			for (double a : GameParameter.game.getCurrentValues()) {
@@ -212,8 +232,6 @@ public class GamePanel {
 			for (double d : GameParameter.game.getCurrentSpeeds()) {
 				message = message + String.valueOf(d) + " ";
 			}
-			message = message + " " + "option:" + button;
-
 			sendMessage(message, GameParameter.GameData);
 		}
 	}
@@ -241,26 +259,28 @@ public class GamePanel {
 			} else {
 				nV = 0;
 			}
-			String message = "pL|VV|NumOption|maxTimePerRound|timeSteps|cat|changingChoices|reOptimized|negValue initialData: "
+			// Calendar cal = Calendar.getInstance();
+			// SimpleDateFormat formater = new SimpleDateFormat();
+			String message = Window.Location
+					.getParameter(GameParameter.workerId)
+					+ ","
+					+ ","
+					+ "pL|VV|NumOption|maxTimePerRound|timeSteps|cat|changingChoices|reOptimized|negValue initialData: "
+					+ ","
 					+ GameParameter.NumPriceLevels
-					+ " "
+					+ ","
 					+ GameParameter.ValueVariation
-					+ " "
+					+ ","
 					+ GameParameter.NumOptions
-					+ " "
+					+ ","
 					+ GameParameter.MaxTimePerRound
-					+ " "
+					+ ","
 					+ GameParameter.Categories
-					+ " "
-					+ " "
+					+ ","
 					+ GameParameter.TimeSteps
-					+ " "
-					+ cC
-					+ " "
-					+ rO
-					+ " " + nV;
-			message = message + "val" + GameParameter.game.getallValue() + " price "
-					+ GameParameter.game.getallPrices();
+					+ "," + rO + "," + cC + "," + nV;
+			message = message + "val" + GameParameter.game.getallValue()
+					+ " price " + GameParameter.game.getallPrices();
 
 			sendMessage(message, GameParameter.GameData);
 		}
@@ -269,8 +289,10 @@ public class GamePanel {
 
 	void storeDataFinalRound() {
 		if (storeData == true) {
-			String message = "finalResult: " + GameParameter.game.getTokensLeft() + " "
-					+ GameParameter.game.getCurrentScore() + " ";
+			String message = "finalResult:,"
+					+ GameParameter.game.getTokensLeft() + ","
+					+ GameParameter.game.getCurrentScore() + ","
+					+ GameParameter.Score + "," + timeForGames;
 			sendMessage(message, GameParameter.GameData);
 
 		}
@@ -283,17 +305,20 @@ public class GamePanel {
 	}
 
 	private void setTimeToZero() {
-		if(!storeData){
-			countTime = 0;
-		}
+		countTime = 0;
 	}
 
 	private void changeGameState() {
+		round++;
+		if (isNotFinish()) {
 
-		if (GameParameter.game.notFinish()) {
-
-			rounds_left.setText(GameParameter.game.getCurrentRound().toString() + "/"
-					+ GameParameter.TimeSteps.toString());
+			timeForGames += countTime;
+			//if(GameParameter.game.getCurrentRound()==numLastRound+1){
+			rounds_left.setText(round.toString()
+					+ "/" + GameParameter.TimeSteps.toString());
+			//}else(GameParameter.game.setCurrentRound(numLastRound){
+				
+			//}
 			token.setText(GameParameter.game.getTokensLeft().toString() + "/"
 					+ GameParameter.Tokens.toString());
 
@@ -304,7 +329,8 @@ public class GamePanel {
 			score.setText("$" + GameParameter.game.getCurrentScore().toString());
 
 			category.setText("Task Category: "
-					+ GameParameter.game.getCurrentCategoryAsString() + " Importance");
+					+ GameParameter.game.getCurrentCategoryAsString()
+					+ " Importance");
 
 			double[] speeds = GameParameter.game.getCurrentSpeeds();
 			ArrayList<Double> values = GameParameter.game.getCurrentValues();
@@ -331,29 +357,40 @@ public class GamePanel {
 			}
 			score.setText("$" + GameParameter.game.getCurrentScore().toString());
 
-			rounds_left.setText(GameParameter.game.getCurrentRound().toString() + "/"
-					+ GameParameter.TimeSteps.toString());
+			rounds_left.setText(round.toString()
+					+ "/" + GameParameter.TimeSteps.toString());
 
 			for (Button b : game_buttons) {
 				b.setEnabled(false);
 			}
 
 			if (storeData == true) {
-				counterOfGames++;
-				scoreOverRound += GameParameter.game.getCurrentScore();
+				GameParameter.NumOfExpGames++;
+				w.setScoreExp(round(GameParameter.game.getCurrentScore(), 4));
+				// scoreOverRound += GameParameter.game.getCurrentScore();
 				storeDataFinalRound();
-					if (GameParameter.RoundsToPlay - counterOfGames != 0) {
-						Window.alert(GameParameter.RoundsToPlay
-								- counterOfGames + "'rounds to play left");
-						startNewGame();
-					} else {
-						scoreOverRound = round(scoreOverRound, 4);
-						sendMessage("Experiment part are over, #buttons: "+GameParameter.NumOptions,GameParameter.GameData);
-						Window.alert("Game is finish. Your overall score is:"
-								+ scoreOverRound);
-						goToLastPage();
-					}
-			
+				//Window.alert(GameParameter.NumOfExpGames+" "+GameParameter.MaxNumOfExpGames);
+				if (GameParameter.MaxNumOfExpGames
+						- GameParameter.NumOfExpGames != 0) {
+					// Window.alert(GameParameter.RoundsToPlay
+					// - counterOfGames + "'rounds to play left");
+					w.stopTime();
+					w.startTime();
+					startNewGame();
+				} else {
+					w.stopTime();
+					// scoreOverRound = round(scoreOverRound, 4);
+					sendMessage("Experiment part are over, #buttons: "
+							+ GameParameter.NumOptions, GameParameter.GameData);
+					// Window.alert("Game is finish. Your overall score is:"
+					// + scoreOverRound);
+					goToLastPage();
+				}
+
+				numOfExpGames.setText("You have already played "
+						+ GameParameter.NumOfExpGames + " of "
+						+ GameParameter.MaxNumOfExpGames + " games");
+
 			}
 
 		}
@@ -366,24 +403,27 @@ public class GamePanel {
 
 	public void startNewGame() {
 		GameParameter.game.setNew();
+		round=0;
 		changeGameState();
 		for (Button b : game_buttons) {
 			b.setEnabled(true);
 		}
 		setTimeToZero();
+		
 
 	}
 
 	private void goToLastPage() {
-		GameParameter.NumOfExperiment++;
-		GameParameter.FinalScore += scoreOverRound;
-		if (GameParameter.NumOfExperiment >= GameParameter.MaxNumOfExperiment) {
-			PageFinalQuestionary fq = new PageFinalQuestionary();
-			fq.loadPage(w);
-		}else{
-			PageSetExperiment se = new PageSetExperiment(w);
-			se.loadPage();
-		}
+		// GameParameter.FinalScore += scoreOverRound;
+		PageFinalQuestionary fq = new PageFinalQuestionary();
+		fq.loadPage(w);
+		/*
+		 * if (GameParameter.NumOfExperiment >=
+		 * GameParameter.MaxNumOfExperiment) {
+		 * 
+		 * }else{ PageSetExperiment se = new PageSetExperiment(w);
+		 * se.loadPage(); }
+		 */
 	}
 
 	/**
@@ -418,6 +458,13 @@ public class GamePanel {
 		}
 		return valDouble;
 
+	}
+	
+	private boolean isNotFinish(){
+		if(maxRounds < round){
+				return false;
+			}
+		return true;
 	}
 
 }
