@@ -23,6 +23,16 @@ public class PageFinalQuestionary {
 
 		result = round(result, 4);
 
+		String messageMTurk = Window.Location
+				.getParameter(GameParameter.hitId)
+				+ " "
+				+ Window.Location.getParameter(GameParameter.assignmentId)
+				+ " "
+				+ Window.Location.getParameter(GameParameter.workerId)
+				+ " "
+				+ result;
+		w.addMessage(GameParameter.MTurkPlayed+1, messageMTurk);
+		
 		final double result2 = result;
 		String titel = "Thank you for your participation in the study!";
 		String text1 = "We analyse all the results of the study within the next weeks . In case your results do not strongly deviate from other participators your additional bonus will be transferred to your account.";
@@ -39,15 +49,9 @@ public class PageFinalQuestionary {
 			public void onClick(Widget sender) {
 
 			if (Window.Location.getParameter(GameParameter.assignmentId) != null) {
-				String messageMTurk = Window.Location
-						.getParameter(GameParameter.hitId)
-						+ " "
-						+ Window.Location.getParameter(GameParameter.assignmentId)
-						+ " "
-						+ Window.Location.getParameter(GameParameter.workerId)
-						+ " "
-						+ result2
-						+ " Times: " + w.getTimeOverall() + "Comment from Turker: "+ box.getValue();
+				String messageMTurk="";
+				
+				messageMTurk= " Times: " + w.getTimeOverall() + "Comment from Turker: "+ box.getValue();
 				for (int i = 0; i < GameParameter.MaxNumOfExpGames; i++) {
 					messageMTurk += w.getTime(i) + " ";
 				}
@@ -55,11 +59,13 @@ public class PageFinalQuestionary {
 				w.addMessage(GameParameter.MTurkPlayed, messageMTurk);
 				}
 				w.writeToFile();
+				
 				if (Window.Location.getParameter("assignmentId") != null) {
 					String assignmentId = Window.Location
 							.getParameter("assignmentId");
 					String hitId = Window.Location.getParameter("hitId");
 					String url = "";
+					//Window.alert(assignmentId+" "+hitId);
 					if (GameParameter.InSandbox) {
 						url = "https://workersandbox.mturk.com/mturk/externalSubmit?assignmentId="
 								+ assignmentId + "&amp;hitId=" + hitId;
@@ -68,6 +74,7 @@ public class PageFinalQuestionary {
 								+ assignmentId + "&amp;hitId=" + hitId;
 					}
 
+					//Window.Location.assign(url);
 					Window.Location.replace(url);
 
 				}

@@ -32,7 +32,9 @@ public class FirstPageAcceptTask {
 	    String endpart = "We may end or reject your participation if you are not following the instructions or if your decision time needed significantly deviates from the mean.";
 	    String conf = "Confidentiality: All the given answers are treated anonymously.";
 	    String quest = "Questions/concerns: If you have any concerns or questions please feel free to contact Jessica Hediger (jessica.hediger@uzh.ch).";
-		String text2= "If you are interested to participate in the study please click on the \"accept HIT\" button and after that the \"Go to study\" button to start the questionnaire.  ";
+		String text2= "If you are interested to participate in the study please click on the \"accept HIT\" button and after that the \"Go to study\" button to start the questionnaire. ";
+		//String atta= "Attention: There are occurred some problem with submitting the tasks. Please only accept the task if you are using a Firefox or Safari browser. It is not possible to submit the task with a Internet Explorer.";
+		//String atta= "Please use a browser without AppleWebKit, for example Firefox.";
 		
 	    final Button button = new Button("Go to study");
 		button.setStyleName("startGameButton");
@@ -60,6 +62,7 @@ public class FirstPageAcceptTask {
 		Label l_conf= new Label(conf);
 		Label l_quest= new Label(quest);
 		Label l_text2= new Label(text2);
+		//Label l_text3= new Label(atta);
 		
 		ti.addStyleName("titel");
 		l_bonus.addStyleName("titel");
@@ -72,6 +75,7 @@ public class FirstPageAcceptTask {
 		l_conf.addStyleName("textintro");
 		l_quest.addStyleName("textintro");
 		l_text2.addStyleName("textintro");
+	//	l_text3.addStyleName("textintro");
 		
 		Image i= new Image();
 		//to ensure that the screen is not to huge ->because of the iFrame in Amazone Turk
@@ -102,6 +106,7 @@ public class FirstPageAcceptTask {
 		textPanelLeft.add(l_text1);
 		textPanelLeft.add(l_bonus);
 		textPanelLeft.add(l_text2);
+		//textPanelLeft.add(l_text3);
 				
 		welcomePanel.add(ti);
 		welcomePanel.add(textPanelLeft);

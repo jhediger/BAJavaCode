@@ -83,19 +83,19 @@ public class ComputeLamdba implements Calcfc {
 
 								@Override
 								public void onFailure(Throwable caught) {
-									 Window.alert("RPC failed.");
+									 //Window.alert("RPC failed.");
 
 								}
 
 								@Override
 								public void onSuccess(String result) {
-									Window.alert("RPC to sendEmail() succed.");
+									//Window.alert("RPC to sendEmail() succed.");
 
 								}
 
 							});
 				} catch (IOException e) {
-					 Window.alert("IOE");
+					 //Window.alert("IOE");
 					// e.printStackTrace();
 				}
 			

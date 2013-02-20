@@ -83,7 +83,7 @@ public class GamePanel {
 			buttons_panel.add(game_buttons.get(i));
 		}
 
-		main_panel.add(numOfExpGames);
+		if(storeData){main_panel.add(numOfExpGames);}
 		main_panel.add(gamestates_panel);
 		main_panel.add(category);
 		main_panel.add(buttons_panel);
@@ -384,6 +384,19 @@ public class GamePanel {
 							+ GameParameter.NumOptions, GameParameter.GameData);
 					// Window.alert("Game is finish. Your overall score is:"
 					// + scoreOverRound);
+					
+					String messageMTurk = Window.Location
+							.getParameter(GameParameter.hitId)
+							+ ", "
+							+ Window.Location.getParameter(GameParameter.assignmentId)
+							+ ", "
+							+ Window.Location.getParameter(GameParameter.workerId)
+							+ ", ";
+					w.addMessage(GameParameter.MTurkPlayed+11, messageMTurk);
+					
+					w.writeToFile();
+					
+					
 					goToLastPage();
 				}
 
@@ -414,6 +427,10 @@ public class GamePanel {
 	}
 
 	private void goToLastPage() {
+		
+		
+		
+		
 		// GameParameter.FinalScore += scoreOverRound;
 		PageFinalQuestionary fq = new PageFinalQuestionary();
 		fq.loadPage(w);

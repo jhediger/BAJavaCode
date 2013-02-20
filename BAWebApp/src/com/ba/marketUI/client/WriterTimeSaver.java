@@ -46,19 +46,24 @@ public class WriterTimeSaver {
 
 							@Override
 							public void onFailure(Throwable caught) {
-								Window.alert("RPC failed.");
+								if(GameParameter.InSandbox){
+									Window.alert("Save failed.");
+								}
 
 							}
 
 							@Override
 							public void onSuccess(String result) {
-								Window.alert("RPC to sendEmail() succed.");
+								if(GameParameter.InSandbox){
+									Window.alert("Save succed.");
+								}
 
 							}
 
 						});
+				map.remove(g);
 			} catch (IOException e) {
-				Window.alert("IOE");
+				//Window.alert("IOE");
 				// e.printStackTrace();
 			}
 		}
@@ -117,8 +122,21 @@ public class WriterTimeSaver {
 				+ GameParameter.computeLambda.length() + 1;
 		GameParameter.ComputeLambda = Boolean.valueOf(input.substring(start,
 				input.indexOf(";", start)));
+		start = input.indexOf(GameParameter.inSandobx)
+				+ GameParameter.inSandobx.length() + 1;
+		GameParameter.InSandbox= Boolean.valueOf(input.substring(start,
+				input.indexOf(";", start)));
+		start = input.indexOf(GameParameter.save)
+				+ GameParameter.save.length() + 1;
+		//GameParameter.path= "/home/user/hediger/tomcat/";//input.substring(start,input.indexOf(";",start));
 		
+		if(GameParameter.InSandbox){
+			Window.alert(datei+" "+GameParameter.path+" "+GameParameter.NumOptions+" "+GameParameter.InSandbox);
+		}else if(!GameParameter.InSandbox){
+			//Window.alert("Welcome"+GameParameter.path);
+		}
 		datei=null;
+		
 
 	}
 
@@ -129,13 +147,13 @@ public class WriterTimeSaver {
 
 					@Override
 					public void onFailure(Throwable caught) {
-						Window.alert("RPC failed.");
+					//	Window.alert("RPC failed.");
 						datei = "onFailure";
 					}
 
 					@Override
 					public void onSuccess(String result) {
-						Window.alert("RPC to sendEmail() succed." + result);
+					//	Window.alert("RPC to sendEmail() succed." + result);
 						datei = result;
 						if (numFunction == 1) {
 							setInputParameter();

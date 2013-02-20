@@ -1,5 +1,7 @@
 package com.ba.marketUI.client.pages;
 
+import org.apache.xerces.dom.ParentNode;
+
 import com.ba.marketUI.client.WriterTimeSaver;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -117,32 +119,14 @@ public class SecondPageSpammerGenerallyQuestions {
 				} else {
 					// Two of three calculations are not correct -> reject the
 					// participant
-					Dialog b2 = new Dialog(
-							"Sorry you are not allowed to participate because you didn't fill in the most of the calculations correctly.",
-							"ok");
-					int left = Window.getClientWidth() / 2;
-					int top = Window.getClientHeight() / 2;
-					b2.setPopupPosition(left, top);
-					b2.show();
 					String message= Window.Location.getParameter(GameParameter.hitId)+","+Window.Location.getParameter(GameParameter.assignmentId)+","+Window.Location
-							.getParameter(GameParameter.workerId)+","+GameParameter.False+","+0+","+"Sorry you are not allowed to participate because you didn't followed the instructions.";
+							.getParameter(GameParameter.workerId)+","+GameParameter.False+","+0+","+"Sorry you are not allowed to participate because you didn't followed the instructions."+"Fall through SpammerQuestions";
 					w.addMessage(GameParameter.MTurk, message);
-					if (Window.Location.getParameter(GameParameter.assignmentId) != null) {
-						String assignmentId = Window.Location
-								.getParameter(GameParameter.assignmentId);
-						String hitId = Window.Location.getParameter(GameParameter.hitId);
-						String url = "";
-						if (GameParameter.InSandbox) {
-							url = "https://workersandbox.mturk.com/mturk/externalSubmit?assignmentId="
-									+ assignmentId + "&amp;hitId=" + hitId;
-						} else {
-							url = "https://www.mturk.com/mturk/externalSubmit?assignmentId="
-									+ assignmentId + "&amp;hitId=" + hitId;
-						}
-
-						Window.Location.replace(url);
-
-					}
+					w.writeToFile();
+					
+					PageString ps= new PageString(w,"Sorry you are not allowed to participate because you didn't fill in the most of the calculations correctly.");
+					ps.loadPage();
+										
 					//return;
 				}
 			}

@@ -5,6 +5,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Enumeration;
 
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import com.ba.marketUI.client.ComClientInterface;
 import com.ba.marketUI.client.pages.GameParameter;
@@ -18,7 +19,8 @@ import com.ba.marketUI.client.pages.GameParameter;
 public class ComServerInterface extends RemoteServiceServlet implements
 		ComClientInterface{
 
-	private String pfad = "";//"/home/user/hediger/tomcat/";//"C:\\Users\\JH\\Desktop\\HS2012\\s\\";
+	//Window.
+	private String pfad = GameParameter.path;//"/home/user/hediger/tomcat/";//"";//"/home/user/hediger/tomcat/";//"";////"C:\\Users\\JH\\Desktop\\HS2012\\s\\";
 
 	public String myMethod(Boolean read, String message, String fileName) throws IOException {
 		if(read){
@@ -57,6 +59,7 @@ public class ComServerInterface extends RemoteServiceServlet implements
 
 	public void w(String i, String userAgent, String fileName)
 			throws IOException {
+		//Window.alert("w "+pfad+fileName+" "+i);
 		try {
 			BufferedWriter out = new BufferedWriter(new FileWriter(
 					pfad+fileName + ".txt", true));
@@ -65,6 +68,7 @@ public class ComServerInterface extends RemoteServiceServlet implements
 			out.write(userAgent + i);
 			out.close();
 		} catch (IOException e) {
+			//Window.alert("filewritingdoesntwork");
 			throw new IOException("filewritingdoesntwork");
 		}
 

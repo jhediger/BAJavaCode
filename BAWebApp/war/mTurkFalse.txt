@@ -1,0 +1,6 @@
+
+ userAgent: Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; WOW64; Trident/5.0; NP06)language: de-chnull,null,null,false,0,Sorry you are not allowed to participate because you didn't followed the instructions.Fall through SpammerQuestions
+ userAgent: Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; WOW64; Trident/5.0; NP06)language: de-chnull,null,null,false,0,Sorry you are not allowed to participate because you didn't followed the instructions.Fall through SpammerQuestionsnnnnmnull,null,null,false,0,Sorry you are not allowed to participate because you didn't followed the instructions.Fall through SpammerQuestions
+GameInfo: null,null,null,false,0,Sorry you are not allowed to participate because you didn't followed the instructions.Fall through SpammerQuestions
+GameInfo: nnnnmnull,null,null,false,0,Sorry you are not allowed to participate because you didn't followed the instructions.Fall through SpammerQuestion
+ userAgent: Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; WOW64; Trident/5.0; NP06)language: de-chnull,null,null,false,0,Sorry you are not allowed to participate because you didn't followed the instructions.Fall through SpammerQuestions

@@ -15,9 +15,15 @@ import com.google.gwt.user.client.ui.Widget;
 public class ThirdPageGameInstruction {
 
 	WriterTimeSaver w = new WriterTimeSaver();
-	
+	Boolean goTo2ndComQ = false;
+
 	public ThirdPageGameInstruction(WriterTimeSaver w) {
 		this.w = w;
+	}
+
+	public ThirdPageGameInstruction(WriterTimeSaver w2, boolean b) {
+		this.w = w;
+		goTo2ndComQ = b;
 	}
 
 	public void loadPage() {
@@ -33,7 +39,6 @@ public class ThirdPageGameInstruction {
 		String text5 = "The game has an underlying market mechanism which randomly chooses the actual task category (6). It also computes speeds, values and prices which strongly vary based on the actual task category. Thus, it can be essential to save tokens in low important situations and to spend them in high important situations.";
 		String text6 = "In each round of the game you have a certain time limit in seconds (7) to make a decision. In case no button is pushed within this time limit, a mechanism automatically chooses the button with the speed of 0 KB/s.";
 
-		
 		Label l_titel1 = new Label(titel1);
 		Label l_titel2 = new Label(titel2);
 		Label l_text1 = new Label(text1);
@@ -51,7 +56,7 @@ public class ThirdPageGameInstruction {
 		textPanelLeft.add(l_text4);
 		textPanelLeft.add(l_text5);
 		textPanelLeft.add(l_text6);
-		
+
 		l_titel1.addStyleName("titel");
 		l_titel2.addStyleName("titel");
 
@@ -61,28 +66,27 @@ public class ThirdPageGameInstruction {
 		l_text4.addStyleName("textintro");
 		l_text5.addStyleName("textintro");
 		l_text6.addStyleName("textintro");
-		
-	
+
 		Image i = new Image();
 		// to ensure that the screen is not to huge ->because of the iFrame in
 		// Amazone Turk
 		i.setPixelSize(270, 440);
-		
-		if(GameParameter.NumOptions==4){
+
+		if (GameParameter.NumOptions == 4) {
 			i.setUrl("images/instruction4.png");
-			}else if(GameParameter.NumOptions==5){
-				i.setUrl("images/instruction5.png");
-			}else if(GameParameter.NumOptions==6){
-				i.setUrl("images/instruction6.png");
-			}else if(GameParameter.NumOptions==7){
-				i.setUrl("images/instruction7.png");
-			}else if(GameParameter.NumOptions==3){
-				i.setUrl("images/instruction3.png");
-			}
-		
+		} else if (GameParameter.NumOptions == 5) {
+			i.setUrl("images/instruction5.png");
+		} else if (GameParameter.NumOptions == 6) {
+			i.setUrl("images/instruction6.png");
+		} else if (GameParameter.NumOptions == 7) {
+			i.setUrl("images/instruction7.png");
+		} else if (GameParameter.NumOptions == 3) {
+			i.setUrl("images/instruction3.png");
+		}
+
 		final Button button = new Button("Go to test");
 		button.setStyleName("startGameButton");
-		
+
 		button.addClickListener(new ClickListener() {
 			public void onClick(Widget sender) {
 				initialGameLayout();
@@ -90,7 +94,7 @@ public class ThirdPageGameInstruction {
 		});
 
 		textPanelLeft.add(button);
-		
+
 		welcomePanel.add(textPanelLeft);
 		welcomePanel.add(i);
 
@@ -102,8 +106,14 @@ public class ThirdPageGameInstruction {
 	}
 
 	private void initialGameLayout() {
-		FourthPageComprehensionQuestions g = new FourthPageComprehensionQuestions(w);
-		g.loadPage();
+		if (goTo2ndComQ) {
+			Page2ndComprehensionQuestions g= new Page2ndComprehensionQuestions(w);
+			g.loadPage();
+		} else {
+			FourthPageComprehensionQuestions g = new FourthPageComprehensionQuestions(
+					w);
+			g.loadPage();
+		}
 	}
 
 }

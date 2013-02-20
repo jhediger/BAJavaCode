@@ -35,7 +35,7 @@ public class GameParameter {
 	public static int MaxNumOfExpGames = 8;
 	//public static double FinalScore = 0;
 	public static double Score = 0;
-	static boolean InSandbox = true;
+	public static boolean InSandbox = false;
 	public static Game game;
 
 
@@ -53,6 +53,8 @@ public class GameParameter {
 	public static String numOfChoices= "numOfChoices";
 	public static String reOptimized= "reOptimized";
 	public static String computeLambda= "computeLambda";
+	public static String inSandobx= "inSandbox";
+	public static String save="save";
 
 	//MTurk Parameter for Window.Location.getParameter("Id")
 	public static String assignmentId= "assignmentId";
@@ -60,6 +62,7 @@ public class GameParameter {
 	public static String hitId="hitId";
 	public static String False= "false";
 	public static String True= "true";
+	public static String path= "/home/user/hediger/tomcat/";//"";//
 	
 	private static String getFileName(int option) {
 		if(option==2){

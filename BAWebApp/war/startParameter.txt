@@ -1,3 +1,10 @@
 numOfChoices:3;
 reOptimized:false;
 computeLambda:false;
+inSandbox:true;
+save:"";
+
+
+
+save:"/home/user/hediger/tomcat/";
+save:"";
