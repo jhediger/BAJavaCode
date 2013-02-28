@@ -14,7 +14,13 @@ public class Game {
 	private int numPriceLevels;
 	private int maxBudget;
 	private boolean negativeValues;
+	
+	//for behavioral games
 	private boolean reOptimized;
+	private int lambda;
+	
+	
+	
 	private int numCategories;
 	private int maxSpeed;
 	private double maxValue = 3.1;
@@ -43,7 +49,7 @@ public class Game {
 	// the prices depends on the speeds
 	private List<ArrayList<ArrayList<Integer>>> prices;
 
-	private boolean changingChoices;
+	//private boolean changingChoices;
 
 	// list with all three categories and per category numOfChoices sublists
 	// (choose one of them with p=1/3)
@@ -51,7 +57,7 @@ public class Game {
 	
 	public Game(int numCategories, int numOptions, int numPriceLevels,
 			int maxBudget, int valueVariation, boolean negativeValues,
-			boolean changingChoices, boolean reOptimized, int timeSteps) {
+			boolean changingChoices, boolean reOptimized, int timeSteps, int lambda) {
 		rand = new Random();
 		this.maxRounds = timeSteps;
 		this.numCategories = numCategories;
@@ -61,8 +67,9 @@ public class Game {
 		this.numValueVariations = valueVariation;
 		// this.totalScore = 0;
 		this.negativeValues = negativeValues;
-		this.changingChoices = changingChoices;
+		//this.changingChoices = changingChoices;
 		this.reOptimized = reOptimized;
+		this.lambda= lambda;
 
 		initialGame();
 
@@ -97,7 +104,7 @@ public class Game {
 		this.maxBudget = maxBudget;
 		this.numValueVariations = valueVariation;
 		this.negativeValues = negativeValues;
-		this.changingChoices = changingChoices;
+		//this.changingChoices = changingChoices;
 		this.reOptimized = reOptimized;
 
 		initialGame();
@@ -134,7 +141,7 @@ public class Game {
 		
 
 		//currentRound = 0;
-		currentBudget = 0;
+		currentBudget = maxBudget;
 		currentScore = 0.0;
 
 	}
@@ -173,7 +180,7 @@ public class Game {
 		currentScore = currentScore
 				+ values.get(currentCategory).get(pushedbutton)
 						.get(currentValueVariation.get(pushedbutton));
-		currentBudget += prices.get(currentPriceLevel).get(currentCategory)
+		currentBudget -= prices.get(currentPriceLevel).get(currentCategory)
 				.get(pushedbutton);
 		
 
@@ -215,23 +222,23 @@ public class Game {
 
 		List<Boolean> disable_buttons = new ArrayList<Boolean>();
 
-		int tokens_to_spend = maxBudget - currentBudget;
-
-		for (int i = 0; i < numOptions; i++) {
-			if (tokens_to_spend < prices.get(currentPriceLevel)
+		for (int i = 0; i < numOptions-1; i++) {
+			if (currentBudget < prices.get(currentPriceLevel)
 					.get(currentCategory).get(i)) {
 				disable_buttons.add(true);
 			} else {
 				disable_buttons.add(false);
 			}
 		}
+		
+		disable_buttons.add(false);
 
 		return disable_buttons;
 	}
 
 	public void setNew() {
 		//currentRound = 0;
-		currentBudget = 0;
+		currentBudget = maxBudget;
 		currentScore = 0.0;
 
 	}
@@ -357,37 +364,11 @@ public class Game {
 
 	private double[][] generateSpeeds() {
 		double[][] newSpeeds = new double[this.numCategories][];
-
-		if (!changingChoices) {
 			for (int c = 0; c < this.numCategories; c++) {
 				//not used for the experiment!
-				if (this.numPriceLevels == 1) {
-					switch (numOptions) {// fix prices, fixed choices, rational opt (7.1.2012)
-					case 2:
-						newSpeeds[c] = new double[] { 100, 0 };
-						break;
-
-					case 3:
-						newSpeeds[c] = new double[] { 1000, 100, 0 };
-						break;
-
-					case 4:
-						newSpeeds[c] = new double[] { 1000, 900, 100, 0 };
-						break;
-
-					case 5:
-						newSpeeds[c] = new double[] { 1000, 900, 200, 100, 0 };
-						break;
-
-					case 6:
-						newSpeeds[c] = new double[] { 1000, 900, 300, 200, 100,
-								0 };
-						break;
-					}
-				} else {// changing prices, fixed choices, rational opt (7.2.2012) ->used for the experiment
+				// changing prices, fixed choices, rational opt (7.2.2012) ->used for the experiment
 					 if (!this.reOptimized)
                      {
-
                          switch (numOptions)
                          {
                              case 2:
@@ -410,130 +391,134 @@ public class Game {
                                  newSpeeds[c] = new double[] { 900, 400, 300, 200, 100, 0 };
                                  break;
                          }
-                         /*
-					if (!this.reOptimized) {
 
-						switch (numOptions) {
-						case 2:
-							newSpeeds[c] = new double[] { 1000, 0 };
-							break;
-
-						case 3:
-							newSpeeds[c] = new double[] { 1000, 300, 0 };
-							break;
-
-						case 4:
-							newSpeeds[c] = new double[] { 1000, 500, 300, 0 }; // this
-																				// one!
-							break;
-
-						case 5:
-							newSpeeds[c] = new double[] { 1000, 900, 500, 300, 0 };
-							break;
-
-						case 6:
-							newSpeeds[c] = new double[] { 1000, 900, 500, 300,
-									100, 0 };
-							break;
-						}*/
 					} else // re-optimized values, changing prices, fixed
 							// choices
 					{
-						switch (numOptions) {
-						case 2:
-							newSpeeds[c] = new double[] { 100, 0 };
-							break;
+						if(lambda==1){
+							switch (numOptions) {
+							case 2:
+								newSpeeds[c] = new double[] { 100, 0 };
+								break;
 
-						case 3:
-							newSpeeds[c] = new double[] { 600, 200, 0 };
-							break;
+							case 3:
+								newSpeeds[c] = new double[] { 600, 200, 0 };
+								break;
 
-						case 4:
-							newSpeeds[c] = new double[] { 400, 300, 100, 0 }; // this
-																				// one!
-							break;
+							case 4:
+								newSpeeds[c] = new double[] { 400, 300, 100, 0 }; // this
+																					// one!
+								break;
 
-						case 5:
-							newSpeeds[c] = new double[] { 400, 300, 200, 100, 0 };
-							break;
+							case 5:
+								newSpeeds[c] = new double[] { 400, 300, 200, 100, 0 };
+								break;
 
-						case 6:
-							newSpeeds[c] = new double[] { 500, 400, 300, 200,
-									100, 0 };
-							break;
+							case 6:
+								newSpeeds[c] = new double[] { 500, 400, 300, 200,
+										100, 0 };
+								break;
+							}
+						}else if(lambda==3){
+							switch (numOptions) {
+							case 2:
+								newSpeeds[c] = new double[] { 100, 0 };
+								break;
+
+							case 3:
+								newSpeeds[c] = new double[] { 600, 200, 0 };
+								break;
+
+							case 4:
+								newSpeeds[c] = new double[] { 400, 300, 100, 0 }; // this
+																					// one!
+								break;
+
+							case 5:
+								newSpeeds[c] = new double[] { 400, 300, 200, 100, 0 };
+								break;
+
+							case 6:
+								newSpeeds[c] = new double[] { 500, 400, 300, 200,
+										100, 0 };
+								break;
+							}
+						}else if(lambda==6){
+							switch (numOptions) {
+							case 2:
+								newSpeeds[c] = new double[] { 100, 0 };
+								break;
+
+							case 3:
+								newSpeeds[c] = new double[] { 600, 200, 0 };
+								break;
+
+							case 4:
+								newSpeeds[c] = new double[] { 400, 300, 100, 0 }; // this
+																					// one!
+								break;
+
+							case 5:
+								newSpeeds[c] = new double[] { 400, 300, 200, 100, 0 };
+								break;
+
+							case 6:
+								newSpeeds[c] = new double[] { 500, 400, 300, 200,
+										100, 0 };
+								break;
+							}
+						}else if(lambda==9){
+							switch (numOptions) {
+							case 2:
+								newSpeeds[c] = new double[] { 100, 0 };
+								break;
+
+							case 3:
+								newSpeeds[c] = new double[] { 600, 200, 0 };
+								break;
+
+							case 4:
+								newSpeeds[c] = new double[] { 400, 300, 100, 0 }; // this
+																					// one!
+								break;
+
+							case 5:
+								newSpeeds[c] = new double[] { 400, 300, 200, 100, 0 };
+								break;
+
+							case 6:
+								newSpeeds[c] = new double[] { 500, 400, 300, 200,
+										100, 0 };
+								break;
+							}
+						}else{
+							switch (numOptions) {
+							case 2:
+								newSpeeds[c] = new double[] { 100, 0 };
+								break;
+
+							case 3:
+								newSpeeds[c] = new double[] { 600, 200, 0 };
+								break;
+
+							case 4:
+								newSpeeds[c] = new double[] { 400, 300, 100, 0 }; // this
+																					// one!
+								break;
+
+							case 5:
+								newSpeeds[c] = new double[] { 400, 300, 200, 100, 0 };
+								break;
+
+							case 6:
+								newSpeeds[c] = new double[] { 500, 400, 300, 200,
+										100, 0 };
+								break;
+							}
 						}
 					}
-				}// end changing prices
-			}
-		} 
-		//no speeds computed for changing choices...not used....
-		/*else {// changing choices
-			if (!this.reOptimized) {
-				switch (numOptions) {
-				case 2:
-					newSpeeds[0] = new double[] { 700, 0 };
-					newSpeeds[1] = new double[] { 500, 0 };
-					newSpeeds[2] = new double[] { 300, 0 };
-					break;
-
-				case 3:
-					newSpeeds[0] = new double[] { 600, 300, 0 };
-					newSpeeds[1] = new double[] { 500, 200, 0 };
-					newSpeeds[2] = new double[] { 400, 100, 0 };
-					break;
-
-				case 4: // this one!
-					newSpeeds[0] = new double[] { 1000, 400, 200, 0 };
-					newSpeeds[1] = new double[] { 600, 200, 100, 0 };
-					newSpeeds[2] = new double[] { 400, 200, 100, 0 };
-					break;
-
-				case 5:
-					newSpeeds[0] = new double[] { 1000, 800, 600, 400, 0 };
-					newSpeeds[1] = new double[] { 800, 600, 400, 200, 0 };
-					newSpeeds[2] = new double[] { 600, 500, 350, 150, 0 };
-					break;
-
-				case 6:
-					newSpeeds[0] = new double[] { 1000, 800, 600, 400, 200, 0 };
-					newSpeeds[1] = new double[] { 800, 600, 400, 200, 100, 0 };
-					newSpeeds[2] = new double[] { 700, 500, 300, 150, 100, 0 };
-					break;
 				}
-			} else {// re-optimized, changing choices, changing prices
-				switch (numOptions) {
-				case 2:
-					newSpeeds[0] = new double[] { 700, 0 };
-					newSpeeds[1] = new double[] { 500, 0 };
-					newSpeeds[2] = new double[] { 300, 0 };
-					break;
-
-				case 3:
-					newSpeeds[0] = new double[] { 600, 300, 0 };
-					newSpeeds[1] = new double[] { 500, 200, 0 };
-					newSpeeds[2] = new double[] { 400, 100, 0 };
-					break;
-
-				case 4: // this one!
-					newSpeeds[0] = new double[] { 500, 400, 100, 0 };
-					newSpeeds[1] = new double[] { 400, 300, 100, 0 };
-					newSpeeds[2] = new double[] { 300, 200, 100, 0 };
-					break;
-
-				case 5:
-					newSpeeds[0] = new double[] { 1000, 800, 600, 400, 0 };
-					newSpeeds[1] = new double[] { 800, 600, 400, 200, 0 };
-					newSpeeds[2] = new double[] { 600, 500, 350, 150, 0 };
-					break;
-
-				case 6:
-					newSpeeds[0] = new double[] { 1000, 800, 600, 400, 200, 0 };
-					newSpeeds[1] = new double[] { 800, 600, 400, 200, 100, 0 };
-					newSpeeds[2] = new double[] { 700, 500, 300, 150, 100, 0 };
-					break;
-				}
-			}
-		}*/
+		
 		return newSpeeds;
 	}
 
@@ -633,7 +618,8 @@ public class Game {
 		list.add(numOptions);
 		round= round-1;
 		list.add(round);
-		list.add(maxBudget - currentBudget);
+		//list.add(maxBudget - currentBudget);
+		list.add(currentBudget);
 		list.add(currentCategory);
 		list.addAll(currentValueVariation);
 		list.add(currentPriceLevel);
@@ -678,4 +664,11 @@ public class Game {
 		// setLambdaParameters();
 	}
 
+	public int getCurrentPriceLevel(){
+		return currentPriceLevel;
+	}
+	
+	public ArrayList<Integer> getCurrentVL(){
+		return currentValueVariation;
+	}
 }

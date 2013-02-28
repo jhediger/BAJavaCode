@@ -45,7 +45,7 @@ public class FourthPageComprehensionQuestions {
 		String question2 = "2) What are the price and the value of the button with the speed";
 		String question3 = "3) What is the new total score after someone pushed the button with the speed";
 		String question4 = "4) What happens if no button is pushed within";
-		String question5 = "5) How many tokens are spent in total after someone pushed the button with the speed";
+		String question5 = "5) How many tokens are left after someone pushed the button with the speed";
 		String question6 = "6) Why is it not possible to push the button with the speed";
 
 		// Make some radio buttons, all in one group.
@@ -81,13 +81,13 @@ public class FourthPageComprehensionQuestions {
 			i.setUrl("images/screenshot4.png");
 			// solution is 0,0,2,1,0,2
 			// 1)What is the current task category?
-			rb10.setText("Low Importance");
+			rb10.setText("Medium Importance");
 			rb11.setText("High Importance");
 			rb12.setText("It is not possible to know that.");
 			// 2)What are the price and the value of the button with the speed
 			// [num OF Choices]?
 			question2 += " 100.0 KB/s?";
-			rb20.setText("Price:3 Value:$0.4");
+			rb20.setText("Price:3 Value:$0.7");
 			rb21.setText("Price:0 Value:$0.2");
 			rb22.setText("It is not possible to know that.");
 			// 3)What is the new total score after someone pushed the button
@@ -95,18 +95,18 @@ public class FourthPageComprehensionQuestions {
 			question3 += " 300.0 KB/s?";
 			rb30.setText("$1");
 			rb31.setText("$2");
-			rb32.setText("$2.6");
+			rb32.setText("$2.4");
 			// 4)What happens if no button is pushed within [gross] seconds?
-			question4 += " 4 seconds?";
+			question4 += " 8 seconds?";
 			rb40.setText("Nothing");
 			rb41.setText("The lowest connection speed is automatically chosen.");
 			rb42.setText("It is not possible to know that.");
 			// 5)How many tokens are spent in total after someone pushed the
 			// button with the speed [mittlerer ->Num Of Choices]?
 			question5 += " 300.0 KB/s?";
-			rb50.setText("18");
+			rb50.setText("12");
 			rb51.setText("6");
-			rb52.setText("12");
+			rb52.setText("20");
 			// 6)Why is it not possible to push the button with the speed
 			// [numOfChoices]?
 			question6 += " 900.0 KB/s?";
@@ -118,23 +118,23 @@ public class FourthPageComprehensionQuestions {
 			i.setUrl("images/screenshot5.png");
 			// solution is 0,0,2,1,0,2
 			// 1)What is the current task category?
-			rb10.setText("Low Importance");
+			rb10.setText("Medium Importance");
 			rb11.setText("High Importance");
 			rb12.setText("It is not possible to know that.");
 			// 2)What are the price and the value of the button with the speed
 			// [num OF Choices]?
 			question2 += " 100.0 KB/s?";
-			rb20.setText("Price:3 Value:$0.2");
+			rb20.setText("Price:3 Value:$0.4");
 			rb21.setText("Price:0 Value:$0.2");
 			rb22.setText("It is not possible to know that.");
 			// 3)What is the new total score after someone pushed the button
 			// with the speed [oberster ->Num Of Choices]?
 			question3 += " 200.0 KB/s?";
 			rb30.setText("$1");
-			rb31.setText("$2");
-			rb32.setText("$2.7");
+			rb31.setText("$4");
+			rb32.setText("$4.1");
 			// 4)What happens if no button is pushed within [gross] seconds?
-			question4 += " 7 seconds?";
+			question4 += " 9 seconds?";
 			rb40.setText("Nothing");
 			rb41.setText("The lowest connection speed is automatically chosen.");
 			rb42.setText("It is not possible to know that.");
@@ -143,7 +143,7 @@ public class FourthPageComprehensionQuestions {
 			question5 += " 200.0 KB/s?";
 			rb50.setText("15");
 			rb51.setText("10");
-			rb52.setText("7");
+			rb52.setText("20");
 			// 6)Why is it not possible to push the button with the speed
 			// [numOfChoices]?
 			question6 += " 900.0 KB/s?";
@@ -154,31 +154,31 @@ public class FourthPageComprehensionQuestions {
 			i.setUrl("images/screenshot6.png");
 			// solution is 0,0,2,1,0,2
 			// 1)What is the current task category?
-			rb10.setText("Low Importance");
-			rb11.setText("High Importance");
+			rb10.setText("High Importance");
+			rb11.setText("Low Importance");
 			rb12.setText("It is not possible to know that.");
 			// 2)What are the price and the value of the button with the speed
 			// [num OF Choices]?
 			question2 += " 200.0 KB/s?";
-			rb20.setText("Price:6 Value:$0.6");
-			rb21.setText("Price:0 Value:$0.6");
+			rb20.setText("Price2 Value:$1.4");
+			rb21.setText("Price:2 Value:$0.6");
 			rb22.setText("It is not possible to know that.");
 			// 3)What is the new total score after someone pushed the button
 			// with the speed [oberster ->Num Of Choices]?
 			question3 += " 300.0 KB/s?";
 			rb30.setText("$1");
-			rb31.setText("$2.4");
-			rb32.setText("$2");
+			rb31.setText("$5");
+			rb32.setText("$5.8");
 			// 4)What happens if no button is pushed within [gross] seconds?
-			question4 += " 8 seconds?";
+			question4 += " 9 seconds?";
 			rb40.setText("Nothing");
 			rb41.setText("The lowest connection speed is automatically chosen.");
 			rb42.setText("It is not possible to know that.");
 			// 5)How many tokens are spent in total after someone pushed the
 			// button with the speed [mittlerer ->Num Of Choices]?
 			question5 += " 100.0 KB/s?";
-			rb50.setText("9");
-			rb51.setText("6");
+			rb50.setText("7");
+			rb51.setText("8");
 			rb52.setText("12");
 			// 6)Why is it not possible to push the button with the speed
 			// [numOfChoices]?
@@ -191,21 +191,21 @@ public class FourthPageComprehensionQuestions {
 			i.setUrl("images/screenshot3.png");
 			// solution is 0,0,2,1,0,2
 			// 1)What is the current task category?
-			rb10.setText("Medium Importance");
-			rb11.setText("High Importance");
+			rb10.setText("High Importance");
+			rb11.setText("Low Importance");
 			rb12.setText("It is not possible to know that.");
 			// 2)What are the price and the value of the button with the speed
 			// [num OF Choices]?
 			question2 += " 0.0 KB/s?";
-			rb20.setText("Price:0 Value:$0.4");
+			rb20.setText("Price:0 Value:$0.0");
 			rb21.setText("Price:0 Value:$0.2");
 			rb22.setText("It is not possible to know that.");
 			// 3)What is the new total score after someone pushed the button
 			// with the speed [oberster ->Num Of Choices]?
 			question3 += " 200.0 KB/s?";
-			rb30.setText("$8");
-			rb31.setText("$9.4");
-			rb32.setText("$9.8");
+			rb30.setText("$4");
+			rb31.setText("$5");
+			rb32.setText("$5.3");
 			// 4)What happens if no button is pushed within [gross] seconds?
 			question4 += " 8 seconds?";
 			rb40.setText("Nothing");
@@ -214,9 +214,9 @@ public class FourthPageComprehensionQuestions {
 			// 5)How many tokens are spent in total after someone pushed the
 			// button with the speed [mittlerer ->Num Of Choices]?
 			question5 += " 200.0 KB/s?";
-			rb50.setText("30");
-			rb51.setText("6");
-			rb52.setText("12");
+			rb50.setText("0");
+			rb51.setText("2");
+			rb52.setText("5");
 			// 6)Why is it not possible to push the button with the speed
 			// [numOfChoices]?
 			question6 += " 600.0 KB/s?";

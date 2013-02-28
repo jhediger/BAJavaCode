@@ -21,6 +21,8 @@ public class WriterTimeSaver {
 
 	private String datei;
 
+	private String file;
+
 	private ArrayList<Double> scores = new ArrayList<Double>();
 
 	private ArrayList<Long> times = new ArrayList<Long>();
@@ -46,7 +48,7 @@ public class WriterTimeSaver {
 
 							@Override
 							public void onFailure(Throwable caught) {
-								if(GameParameter.InSandbox){
+								if (GameParameter.InSandbox) {
 									Window.alert("Save failed.");
 								}
 
@@ -54,19 +56,20 @@ public class WriterTimeSaver {
 
 							@Override
 							public void onSuccess(String result) {
-								if(GameParameter.InSandbox){
+								if (GameParameter.InSandbox) {
 									Window.alert("Save succed.");
 								}
 
 							}
 
 						});
-				map.remove(g);
+
 			} catch (IOException e) {
-				//Window.alert("IOE");
+				// Window.alert("IOE");
 				// e.printStackTrace();
 			}
 		}
+		map.clear();
 	}
 
 	public void setTimeOverall() {
@@ -124,41 +127,45 @@ public class WriterTimeSaver {
 				input.indexOf(";", start)));
 		start = input.indexOf(GameParameter.inSandobx)
 				+ GameParameter.inSandobx.length() + 1;
-		GameParameter.InSandbox= Boolean.valueOf(input.substring(start,
+		GameParameter.InSandbox = Boolean.valueOf(input.substring(start,
 				input.indexOf(";", start)));
-		start = input.indexOf(GameParameter.save)
-				+ GameParameter.save.length() + 1;
-		//GameParameter.path= "/home/user/hediger/tomcat/";//input.substring(start,input.indexOf(";",start));
-		
-		if(GameParameter.InSandbox){
-			Window.alert(datei+" "+GameParameter.path+" "+GameParameter.NumOptions+" "+GameParameter.InSandbox);
-		}else if(!GameParameter.InSandbox){
-			//Window.alert("Welcome"+GameParameter.path);
+		start = input.indexOf(GameParameter.save) + GameParameter.save.length()
+				+ 1;
+		// GameParameter.path=
+		// "/home/user/hediger/tomcat/";//input.substring(start,input.indexOf(";",start));
+
+		if (GameParameter.InSandbox) {
+			Window.alert(datei + " " + GameParameter.path + " "
+					+ GameParameter.NumOptions + " " + GameParameter.InSandbox);
+		} else if (!GameParameter.InSandbox) {
+			// Window.alert("Welcome"+GameParameter.path);
 		}
-		datei=null;
-		
+		datei = null;
 
 	}
 
-	public void readFromFile(String fileName, final int numFunction)
+	public void readFromFile(final String fileName, final int numFunction)
 			throws IOException {
 		dataStoreService.myMethod(true, "", fileName,
 				new AsyncCallback<String>() {
 
 					@Override
 					public void onFailure(Throwable caught) {
-					//	Window.alert("RPC failed.");
+						// Window.alert("RPC failed.");
 						datei = "onFailure";
 					}
 
 					@Override
 					public void onSuccess(String result) {
-					//	Window.alert("RPC to sendEmail() succed." + result);
-						datei = result;
+						Window.alert(fileName + "RPC to sendEmail() succed."
+								+ result);
 						if (numFunction == 1) {
+							datei = result;
 							setInputParameter();
-						}else if(numFunction==2){
+						} else if (numFunction == 2) {
+							file = result;
 							computeLambda();
+
 						}
 					}
 
@@ -182,15 +189,64 @@ public class WriterTimeSaver {
 	}
 
 	public void computeLambda() {
-		if(datei==null){
-		try {
-			readFromFile(GameParameter.FileNameForInput,2);
-		} catch (IOException e) {
-			e.printStackTrace();
+		if (file == null) {
+			try {
+				readFromFile(GameParameter.FileNameForInput, 2);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
-		}
-		//TODO computation
+		// TODO computation
+
+	}
+
+	public ArrayList<ArrayList<Double>> getAll(MDP mdpComp, int round,
+			int budget, int cat, int vv, int pl) {
+		ArrayList<ArrayList<Double>> list = new ArrayList<ArrayList<Double>>();
+		String key = mdpComp.generateKey(round, budget, cat, vv, pl);
 		
+		// IffileInputnotWork create tabple
+		if (file == null) {
+
+			
+			if(mdpComp.getTableAll().isEmpty()){
+				mdpComp.createTable();
+			}
+			
+			list= (ArrayList<ArrayList<Double>>) mdpComp.getTableAll().get(key);
+			
+		} else {
+
+			// round5budg3cat2vv[2, 0, 2, 1, 0, 0, 0, 0]pl2=[[-3000.0, 1.3],
+			// [-3000.0, 0.7], [0.0, 1.1111111111111085], [1.0,
+			// 1.8966583846305132]],
+
+			
+
+			// System.out.println(key);
+
+			// TODO problem
+			int startindex = file.indexOf(key) + key.length() + 3;
+
+			for (int i = 0; i < GameParameter.NumOptions; i++) {
+				ArrayList<Double> l = new ArrayList<Double>();
+				String val1 = file.substring(startindex,
+						file.indexOf(",", startindex));
+				l.add(Double.valueOf(val1));
+				startindex += val1.length() + 2;
+				String val2 = file.substring(startindex,
+						file.indexOf("]", startindex));
+				l.add(Double.valueOf(val2));
+				startindex += val2.length() + 4;
+
+				// System.out.println("l"+ l);
+
+				list.add(l);
+
+			}
+		}
+
+		return list;
 	}
 
 }

@@ -1,5 +1,7 @@
 package com.ba.marketUI.client.pages;
 
+import java.util.ArrayList;
+
 import com.ba.marketUI.client.Game;
 import com.google.gwt.user.client.Window;
 
@@ -11,23 +13,26 @@ import com.google.gwt.user.client.Window;
 public class GameParameter {
 	
 	// fix
-	static Integer TimeSteps = 6;
-	static Integer Tokens = 30;
+	public static Integer TimeSteps = 6;
+	public static Integer Tokens = 30;
 	public static int Categories = 3; // high, medium, low
 	static boolean NegativeValues = false;
 	static boolean ChangingChoices = false; // if we have different choice sets
 											// depending on the categories
-	static int NumPriceLevels = 3;// num of different prices
-	static int ValueVariation = 3;
+	public static int NumPriceLevels = 3;// num of different prices
+	public static int ValueVariation = 3;
 	static int MaxTimePerRound = 10;
 	
 	// variable, please change the startParameter-file in the folder inputFiles
-	public static int NumOptions; // to decide how many buttons the game has
+	public static int NumOptions = 4; // to decide how many buttons the game has
 	//behavioral optimization experiment
 	public static boolean ReOptimized; // if the user interface is optimized
 	// depending on a lambda
-	public static boolean ComputeLambda; 
-	public static double[][] Speeds= null;
+	public static boolean ComputeLambda= false; 
+	public static int Lambda = 6;
+	public static boolean isFirstPart = true;
+	public static ArrayList<ArrayList<Integer>> Data = new ArrayList<ArrayList<Integer>>();
+	//public static double[][] Speeds= null;
 	
 	// for the experiment
 	static int NumOfTestRounds = 4;
@@ -40,7 +45,7 @@ public class GameParameter {
 
 
 	// fileName
-	public static final String FileNameForInput = getFileName(NumOptions);
+	public static final String FileNameForInput = "lambdaCompTableAll4.txt";//getFileName(NumOptions);
 	public static final String FileNameForInputParameter = "startParameter.txt";
 	
 		
@@ -62,7 +67,8 @@ public class GameParameter {
 	public static String hitId="hitId";
 	public static String False= "false";
 	public static String True= "true";
-	public static String path= "/home/user/hediger/tomcat/";//"";//
+	public static String path= "";//"/home/user/hediger/tomcat/";//"";//
+	
 	
 	private static String getFileName(int option) {
 		if(option==2){
@@ -97,10 +103,10 @@ public class GameParameter {
 			}else if(NumOptions==7){
 				return "mTurkFalse7";
 			}else{
-				return "mTurkFalse";
+				return "mTurkFalse3";
 			}
 		}else{
-			return "mTurkTrue";
+			return "mTurkTrue3";
 		}
 	}
 
@@ -122,7 +128,7 @@ public class GameParameter {
 			}else if(NumOptions==7){
 				return "gameFalse7";
 			}else{
-				return "gameFalse";
+				return "gameFalse3";
 			}
 		}else{
 			//TODO perhabs two files are better to find the difference
@@ -148,7 +154,7 @@ public class GameParameter {
 			}else if(NumOptions==7){
 				return "workerFalse7";
 			}else{
-				return "workerFalse";
+				return "workerFalse3";
 			}
 		}else{
 			return "workerTrue";

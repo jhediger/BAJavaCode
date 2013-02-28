@@ -37,17 +37,15 @@ public class PageSetExperiment {
 			// to set the times for the rounds ->the rest start in gamePanel
 			w.startTime();
 		} else {
-			if (GameParameter.NumOfExpGames == 0) {
+			if (GameParameter.isFirstPart) {
 				titel = "3G Bandwith Game - Experiment - First Part";
 				text0 = "The experiment consists of two parts.";
-				text1 = "In each part of the experiment you have to play four games.";
+				text1 = "In each part of the experiment you have to play "+GameParameter.MaxNumOfExpGames+ " games.";
 				// TODO break aufgabe falls rechner zu lange braucht..
 				text2 = "Before the second part starts there will be a short break.";
 				buttonText = "Start part one";
 				//w.setTimeExp1();
-			} else if (GameParameter.NumOfExpGames == 1) {
-				//TODO
-				w.computeLambda();
+			} else{
 				//w.stopTimeExp1();
 				titel = "3G Bandwith Game - Experiment - Second Part";
 				text0 = "You have terminated the first part.";

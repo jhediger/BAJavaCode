@@ -1,6 +1,6 @@
-numOfChoices:3;
-reOptimized:false;
-computeLambda:false;
+numOfChoices:4;
+reOptimized:true;
+computeLambda:true;
 inSandbox:true;
 save:"";
 

@@ -42,7 +42,7 @@ public class Page2ndComprehensionQuestions {
 		String question2 = "2) What are the price and the value of the button with the speed";
 		String question3 = "3) What is the new total score after someone pushed the button with the speed";
 		String question4 = "4) What happens if no button is pushed within";
-		String question5 = "5) How many tokens are spent in total after someone pushed the button with the speed";
+		String question5 = "5) How many tokens are left after someone pushed the button with the speed";
 
 		// Make some radio buttons, all in one group. // solution is 1,0,2,0,2
 		RadioButton rb10 = new RadioButton("GroupQ1");
@@ -79,7 +79,7 @@ public class Page2ndComprehensionQuestions {
 			// 2)What are the price and the value of the button with the speed
 			// [num OF Choices]?
 			question2 += " 100.0 KB/s?";
-			rb20.setText("Price:2 Value:$1.2");
+			rb20.setText("Price:2 Value:$0.5");
 			rb21.setText("Price:0 Value:$0.2");
 			rb22.setText("It is not possible to know that.");
 			// 3)What is the new total score after someone pushed the button
@@ -87,9 +87,9 @@ public class Page2ndComprehensionQuestions {
 			question3 += " 300.0 KB/s?";
 			rb30.setText("$1.3");
 			rb31.setText("$2");
-			rb32.setText("$3.1");
+			rb32.setText("$2.1");
 			// 4)What happens if no button is pushed within [gross] seconds?
-			question4 += " 6 seconds?";
+			question4 += " 9 seconds?";
 			rb40.setText("The lowest connection speed is automatically chosen.");
 			rb41.setText("Nothing");
 			rb42.setText("It is not possible to know that.");
@@ -98,70 +98,10 @@ public class Page2ndComprehensionQuestions {
 			question5 += " 300.0 KB/s?";
 			rb50.setText("18");
 			rb51.setText("9");
-			rb52.setText("15");
+			rb52.setText("21");
 
 		} else if (GameParameter.NumOptions == 5) {
 			i.setUrl("images/all5.png");
-			// solution is 1,0,2,0,2
-			// 1)What is the current task category?
-			rb10.setText("High Importance");
-			rb11.setText("Low Importance");
-			rb12.setText("It is not possible to know that.");
-			// 2)What are the price and the value of the button with the speed
-			// [num OF Choices]?
-			question2 += " 100.0 KB/s?";
-			rb20.setText("Price:2 Value:$0.2");
-			rb21.setText("Price:0 Value:$0.2");
-			rb22.setText("It is not possible to know that.");
-			// 3)What is the new total score after someone pushed the button
-			// with the speed [oberster ->Num Of Choices]?
-			question3 += " 200.0 KB/s?";
-			rb30.setText("$1");
-			rb31.setText("$2");
-			rb32.setText("$1.1");
-			// 4)What happens if no button is pushed within [gross] seconds?
-			question4 += " 5 seconds?";
-			rb41.setText("Nothing");
-			rb40.setText("The lowest connection speed is automatically chosen.");
-			rb42.setText("It is not possible to know that.");
-			// 5)How many tokens are spent in total after someone pushed the
-			// button with the speed [mittlerer ->Num Of Choices]?
-			question5 += " 200.0 KB/s?";
-			rb50.setText("2");
-			rb51.setText("10");
-			rb52.setText("6");
-		} else if (GameParameter.NumOptions == 6) {
-			i.setUrl("images/all6.png");
-			// solution is 1,0,2,0,2
-			// 1)What is the current task category?
-			rb10.setText("Low Importance");
-			rb11.setText("High Importance");
-			rb12.setText("It is not possible to know that.");
-			// 2)What are the price and the value of the button with the speed
-			// [num OF Choices]?
-			question2 += " 200.0 KB/s?";
-			rb20.setText("Price:2 Value:$1.4");
-			rb21.setText("Price:0 Value:$1.4");
-			rb22.setText("It is not possible to know that.");
-			// 3)What is the new total score after someone pushed the button
-			// with the speed [oberster ->Num Of Choices]?
-			question3 += " 300.0 KB/s?";
-			rb30.setText("$1.9");
-			rb31.setText("$3");
-			rb32.setText("$3.6");
-			// 4)What happens if no button is pushed within [gross] seconds?
-			question4 += " 8 seconds?";
-			rb41.setText("Nothing");
-			rb40.setText("The lowest connection speed is automatically chosen.");
-			rb42.setText("It is not possible to know that.");
-			// 5)How many tokens are spent in total after someone pushed the
-			// button with the speed [mittlerer ->Num Of Choices]?
-			question5 += " 900.0 KB/s?";
-			rb50.setText("4");
-			rb51.setText("2");
-			rb52.setText("11");
-		} else if (GameParameter.NumOptions == 3) {
-			i.setUrl("images/all3.png");
 			// solution is 1,0,2,0,2
 			// 1)What is the current task category?
 			rb10.setText("High Importance");
@@ -169,18 +109,78 @@ public class Page2ndComprehensionQuestions {
 			rb12.setText("It is not possible to know that.");
 			// 2)What are the price and the value of the button with the speed
 			// [num OF Choices]?
+			question2 += " 100.0 KB/s?";
+			rb20.setText("Price:1 Value:$0.4");
+			rb21.setText("Price:0 Value:$0.4");
+			rb22.setText("It is not possible to know that.");
+			// 3)What is the new total score after someone pushed the button
+			// with the speed [oberster ->Num Of Choices]?
+			question3 += " 200.0 KB/s?";
+			rb30.setText("$1");
+			rb31.setText("$2");
+			rb32.setText("$1.6");
+			// 4)What happens if no button is pushed within [gross] seconds?
+			question4 += " 9 seconds?";
+			rb41.setText("Nothing");
+			rb40.setText("The lowest connection speed is automatically chosen.");
+			rb42.setText("It is not possible to know that.");
+			// 5)How many tokens are spent in total after someone pushed the
+			// button with the speed [mittlerer ->Num Of Choices]?
+			question5 += " 200.0 KB/s?";
+			rb50.setText("2");
+			rb51.setText("20");
+			rb52.setText("24");
+		} else if (GameParameter.NumOptions == 6) {
+			i.setUrl("images/all6.png");
+			// solution is 1,0,2,0,2
+			// 1)What is the current task category?
+			rb10.setText("Low Importance");
+			rb11.setText("Medium Importance");
+			rb12.setText("It is not possible to know that.");
+			// 2)What are the price and the value of the button with the speed
+			// [num OF Choices]?
+			question2 += " 200.0 KB/s?";
+			rb20.setText("Price:4 Value:$0.8");
+			rb21.setText("Price:0 Value:$1.4");
+			rb22.setText("It is not possible to know that.");
+			// 3)What is the new total score after someone pushed the button
+			// with the speed [oberster ->Num Of Choices]?
+			question3 += " 300.0 KB/s?";
+			rb30.setText("$1.9");
+			rb31.setText("$1");
+			rb32.setText("$1.5");
+			// 4)What happens if no button is pushed within [gross] seconds?
+			question4 += " 9 seconds?";
+			rb41.setText("Nothing");
+			rb40.setText("The lowest connection speed is automatically chosen.");
+			rb42.setText("It is not possible to know that.");
+			// 5)How many tokens are spent in total after someone pushed the
+			// button with the speed [mittlerer ->Num Of Choices]?
+			question5 += " 900.0 KB/s?";
+			rb50.setText("29");
+			rb51.setText("18");
+			rb52.setText("11");
+		} else if (GameParameter.NumOptions == 3) {
+			i.setUrl("images/all3.png");
+			// solution is 1,0,2,0,2
+			// 1)What is the current task category?
+			rb10.setText("Low Importance");
+			rb11.setText("High Importance");
+			rb12.setText("It is not possible to know that.");
+			// 2)What are the price and the value of the button with the speed
+			// [num OF Choices]?
 			question2 += " 600.0 KB/s?";
-			rb20.setText("Price:6 Value:$1.7");
-			rb21.setText("Price:2 Value:$1.0");
+			rb20.setText("Price:12 Value:$2.4");
+			rb21.setText("Price:2 Value:$2.4");
 			rb22.setText("It is not possible to know that.");
 			// 3)What is the new total score after someone pushed the button
 			// with the speed [oberster ->Num Of Choices]?
 			question3 += " 200.0 KB/s?";
 			rb30.setText("$1.8");
 			rb31.setText("$2.4");
-			rb32.setText("$2.8");
+			rb32.setText("$2");
 			// 4)What happens if no button is pushed within [gross] seconds?
-			question4 += " 8 seconds?";
+			question4 += " 7 seconds?";
 			rb41.setText("Nothing");
 			rb40.setText("The lowest connection speed is automatically chosen.");
 			rb42.setText("It is not possible to know that.");
@@ -188,8 +188,8 @@ public class Page2ndComprehensionQuestions {
 			// button with the speed [mittlerer ->Num Of Choices]?
 			question5 += " 200.0 KB/s?";
 			rb50.setText("7");
-			rb51.setText("12");
-			rb52.setText("14");
+			rb51.setText("4");
+			rb52.setText("22");
 		}
 
 		String text2 = "Test rounds: In the next step, we suggest you to conduct at least four test rounds to get familiar with the game mechanism.";
